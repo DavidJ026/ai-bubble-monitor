@@ -231,6 +231,8 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 16px;
+    cursor: pointer;
+    user-select: none;
   }
 
   .section-head h2 {
@@ -240,14 +242,42 @@
     text-transform: uppercase;
     color: var(--text2);
     font-weight: 400;
+    transition: color 0.15s;
   }
+
+  .section-head:hover h2 { color: var(--text); }
 
   .section-head::after {
     content: '';
     flex: 1;
     height: 1px;
     background: var(--border);
+    order: 1;
   }
+
+  .section-chevron {
+    order: 2;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .section-head.open .section-chevron { transform: rotate(0deg); }
+  .section-head:not(.open) .section-chevron { transform: rotate(-90deg); }
+
+  .section-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+    margin-bottom: 32px;
+  }
+
+  .section-body.open { grid-template-rows: 1fr; }
+
+  .section-body-inner { overflow: hidden; }
 
   /* ── INDICATOR TABLE ── */
   .indicators {
@@ -751,6 +781,82 @@
     0% { background: rgba(9,105,218,0.10); }
     100% { background: transparent; }
   }
+
+  /* ── MACRO SNAPSHOT TOOLTIPS ── */
+  .macro-info-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text3);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    z-index: 2;
+    padding: 0;
+  }
+  .macro-info-btn:hover,
+  .macro-info-btn.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+  .macro-tip {
+    position: fixed;
+    z-index: 1000;
+    width: 300px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .macro-tip.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .macro-tip-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .macro-tip-row {
+    margin-bottom: 9px;
+  }
+  .macro-tip-row:last-child { margin-bottom: 0; }
+  .macro-tip-lbl {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 2px;
+  }
+  .macro-tip-txt {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -770,7 +876,7 @@
       <div>
         <div class="brand">
           <div class="brand-dot"></div>
-          <div class="brand-label">Live Signal Monitor · AI/Tech Bubble Risk</div>
+          <div class="brand-label">Signal Monitor · AI & Tech Bubble Risk</div>
         </div>
         <h1>The <em>AI Bubble</em> Monitor</h1>
       </div>
@@ -828,48 +934,56 @@
   <div class="section-head"><h2>Market Snapshot</h2></div>
   <div class="macro-strip" id="macro-strip">
     <div class="macro-card yellow">
+      <button class="macro-info-btn" onclick="showMacroTip('sp500',this)" aria-label="About S&P 500">ⓘ</button>
       <div class="macro-label">S&P 500</div>
       <div class="macro-value yellow">7,230</div>
       <div class="macro-sub">May 1, 2026</div>
       <div class="macro-change up">▲ +27.1% yr/yr</div>
     </div>
     <div class="macro-card red">
+      <button class="macro-info-btn" onclick="showMacroTip('cape',this)" aria-label="About Shiller CAPE">ⓘ</button>
       <div class="macro-label">Shiller CAPE</div>
       <div class="macro-value red">~39×</div>
       <div class="macro-sub">LT avg ~17×</div>
       <div class="macro-change down">▲ Danger zone</div>
     </div>
     <div class="macro-card yellow">
+      <button class="macro-info-btn" onclick="showMacroTip('fwdpe',this)" aria-label="About Forward P/E">ⓘ</button>
       <div class="macro-label">Forward P/E</div>
       <div class="macro-value yellow">20.9×</div>
       <div class="macro-sub">10yr avg 18.9×</div>
       <div class="macro-change down">▲ 10.6% above avg</div>
     </div>
     <div class="macro-card yellow">
+      <button class="macro-info-btn" onclick="showMacroTip('vix',this)" aria-label="About VIX">ⓘ</button>
       <div class="macro-label">VIX</div>
       <div class="macro-value yellow">16.99</div>
       <div class="macro-sub">Recovering from ~10.5</div>
       <div class="macro-change up">▲ Risk on</div>
     </div>
     <div class="macro-card red">
+      <button class="macro-info-btn" onclick="showMacroTip('wti',this)" aria-label="About WTI Crude">ⓘ</button>
       <div class="macro-label">WTI Crude</div>
       <div class="macro-value red">~$107</div>
       <div class="macro-sub">+70% YTD (Iran war)</div>
       <div class="macro-change down">▲ Stagflation risk</div>
     </div>
     <div class="macro-card yellow">
+      <button class="macro-info-btn" onclick="showMacroTip('fedrate',this)" aria-label="About Fed Rate">ⓘ</button>
       <div class="macro-label">Fed Rate</div>
       <div class="macro-value yellow">3.75%</div>
       <div class="macro-sub">On hold (3rd meeting)</div>
       <div class="macro-change flat">— Higher for longer</div>
     </div>
     <div class="macro-card red">
+      <button class="macro-info-btn" onclick="showMacroTip('capex',this)" aria-label="About Hyperscaler Capex">ⓘ</button>
       <div class="macro-label">Hyperscaler Capex</div>
       <div class="macro-value red">$725B</div>
       <div class="macro-sub">2026 guidance</div>
       <div class="macro-change down">▲ FCF compressing</div>
     </div>
     <div class="macro-card green">
+      <button class="macro-info-btn" onclick="showMacroTip('eps',this)" aria-label="About S&P EPS Growth">ⓘ</button>
       <div class="macro-label">S&P EPS Growth '26</div>
       <div class="macro-value green">+21.3%</div>
       <div class="macro-sub">FactSet Q1 2026</div>
@@ -877,56 +991,79 @@
     </div>
   </div>
 
+  <!-- SCENARIOS (moved above indicators) -->
+  <div class="section-head">
+    <h2>Scenario Analysis</h2>
+  </div>
+  <div class="scenario-grid">
+        <div class="scenario-card bull">
+          <div class="scenario-label">Scenario A</div>
+          <div class="scenario-name bull">Soft Landing</div>
+          <div class="scenario-prob bull">15%</div>
+          <div class="scenario-desc">Iran ceasefire by summer. Oil retreats to $80. Fed resumes cutting in Q3. AI monetization evidence accelerates — Copilot/Gemini revenue inflects upward. S&P reaches 7,800–8,000. No correction above 10%.</div>
+          <div class="scenario-triggers">
+            Triggers: ceasefire · oil &lt;$85 · NVDA beats<br>
+            Lead time: 1–2 months
+          </div>
+        </div>
+        <div class="scenario-card base">
+          <div class="scenario-label">Scenario B</div>
+          <div class="scenario-name base">Mid-Cycle Correction</div>
+          <div class="scenario-prob base">55%</div>
+          <div class="scenario-desc">Oil holds $95–115. Fed on hold all year. AI ROI evidence mixed. Nvidia Rubin delay creates H2 demand gap. FCF compression forces guidance cuts. S&P corrects 10–15% in Q3–Q4, then recovers.</div>
+          <div class="scenario-triggers">
+            Triggers: NVDA miss · Iran stalemate · ERP negative<br>
+            Lead time: 2–4 months
+          </div>
+        </div>
+        <div class="scenario-card bear">
+          <div class="scenario-label">Scenario C</div>
+          <div class="scenario-name bear">Sharp Pop</div>
+          <div class="scenario-prob bear">30%</div>
+          <div class="scenario-desc">Iran escalates above $130/bbl sustained. One hyperscaler cuts capex. Warsh hawkish surprise. Crowded short-vol unwinds violently. S&P drops 20–30% in 2–3 months — Gulf War 1990 pattern, not dot-com 2000.</div>
+          <div class="scenario-triggers">
+            Triggers: oil &gt;$130 · capex cut · VIX spike &gt;35<br>
+            Lead time: days to weeks
+          </div>
+        </div>
+      </div>
+
   <!-- INDICATORS -->
-  <div class="section-head"><h2>Signal Indicators</h2></div>
-  <div class="indicators" id="indicators-list"></div>
+  <div class="section-head" onclick="toggleSection('sec-indicators')" role="button" tabindex="0" aria-expanded="false">
+    <h2>Signal Indicators</h2>
+    <span class="section-chevron" aria-hidden="true">▾</span>
+  </div>
+  <div class="section-body" id="sec-indicators">
+    <div class="section-body-inner">
+      <div class="indicators" id="indicators-list"></div>
+    </div>
+  </div>
 
   <!-- LOG -->
-  <div class="section-head"><h2>Update Log</h2></div>
-  <div class="log-panel">
-    <div class="log-header">
-      <h3>Signal activity feed</h3>
-      <span style="font-family:var(--mono);font-size:10px;color:var(--text3);">Auto-updates</span>
+  <div class="section-head" onclick="toggleSection('sec-log')" role="button" tabindex="0" aria-expanded="false">
+    <h2>Update Log</h2>
+    <span class="section-chevron" aria-hidden="true">▾</span>
+  </div>
+  <div class="section-body" id="sec-log">
+    <div class="section-body-inner">
+      <div class="log-panel">
+        <div class="log-header">
+          <h3>Signal activity feed</h3>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--text3);">Auto-updates</span>
+        </div>
+        <div class="log-body" id="log-body"></div>
+      </div>
     </div>
-    <div class="log-body" id="log-body"></div>
   </div>
 
   <!-- WEEKLY CHECKLIST -->
-  <div class="section-head"><h2>Monitoring Checklist</h2></div>
-  <div class="checklist-grid" id="checklist-grid"></div>
-
-  <!-- SCENARIOS -->
-  <div class="section-head"><h2>Scenario Analysis</h2></div>
-  <div class="scenario-grid">
-    <div class="scenario-card bull">
-      <div class="scenario-label">Scenario A</div>
-      <div class="scenario-name bull">Soft Landing</div>
-      <div class="scenario-prob bull">15%</div>
-      <div class="scenario-desc">Iran ceasefire by summer. Oil retreats to $80. Fed resumes cutting in Q3. AI monetization evidence accelerates — Copilot/Gemini revenue inflects upward. S&P reaches 7,800–8,000. No correction above 10%.</div>
-      <div class="scenario-triggers">
-        Triggers: ceasefire · oil &lt;$85 · NVDA beats<br>
-        Lead time: 1–2 months
-      </div>
-    </div>
-    <div class="scenario-card base">
-      <div class="scenario-label">Scenario B</div>
-      <div class="scenario-name base">Mid-Cycle Correction</div>
-      <div class="scenario-prob base">55%</div>
-      <div class="scenario-desc">Oil holds $95–115. Fed on hold all year. AI ROI evidence mixed. Nvidia Rubin delay creates H2 demand gap. FCF compression forces guidance cuts. S&P corrects 10–15% in Q3–Q4, then recovers.</div>
-      <div class="scenario-triggers">
-        Triggers: NVDA miss · Iran stalemate · ERP negative<br>
-        Lead time: 2–4 months
-      </div>
-    </div>
-    <div class="scenario-card bear">
-      <div class="scenario-label">Scenario C</div>
-      <div class="scenario-name bear">Sharp Pop</div>
-      <div class="scenario-prob bear">30%</div>
-      <div class="scenario-desc">Iran escalates above $130/bbl sustained. One hyperscaler cuts capex. Warsh hawkish surprise. Crowded short-vol unwinds violently. S&P drops 20–30% in 2–3 months — Gulf War 1990 pattern, not dot-com 2000.</div>
-      <div class="scenario-triggers">
-        Triggers: oil &gt;$130 · capex cut · VIX spike &gt;35<br>
-        Lead time: days to weeks
-      </div>
+  <div class="section-head" onclick="toggleSection('sec-checklist')" role="button" tabindex="0" aria-expanded="false">
+    <h2>Monitoring Checklist</h2>
+    <span class="section-chevron" aria-hidden="true">▾</span>
+  </div>
+  <div class="section-body" id="sec-checklist">
+    <div class="section-body-inner">
+      <div class="checklist-grid" id="checklist-grid"></div>
     </div>
   </div>
 
@@ -936,7 +1073,7 @@
       Data sourced from FactSet Earnings Insight, FRED (St. Louis Fed), CBOE VIX, Yahoo Finance, Al Jazeera / NBC News (FOMC), Trading Economics. This dashboard is for informational and analytical purposes only — not financial advice. All figures as of May 1–2, 2026. Update values manually each week using the edit controls, or connect a live data API.
     </div>
     <button class="refresh-btn" onclick="simulateRefresh()">
-      <span id="refresh-icon">↻</span> Refresh Signals
+      <span id="refresh-icon">↻</span> Refresh
     </button>
   </footer>
 
@@ -1259,11 +1396,132 @@ function simulateRefresh() {
   }, 1800);
 }
 
+// ── COLLAPSIBLE SECTIONS ──────────────────────────────────────────────────────
+
+function toggleSection(id) {
+  const body = document.getElementById(id);
+  const head = body.previousElementSibling;
+  const isOpen = body.classList.toggle('open');
+  head.classList.toggle('open', isOpen);
+  head.setAttribute('aria-expanded', isOpen);
+}
+
+// ── MACRO SNAPSHOT TOOLTIPS ───────────────────────────────────────────────────
+
+const MACRO_TIPS = {
+  sp500: {
+    label: 'S&P 500 Index',
+    what: 'Market-cap-weighted index of 500 large US companies — the primary benchmark for US equity health and investor sentiment.',
+    why: 'A fast-rising index driven by multiple expansion rather than earnings is the core bubble signal. When gains concentrate in 7 AI names, any single miss cascades across the entire index.',
+    target: 'Watch for a rally above 8,000 with narrowing breadth (fewer than 50% of stocks above their 200-day MA). A drop below 6,500 would confirm a correction.'
+  },
+  cape: {
+    label: 'Shiller CAPE Ratio',
+    what: '10-year inflation-adjusted P/E — smooths economic cycles to reveal true long-horizon valuation, developed by Nobel laureate Robert Shiller.',
+    why: 'The most reliable long-term bubble detector. Dot-com peak was 44×; 1929 was ~31×. At 39× we are in the top 2% of all-time readings, historically implying very poor 10-year forward returns.',
+    target: 'Historical avg ~17×. Warning >30×. Danger zone >35×. Red flag >40×. Reversion to 25× requires either 35% earnings growth or a 35% price drop — historically the latter dominates.'
+  },
+  fwdpe: {
+    label: 'Forward P/E',
+    what: 'Current price divided by next-12-month consensus EPS estimates. Unlike CAPE, this reflects near-term analyst expectations.',
+    why: 'Elevated forward P/E prices in perfection. At 20.9× (vs. 18.9× historical average), any earnings miss — especially AI capex ROI disappointments — causes outsized multiple compression.',
+    target: 'Historical avg 18.9×. Fairly valued 18–20×. Stretched >21×. Watch for H2 2026 earnings revisions that would push the implied P/E above 23×.'
+  },
+  vix: {
+    label: 'VIX — Fear Index',
+    what: 'CBOE Volatility Index measures expected 30-day S&P 500 volatility derived from options pricing. Known as the market\'s "fear gauge."',
+    why: 'Dangerously low VIX signals investor complacency — a hallmark of late-stage bubbles. The April 2026 dip to 10.5 was a 7-year low. Short-vol crowding unwinds violently when volatility spikes.',
+    target: 'Healthy range 15–22. Complacency zone <13 (short-vol unwind risk). Fear zone >30. Crisis >40. Current 17 is recovering to a healthy level.'
+  },
+  wti: {
+    label: 'WTI Crude Oil',
+    what: 'West Texas Intermediate benchmark crude price — a direct input into global inflation, consumer spending, and corporate margins.',
+    why: 'Oil shocks trigger stagflation: the Fed cannot cut rates even as growth slows, compressing tech multiples from both ends — higher discount rates and weaker consumer. The Iran war adds ~$25–30/bbl.',
+    target: 'Benign below $85. Elevated $85–100. Stagflation risk above $100. Recession risk if sustained above $120 for 2+ months.'
+  },
+  fedrate: {
+    label: 'Federal Funds Rate',
+    what: 'The Fed\'s benchmark short-term interest rate set by the FOMC — determines the cost of borrowing across the entire economy.',
+    why: 'AI stocks are long-duration assets. Higher rates shrink the present value of distant future cash flows, directly compressing multiples. Rate cuts are the single biggest AI valuation re-rating catalyst.',
+    target: 'Bullish below 3.0% and cutting. Neutral 3.0–3.75% on hold. Headwind above 4.0%. Any surprise hike would be a significant negative shock to AI valuations.'
+  },
+  capex: {
+    label: 'Hyperscaler AI Capex',
+    what: '2026 AI infrastructure spend: Microsoft $80B, Google $75B, Amazon $105B, Meta ~$65B. This is the demand foundation for Nvidia and the entire AI supply chain.',
+    why: 'This $725B justifies Nvidia\'s $3T+ valuation and the AI ecosystem. If cloud AI monetization (Azure AI, AWS Bedrock, Google Workspace) does not deliver ROI, capex gets cut — cascading down to chips and data centers.',
+    target: 'Green: guidance maintained or raised. Yellow: softening language on earnings calls. Red: any single-company cut >5% from stated 2026 guidance. Watch July 2026 earnings closely.'
+  },
+  eps: {
+    label: 'S&P 500 EPS Growth',
+    what: 'Year-over-year blended earnings per share growth for the S&P 500 per FactSet consensus — the fundamental earnings engine behind index valuation.',
+    why: 'Earnings growth is what ultimately justifies elevated valuations. At +21.3%, the market expects exceptional AI-driven productivity. A miss with CAPE at 39× forces rapid multiple compression.',
+    target: 'Supportive above 15%. Concerning if revised down to 10–15%. Dangerous below 10% at current CAPE. Track FactSet Earnings Insight weekly for estimate drift.'
+  }
+};
+
+let activeMacroTip = null;
+
+function showMacroTip(key, btn) {
+  const tip = document.getElementById('macro-tip');
+  const data = MACRO_TIPS[key];
+  if (!data) return;
+  if (activeMacroTip === key && tip.classList.contains('active')) {
+    hideMacroTip();
+    return;
+  }
+  tip.innerHTML = `
+    <div class="macro-tip-title">${data.label}</div>
+    <div class="macro-tip-row">
+      <div class="macro-tip-lbl">What it is</div>
+      <div class="macro-tip-txt">${data.what}</div>
+    </div>
+    <div class="macro-tip-row">
+      <div class="macro-tip-lbl">Why track for AI bubble</div>
+      <div class="macro-tip-txt">${data.why}</div>
+    </div>
+    <div class="macro-tip-row">
+      <div class="macro-tip-lbl">Watch level</div>
+      <div class="macro-tip-txt">${data.target}</div>
+    </div>
+  `;
+  document.querySelectorAll('.macro-info-btn.active').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const rect = btn.closest('.macro-card').getBoundingClientRect();
+  const tipW = 300;
+  let left = rect.left;
+  let top = rect.bottom + 8;
+  if (left + tipW > window.innerWidth - 12) left = window.innerWidth - tipW - 12;
+  if (left < 12) left = 12;
+  if (top + 230 > window.innerHeight - 12) top = rect.top - 230 - 8;
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+  tip.classList.add('active');
+  activeMacroTip = key;
+}
+
+function hideMacroTip() {
+  document.getElementById('macro-tip').classList.remove('active');
+  document.querySelectorAll('.macro-info-btn.active').forEach(b => b.classList.remove('active'));
+  activeMacroTip = null;
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 renderIndicators();
 renderChecklist();
 renderInitLogs();
 setTimeout(() => setNeedle(6.4), 500);
+document.addEventListener('click', e => {
+  if (!e.target.closest('.macro-info-btn') && !e.target.closest('#macro-tip')) hideMacroTip();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideMacroTip();
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('section-head')) {
+    e.preventDefault();
+    toggleSection(e.target.nextElementSibling.id);
+  }
+});
+window.addEventListener('scroll', hideMacroTip, { passive: true });
 </script>
+<div id="macro-tip" class="macro-tip" role="tooltip"></div>
 </body>
 </html>

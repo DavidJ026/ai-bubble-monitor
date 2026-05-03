@@ -9,6 +9,32 @@ A real-time, single-file HTML dashboard that tracks leading indicators of an AI/
 **Target deploy:** GitHub Pages at `https://davidj026.github.io/ai-bubble-monitor/`
 **Stack:** Pure HTML + CSS + Vanilla JS — zero dependencies, zero build step, single file.
 
+## Design
+You are an expert financial analyst and market historian specializing in technology bubbles. Conduct a deep, rigorous research analysis on the key leading indicators that could signal an impending AI bubble peak and subsequent pop, with a focus on signals that typically appear 1–2 months before a major market correction or crash in the AI/tech sector.
+Compare historical precedents (especially the 1999–2000 dot-com bubble, but also the 1929 crash, Japanese asset bubble, and others) to the current 2026 AI environment. Use the most recent data available (as of May 2026 or latest).
+Structure your response as follows:
+
+Executive Summary: Overall assessment of bubble risk in May 2026 and probability of a significant correction (>20%) in the next 6–12 months.
+Key Leading Indicators (1–2 Month Warning Signals): For each indicator, explain:
+Why it was predictive in past bubbles (with specific historical examples and data).
+Current status in the AI/tech sector (Magnificent 7, Nvidia, hyperscalers, VC funding, etc.).
+Thresholds or red flags that would signal danger.
+Data sources you would check (earnings, options, sentiment, etc.).
+Top 8–10 Most Reliable Early Warning Signs ranked by historical reliability for a 1–2 month lead time. Include both quantitative metrics and qualitative signals.
+Specific areas to analyze deeply:
+
+Valuation metrics (forward P/E, PEG, EV/Sales, Shiller CAPE, market cap/GDP).
+Earnings quality, guidance revisions, and capex ROI trends (especially Big Tech AI spending vs. actual monetization).
+Sentiment indicators (retail inflows, media hype, analyst ratings, put/call ratios, VIX term structure).
+Liquidity and credit signals (margin debt, IPO activity, VC funding velocity, insider selling).
+Technical/market structure (concentration in top stocks, breadth, relative strength of non-AI sectors).
+Macro triggers (interest rates, energy costs, geopolitical events, Fed policy).
+On-chain/derivatives signals (implied volatility skew, unusual options activity).
+Corporate behavior (aggressive buybacks, M&A frenzy, accounting red flags).
+
+Current Risk Dashboard: Score each major indicator (Green/Yellow/Red) based on latest data and explain.
+Scenario Analysis: Best case (soft landing/soft correction), base case, and worst case (sharp pop) with approximate timelines and triggers.
+Actionable Monitoring Plan: Specific data sources, websites, metrics, and frequency to track these signals going forward. Requirements: Be objective, data-driven, and skeptical. Cite specific sources, reports, or historical data points. Avoid generic advice — focus on falsifiable, observable signals with historical predictive power. Prioritize signals that appeared before the dot-com peak in late 1999/early 2000. Check data of last week earning report and stock market, let me know how much percentage for sp500 to increase before significant correction.
 ---
 
 ## Architecture
@@ -201,19 +227,3 @@ Disclaimer text + "Refresh Signals" button (simulates a spinner + log entries).
 - **Backup:** `/root/home/claude/index.html`
 - **GitHub repo:** `https://github.com/DavidJ026/ai-bubble-monitor`
 - **Target Pages URL:** `https://davidj026.github.io/ai-bubble-monitor/`
-
----
-
-## How to Deploy
-
-```bash
-cd ~/dev/ai-bubble-monitor
-git add index.html
-git commit -m "Update: <describe change>"
-git push origin main
-# GitHub Pages auto-deploys from main branch root
-# Live in ~60 seconds at https://davidj026.github.io/ai-bubble-monitor/
-```
-
-*First-time setup requires a GitHub Personal Access Token with `repo` scope.*
-*Create at: github.com/settings/tokens → Generate new token (classic) → check `repo`.*
