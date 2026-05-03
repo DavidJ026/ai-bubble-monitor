@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Bubble Signal Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #fdf6e3;
@@ -741,6 +741,8 @@
   .gauge-section {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 0;
     margin-bottom: 32px;
   }
 
@@ -748,6 +750,7 @@
     position: relative;
     width: 240px;
     text-align: center;
+    flex-shrink: 0;
   }
 
   .gauge-svg { width: 240px; height: 130px; }
@@ -770,6 +773,53 @@
     color: var(--text3);
     letter-spacing: 0.1em;
     text-transform: uppercase;
+  }
+
+  .gauge-tagline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 44px;
+    margin-left: 44px;
+    border-left: 1px solid var(--border2);
+  }
+
+  .tagline-risk {
+    font-family: 'Noto Serif SC', var(--serif);
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--red);
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+  }
+
+  .tagline-motto {
+    font-family: 'Noto Serif SC', var(--serif);
+    font-size: 19px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+  }
+
+  .tagline-motto sup {
+    font-size: 10px;
+    font-style: normal;
+    vertical-align: super;
+    letter-spacing: 0;
+  }
+
+  @media (max-width: 640px) {
+    .gauge-section { flex-direction: column; gap: 24px; }
+    .gauge-tagline {
+      padding-left: 0;
+      margin-left: 0;
+      border-left: none;
+      border-top: 1px solid var(--border2);
+      padding-top: 20px;
+      text-align: center;
+    }
   }
 
   /* update flash */
@@ -927,6 +977,10 @@
       </svg>
       <div class="gauge-label">Elevated</div>
       <div class="gauge-sublabel">Bubble Risk — May 2026</div>
+    </div>
+    <div class="gauge-tagline">
+      <div class="tagline-risk">目前风险偏高</div>
+      <div class="tagline-motto">据说，这次不一样!</div>
     </div>
   </div>
 

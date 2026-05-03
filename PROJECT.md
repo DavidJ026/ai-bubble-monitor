@@ -158,22 +158,6 @@ Disclaimer text + "Refresh Signals" button (simulates a spinner + log entries).
 
 ---
 
-## Current Data (May 2026 Snapshot)
-
-| Indicator | Value | Status |
-|---|---|---|
-| S&P 500 | 7,230 | Yellow |
-| Shiller CAPE | ~39× | Red |
-| Forward P/E | 20.9× | Yellow |
-| VIX | 16.99 | Yellow |
-| WTI Crude | ~$107 (+70% YTD) | Red |
-| Fed Funds Rate | 3.75% (on hold) | Yellow |
-| Hyperscaler Capex 2026 | $725B | Red |
-| S&P EPS Growth '26 | +21.3% | Green |
-| Overall Risk Score | 6.4 / 10 | Elevated |
-
----
-
 ## Planned Enhancements (Backlog)
 
 ### High Priority
