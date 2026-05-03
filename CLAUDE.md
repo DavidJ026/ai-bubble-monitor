@@ -8,10 +8,10 @@ A single-file HTML dashboard tracking leading indicators of an AI/tech market bu
 
 ## No Build Commands
 
-There is no build, lint, or test toolchain. Open `ai-bubble-monitor.html` directly in a browser to develop. Deployment is:
+There is no build, lint, or test toolchain. Open `index.html` directly in a browser to develop. Deployment is:
 
 ```bash
-git add ai-bubble-monitor.html
+git add index.html
 git commit -m "Update: <describe change>"
 git push origin main
 # GitHub Pages deploys in ~60 seconds
@@ -19,7 +19,7 @@ git push origin main
 
 ## Architecture
 
-The file is structured as: `<style>` block → inline `<script>` block → `<body>` markup. All CSS and JS must remain inside `ai-bubble-monitor.html` — no external files, ever.
+The file is structured as: `<style>` block → inline `<script>` block → `<body>` markup. All CSS and JS must remain inside `index.html` — no external files, ever.
 
 ### Data Model
 

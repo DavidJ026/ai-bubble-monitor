@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Bubble Monitor — Real-Time Signal Tracker</title>
+<title>AI Bubble Signal Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #080c10;
-    --bg2: #0d1117;
-    --bg3: #131a22;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
-    --text: #e8eaed;
-    --text2: #8b949e;
-    --text3: #484f58;
-    --green: #3fb950;
-    --green-dim: rgba(63,185,80,0.12);
-    --yellow: #d29922;
-    --yellow-dim: rgba(210,153,34,0.12);
-    --red: #f85149;
-    --red-dim: rgba(248,81,73,0.12);
-    --blue: #58a6ff;
-    --blue-dim: rgba(88,166,255,0.1);
-    --accent: #f0b429;
+    --bg: #fdf6e3;
+    --bg2: #fffef8;
+    --bg3: #f5e8c8;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.15);
+    --text: #1a1f2e;
+    --text2: #5a6272;
+    --text3: #9aa0ac;
+    --green: #1a7f37;
+    --green-dim: rgba(26,127,55,0.10);
+    --yellow: #9a6700;
+    --yellow-dim: rgba(154,103,0,0.10);
+    --red: #cf222e;
+    --red-dim: rgba(207,34,46,0.10);
+    --blue: #0969da;
+    --blue-dim: rgba(9,105,218,0.10);
+    --accent: #8250df;
     --mono: 'Space Mono', monospace;
     --serif: 'DM Serif Display', serif;
     --sans: 'IBM Plex Sans', sans-serif;
@@ -41,15 +41,6 @@
     min-height: 100vh;
   }
 
-  /* scanline overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-    pointer-events: none;
-    z-index: 1000;
-  }
 
   .container {
     max-width: 1200px;
@@ -141,7 +132,7 @@
     align-items: center;
     gap: 8px;
     background: var(--red-dim);
-    border: 1px solid rgba(248,81,73,0.25);
+    border: 1px solid rgba(207,34,46,0.25);
     border-radius: 6px;
     padding: 8px 14px;
     margin-top: 4px;
@@ -383,9 +374,9 @@
     text-align: center;
   }
 
-  .status-badge.green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
-  .status-badge.yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(210,153,34,0.2); }
-  .status-badge.red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+  .status-badge.green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(26,127,55,0.2); }
+  .status-badge.yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(154,103,0,0.2); }
+  .status-badge.red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(207,34,46,0.2); }
 
   /* Expanded detail */
   .indicator-detail {
@@ -439,7 +430,7 @@
     color: var(--blue);
     text-decoration: none;
     margin-top: 6px;
-    border-bottom: 1px solid rgba(88,166,255,0.3);
+    border-bottom: 1px solid rgba(9,105,218,0.3);
     transition: border-color 0.2s;
   }
 
@@ -490,7 +481,7 @@
   }
 
   @keyframes slideIn {
-    from { opacity: 0; background: rgba(88,166,255,0.05); }
+    from { opacity: 0; background: rgba(9,105,218,0.06); }
     to { opacity: 1; background: transparent; }
   }
 
@@ -535,7 +526,7 @@
 
   .check-item.checked {
     background: var(--bg3);
-    border-color: rgba(63,185,80,0.2);
+    border-color: rgba(26,127,55,0.25);
   }
 
   .checkbox {
@@ -757,7 +748,7 @@
   }
 
   @keyframes flashBg {
-    0% { background: rgba(88,166,255,0.15); }
+    0% { background: rgba(9,105,218,0.10); }
     100% { background: transparent; }
   }
 </style>
@@ -769,7 +760,7 @@
   <!-- TITLE -->
   <div style="text-align:center; padding: 36px 0 8px;">
     <div style="font-family:var(--serif); font-size:clamp(32px,6vw,72px); color:var(--text); letter-spacing:-0.03em; line-height:1;">
-      This Time is Different™<sup style="font-family:var(--mono); font-size:clamp(10px,1.5vw,18px); color:var(--text3); vertical-align:super; letter-spacing:0.05em;">™</sup>
+      This Time is Different™
     </div>
   </div>
 
@@ -800,14 +791,14 @@
       <svg class="gauge-svg" viewBox="0 0 240 130" aria-label="Risk gauge showing elevated-to-high bubble risk">
         <defs>
           <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#3fb950"/>
-            <stop offset="40%" stop-color="#d29922"/>
-            <stop offset="75%" stop-color="#f85149"/>
-            <stop offset="100%" stop-color="#8b2020"/>
+            <stop offset="0%" stop-color="#1a7f37"/>
+            <stop offset="40%" stop-color="#9a6700"/>
+            <stop offset="75%" stop-color="#cf222e"/>
+            <stop offset="100%" stop-color="#6e1318"/>
           </linearGradient>
         </defs>
         <!-- arc track -->
-        <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="rgba(255,255,255,0.06)" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="rgba(0,0,0,0.08)" stroke-width="16" fill="none" stroke-linecap="round"/>
         <!-- colored arc -->
         <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="url(#gaugeGrad)" stroke-width="16" fill="none" stroke-linecap="round"/>
         <!-- tick marks -->
@@ -819,9 +810,9 @@
           <line x1="120" y1="20" x2="120" y2="36" transform="rotate(90 120 120)"/>
         </g>
         <!-- labels -->
-        <text x="14" y="126" font-family="Space Mono" font-size="9" fill="#3fb950">LOW</text>
-        <text x="83" y="30" font-family="Space Mono" font-size="9" fill="#d29922">MED</text>
-        <text x="194" y="126" font-family="Space Mono" font-size="9" fill="#f85149">HIGH</text>
+        <text x="14" y="126" font-family="Space Mono" font-size="9" fill="#1a7f37">LOW</text>
+        <text x="83" y="30" font-family="Space Mono" font-size="9" fill="#9a6700">MED</text>
+        <text x="194" y="126" font-family="Space Mono" font-size="9" fill="#cf222e">HIGH</text>
         <!-- needle -->
         <g class="gauge-needle" id="needle" style="transform: rotate(28deg)">
           <line x1="120" y1="120" x2="120" y2="30" stroke="var(--text)" stroke-width="2" stroke-linecap="round"/>
@@ -1212,16 +1203,8 @@ function toggleCheck(key, el) {
   if (checkState[key]) addLog(`Marked complete: ${CHECKLIST_ITEMS.find(i=>i.key===key)?.title}`, 'green');
 }
 
-// ── LIVE TIME ─────────────────────────────────────────────────────────────────
-function updateTime() {
-  const now = new Date();
-  document.getElementById('live-time').textContent = now.toLocaleString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-    hour: '2-digit', minute: '2-digit', second: '2-digit'
-  });
-}
-setInterval(updateTime, 1000);
-updateTime();
+// ── LAST UPDATED ──────────────────────────────────────────────────────────────
+document.getElementById('live-time').textContent = 'May 3, 2026, 05:00 PM';
 
 // ── LOG ───────────────────────────────────────────────────────────────────────
 const INIT_LOGS = [
