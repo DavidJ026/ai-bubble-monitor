@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Bubble Monitor — Real-Time Signal Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #131a22;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaed;
+    --text2: #8b949e;
+    --text3: #484f58;
+    --green: #3fb950;
+    --green-dim: rgba(63,185,80,0.12);
+    --yellow: #d29922;
+    --yellow-dim: rgba(210,153,34,0.12);
+    --red: #f85149;
+    --red-dim: rgba(248,81,73,0.12);
+    --blue: #58a6ff;
+    --blue-dim: rgba(88,166,255,0.1);
+    --accent: #f0b429;
+    --mono: 'Space Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border2);
+    padding: 28px 0 20px;
+    margin-bottom: 32px;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 8px var(--red);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--red); }
+    50% { opacity: 0.6; box-shadow: 0 0 16px var(--red); }
+  }
+
+  .brand-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-top: 6px;
+    line-height: 1.1;
+  }
+
+  h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 160px;
+  }
+
+  .timestamp {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  #live-time {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--blue);
+    letter-spacing: 0.05em;
+  }
+
+  .overall-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red-dim);
+    border: 1px solid rgba(248,81,73,0.25);
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin-top: 4px;
+  }
+
+  .overall-score .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .overall-score .value {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--red);
+  }
+
+  /* ── MACRO CARDS ── */
+  .macro-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .macro-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .macro-card:hover {
+    border-color: var(--border2);
+  }
+
+  .macro-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .macro-card.green::before { background: var(--green); }
+  .macro-card.yellow::before { background: var(--yellow); }
+  .macro-card.red::before { background: var(--red); }
+  .macro-card.blue::before { background: var(--blue); }
+
+  .macro-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .macro-value {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .macro-value.green { color: var(--green); }
+  .macro-value.yellow { color: var(--yellow); }
+  .macro-value.red { color: var(--red); }
+  .macro-value.blue { color: var(--blue); }
+
+  .macro-sub {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 3px;
+  }
+
+  .macro-change {
+    font-family: var(--mono);
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .macro-change.up { color: var(--green); }
+  .macro-change.down { color: var(--red); }
+  .macro-change.flat { color: var(--text3); }
+
+  /* ── SECTION HEADING ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .section-head h2 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text2);
+    font-weight: 400;
+  }
+
+  .section-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── INDICATOR TABLE ── */
+  .indicators {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+
+  .indicator-row {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .indicator-row:hover {
+    border-color: var(--border2);
+    background: var(--bg3);
+  }
+
+  .indicator-row.expanded {
+    border-color: var(--border2);
+  }
+
+  .indicator-main {
+    display: grid;
+    grid-template-columns: 28px 1fr auto auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 16px;
+  }
+
+  .rank {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    text-align: center;
+  }
+
+  .indicator-name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .indicator-name strong {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .indicator-name span {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+
+  .indicator-value-col {
+    text-align: right;
+    min-width: 90px;
+  }
+
+  .current-val {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .current-val.green { color: var(--green); }
+  .current-val.yellow { color: var(--yellow); }
+  .current-val.red { color: var(--red); }
+
+  .threshold-val {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 2px;
+  }
+
+  /* Progress bar */
+  .bar-col {
+    width: 100px;
+  }
+
+  .bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .bar-fill.green { background: var(--green); }
+  .bar-fill.yellow { background: var(--yellow); }
+  .bar-fill.red { background: var(--red); }
+
+  .bar-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  /* Status badge */
+  .status-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    min-width: 72px;
+    text-align: center;
+  }
+
+  .status-badge.green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
+  .status-badge.yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(210,153,34,0.2); }
+  .status-badge.red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+
+  /* Expanded detail */
+  .indicator-detail {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  .indicator-row.expanded .indicator-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-block {
+    padding-top: 14px;
+  }
+
+  .detail-block h4 {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .detail-block p {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.55;
+  }
+
+  .detail-block .highlight {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .data-source-link {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--blue);
+    text-decoration: none;
+    margin-top: 6px;
+    border-bottom: 1px solid rgba(88,166,255,0.3);
+    transition: border-color 0.2s;
+  }
+
+  .data-source-link:hover { border-color: var(--blue); }
+
+  /* ── HISTORY LOG ── */
+  .log-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+
+  .log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .log-header h3 {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .log-body {
+    font-family: var(--mono);
+    font-size: 11px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .log-entry {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 12px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; background: rgba(88,166,255,0.05); }
+    to { opacity: 1; background: transparent; }
+  }
+
+  .log-entry:last-child { border-bottom: none; }
+
+  .log-time { color: var(--text3); }
+  .log-msg { color: var(--text2); }
+  .log-tag { font-size: 9px; padding: 2px 7px; border-radius: 3px; }
+  .log-tag.red { background: var(--red-dim); color: var(--red); }
+  .log-tag.yellow { background: var(--yellow-dim); color: var(--yellow); }
+  .log-tag.green { background: var(--green-dim); color: var(--green); }
+
+  /* ── CHECKLIST ── */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .checklist-grid { grid-template-columns: 1fr; }
+    .indicator-main { grid-template-columns: 28px 1fr auto auto; }
+    .bar-col { display: none; }
+    .indicator-row.expanded .indicator-detail { grid-template-columns: 1fr; }
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .check-item:hover { border-color: var(--border2); }
+
+  .check-item.checked {
+    background: var(--bg3);
+    border-color: rgba(63,185,80,0.2);
+  }
+
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border2);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .check-item.checked .checkbox {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .checkbox-tick {
+    display: none;
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .check-item.checked .checkbox-tick { display: block; }
+
+  .check-content {}
+  .check-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .check-desc {
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+
+  .check-freq {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--blue);
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── SCENARIO PANEL ── */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 640px) { .scenario-grid { grid-template-columns: 1fr; } }
+
+  .scenario-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scenario-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .scenario-card.bull::before { background: var(--green); }
+  .scenario-card.base::before { background: var(--yellow); }
+  .scenario-card.bear::before { background: var(--red); }
+
+  .scenario-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .scenario-name {
+    font-family: var(--serif);
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .scenario-name.bull { color: var(--green); }
+  .scenario-name.base { color: var(--yellow); }
+  .scenario-name.bear { color: var(--red); }
+
+  .scenario-prob {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .scenario-prob.bull { color: var(--green); }
+  .scenario-prob.base { color: var(--yellow); }
+  .scenario-prob.bear { color: var(--red); }
+
+  .scenario-desc {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .scenario-triggers {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    line-height: 1.7;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-note {
+    font-size: 11px;
+    color: var(--text3);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .footer-note a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+
+  .refresh-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .refresh-btn:hover {
+    background: var(--bg2);
+    color: var(--text);
+    border-color: var(--border2);
+  }
+
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* ── GAUGE ── */
+  .gauge-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .gauge-wrap {
+    position: relative;
+    width: 240px;
+    text-align: center;
+  }
+
+  .gauge-svg { width: 240px; height: 130px; }
+
+  .gauge-needle {
+    transform-origin: 120px 120px;
+    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .gauge-label {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--text);
+    margin-top: -8px;
+  }
+
+  .gauge-sublabel {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* update flash */
+  .flash {
+    animation: flashBg 0.5s ease;
+  }
+
+  @keyframes flashBg {
+    0% { background: rgba(88,166,255,0.15); }
+    100% { background: transparent; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-top">
+      <div>
+        <div class="brand">
+          <div class="brand-dot"></div>
+          <div class="brand-label">Live Signal Monitor · AI/Tech Bubble Risk</div>
+        </div>
+        <h1>The <em>AI Bubble</em> Monitor</h1>
+      </div>
+      <div class="header-meta">
+        <div class="timestamp">Last updated</div>
+        <div id="live-time">—</div>
+        <div class="overall-score">
+          <div class="label">Risk Score</div>
+          <div class="value" id="risk-score">6.4 / 10</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- GAUGE -->
+  <div class="gauge-section">
+    <div class="gauge-wrap">
+      <svg class="gauge-svg" viewBox="0 0 240 130" aria-label="Risk gauge showing elevated-to-high bubble risk">
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3fb950"/>
+            <stop offset="40%" stop-color="#d29922"/>
+            <stop offset="75%" stop-color="#f85149"/>
+            <stop offset="100%" stop-color="#8b2020"/>
+          </linearGradient>
+        </defs>
+        <!-- arc track -->
+        <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="rgba(255,255,255,0.06)" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <!-- colored arc -->
+        <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="url(#gaugeGrad)" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <!-- tick marks -->
+        <g stroke="var(--bg)" stroke-width="2">
+          <line x1="120" y1="20" x2="120" y2="36" transform="rotate(-90 120 120)"/>
+          <line x1="120" y1="20" x2="120" y2="30" transform="rotate(-45 120 120)"/>
+          <line x1="120" y1="20" x2="120" y2="30" transform="rotate(0 120 120)"/>
+          <line x1="120" y1="20" x2="120" y2="30" transform="rotate(45 120 120)"/>
+          <line x1="120" y1="20" x2="120" y2="36" transform="rotate(90 120 120)"/>
+        </g>
+        <!-- labels -->
+        <text x="14" y="126" font-family="Space Mono" font-size="9" fill="#3fb950">LOW</text>
+        <text x="83" y="30" font-family="Space Mono" font-size="9" fill="#d29922">MED</text>
+        <text x="194" y="126" font-family="Space Mono" font-size="9" fill="#f85149">HIGH</text>
+        <!-- needle -->
+        <g class="gauge-needle" id="needle" style="transform: rotate(28deg)">
+          <line x1="120" y1="120" x2="120" y2="30" stroke="var(--text)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="120" cy="120" r="5" fill="var(--text)"/>
+        </g>
+      </svg>
+      <div class="gauge-label">Elevated</div>
+      <div class="gauge-sublabel">Bubble Risk — May 2026</div>
+    </div>
+  </div>
+
+  <!-- MACRO STRIP -->
+  <div class="section-head"><h2>Market Snapshot</h2></div>
+  <div class="macro-strip" id="macro-strip">
+    <div class="macro-card yellow">
+      <div class="macro-label">S&P 500</div>
+      <div class="macro-value yellow">7,230</div>
+      <div class="macro-sub">May 1, 2026</div>
+      <div class="macro-change up">▲ +27.1% yr/yr</div>
+    </div>
+    <div class="macro-card red">
+      <div class="macro-label">Shiller CAPE</div>
+      <div class="macro-value red">~39×</div>
+      <div class="macro-sub">LT avg ~17×</div>
+      <div class="macro-change down">▲ Danger zone</div>
+    </div>
+    <div class="macro-card yellow">
+      <div class="macro-label">Forward P/E</div>
+      <div class="macro-value yellow">20.9×</div>
+      <div class="macro-sub">10yr avg 18.9×</div>
+      <div class="macro-change down">▲ 10.6% above avg</div>
+    </div>
+    <div class="macro-card yellow">
+      <div class="macro-label">VIX</div>
+      <div class="macro-value yellow">16.99</div>
+      <div class="macro-sub">Recovering from ~10.5</div>
+      <div class="macro-change up">▲ Risk on</div>
+    </div>
+    <div class="macro-card red">
+      <div class="macro-label">WTI Crude</div>
+      <div class="macro-value red">~$107</div>
+      <div class="macro-sub">+70% YTD (Iran war)</div>
+      <div class="macro-change down">▲ Stagflation risk</div>
+    </div>
+    <div class="macro-card yellow">
+      <div class="macro-label">Fed Rate</div>
+      <div class="macro-value yellow">3.75%</div>
+      <div class="macro-sub">On hold (3rd meeting)</div>
+      <div class="macro-change flat">— Higher for longer</div>
+    </div>
+    <div class="macro-card red">
+      <div class="macro-label">Hyperscaler Capex</div>
+      <div class="macro-value red">$725B</div>
+      <div class="macro-sub">2026 guidance</div>
+      <div class="macro-change down">▲ FCF compressing</div>
+    </div>
+    <div class="macro-card green">
+      <div class="macro-label">S&P EPS Growth '26</div>
+      <div class="macro-value green">+21.3%</div>
+      <div class="macro-sub">FactSet Q1 2026</div>
+      <div class="macro-change up">▲ Supportive</div>
+    </div>
+  </div>
+
+  <!-- INDICATORS -->
+  <div class="section-head"><h2>Signal Indicators</h2></div>
+  <div class="indicators" id="indicators-list"></div>
+
+  <!-- LOG -->
+  <div class="section-head"><h2>Update Log</h2></div>
+  <div class="log-panel">
+    <div class="log-header">
+      <h3>Signal activity feed</h3>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text3);">Auto-updates</span>
+    </div>
+    <div class="log-body" id="log-body"></div>
+  </div>
+
+  <!-- WEEKLY CHECKLIST -->
+  <div class="section-head"><h2>Monitoring Checklist</h2></div>
+  <div class="checklist-grid" id="checklist-grid"></div>
+
+  <!-- SCENARIOS -->
+  <div class="section-head"><h2>Scenario Analysis</h2></div>
+  <div class="scenario-grid">
+    <div class="scenario-card bull">
+      <div class="scenario-label">Scenario A</div>
+      <div class="scenario-name bull">Soft Landing</div>
+      <div class="scenario-prob bull">15%</div>
+      <div class="scenario-desc">Iran ceasefire by summer. Oil retreats to $80. Fed resumes cutting in Q3. AI monetization evidence accelerates — Copilot/Gemini revenue inflects upward. S&P reaches 7,800–8,000. No correction above 10%.</div>
+      <div class="scenario-triggers">
+        Triggers: ceasefire · oil &lt;$85 · NVDA beats<br>
+        Lead time: 1–2 months
+      </div>
+    </div>
+    <div class="scenario-card base">
+      <div class="scenario-label">Scenario B</div>
+      <div class="scenario-name base">Mid-Cycle Correction</div>
+      <div class="scenario-prob base">55%</div>
+      <div class="scenario-desc">Oil holds $95–115. Fed on hold all year. AI ROI evidence mixed. Nvidia Rubin delay creates H2 demand gap. FCF compression forces guidance cuts. S&P corrects 10–15% in Q3–Q4, then recovers.</div>
+      <div class="scenario-triggers">
+        Triggers: NVDA miss · Iran stalemate · ERP negative<br>
+        Lead time: 2–4 months
+      </div>
+    </div>
+    <div class="scenario-card bear">
+      <div class="scenario-label">Scenario C</div>
+      <div class="scenario-name bear">Sharp Pop</div>
+      <div class="scenario-prob bear">30%</div>
+      <div class="scenario-desc">Iran escalates above $130/bbl sustained. One hyperscaler cuts capex. Warsh hawkish surprise. Crowded short-vol unwinds violently. S&P drops 20–30% in 2–3 months — Gulf War 1990 pattern, not dot-com 2000.</div>
+      <div class="scenario-triggers">
+        Triggers: oil &gt;$130 · capex cut · VIX spike &gt;35<br>
+        Lead time: days to weeks
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-note">
+      Data sourced from FactSet Earnings Insight, FRED (St. Louis Fed), CBOE VIX, Yahoo Finance, Al Jazeera / NBC News (FOMC), Trading Economics. This dashboard is for informational and analytical purposes only — not financial advice. All figures as of May 1–2, 2026. Update values manually each week using the edit controls, or connect a live data API.
+    </div>
+    <button class="refresh-btn" onclick="simulateRefresh()">
+      <span id="refresh-icon">↻</span> Refresh Signals
+    </button>
+  </footer>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const INDICATORS = [
+  {
+    rank: 1,
+    name: "Capex vs. Free Cash Flow Divergence",
+    short: "Hyperscaler FCF crush",
+    status: "yellow",
+    current: "$725B capex",
+    currentShort: "$725B",
+    threshold: "2+ quarters FCF compression",
+    barPct: 65,
+    historical: "WorldCom/Cisco capex overbuild 1999–2000 preceded 78% Nasdaq crash. Telco fiber overbuild left $1T in stranded assets.",
+    currentDetail: "Amazon FCF collapsed from $26B to $1.2B YoY. Microsoft, Meta also compressing. Alphabet the lone FCF compounder (Cloud ROI proven). The gap between GAAP earnings and cash generation is widening.",
+    redFlag: "Two consecutive quarters of FCF decline across 3+ hyperscalers, combined with decelerating cloud revenue growth. Watch for Nvidia guidance cuts as upstream demand signal.",
+    source: "https://insight.factset.com",
+    sourceLabel: "FactSet Earnings Insight (weekly)",
+    frequency: "QUARTERLY — each earnings"
+  },
+  {
+    rank: 2,
+    name: "Shiller CAPE Ratio",
+    short: "Cyclically Adjusted P/E",
+    status: "red",
+    current: "~39×",
+    currentShort: "~39×",
+    threshold: "Alert at >42×",
+    barPct: 87,
+    historical: "Peaked at 44× in March 2000 (dot-com), ~31 in 1929. Readings above 30× historically produce negative or very poor 10-year real returns. Long-term average: ~17×.",
+    currentDetail: "At ~39×, we are roughly 12% below the 2000 peak. Only seen at these levels twice before: eve of 1929 crash and the dot-com bubble. The AI earnings growth partially justifies the premium — but it provides little margin for error.",
+    redFlag: "CAPE above 42× combined with downward earnings revisions would signal the final blow-off stage. A sudden earnings miss at this multiple means rapid multiple compression.",
+    source: "https://multpl.com/shiller-pe",
+    sourceLabel: "multpl.com — Shiller PE (monthly)",
+    frequency: "MONTHLY — check after CPI/jobs"
+  },
+  {
+    rank: 3,
+    name: "Market Concentration (Mag 7 Weight)",
+    short: "Top 7 = ~33% of S&P 500",
+    status: "red",
+    current: "~33%",
+    currentShort: "33%",
+    threshold: "Alert if breadth fails on new highs",
+    barPct: 82,
+    historical: "By late 1999, top-10 Nasdaq names exceeded 40% of index weight. When they rolled over (Cisco, Intel, MSFT), no diversified support remained. The 2000–2002 bear took Nasdaq down 78%.",
+    currentDetail: "Mag 7 (AAPL, MSFT, GOOGL, AMZN, META, NVDA, TSLA) control ~33% of S&P 500. A single large-cap miss can move the index materially. Breadth is narrowing — non-AI sectors underperforming on new highs is the classic warning.",
+    redFlag: "S&P 500 hitting all-time highs while fewer than 50% of stocks are above their 200-day moving averages. Or two Mag 7 names cutting guidance in the same week.",
+    source: "https://slickcharts.com/sp500/components",
+    sourceLabel: "Slickcharts.com — component weights",
+    frequency: "WEEKLY — check breadth vs. index"
+  },
+  {
+    rank: 4,
+    name: "VIX / Volatility Complacency",
+    short: "Fear gauge + short-vol crowding",
+    status: "yellow",
+    current: "16.99",
+    currentShort: "16.99",
+    threshold: "Danger if VIX returns to <12",
+    barPct: 52,
+    historical: "VIX hit sub-11 in early 2018 before Volmageddon — doubled in one day, wiped inverse-vol ETFs, caused 10% S&P correction in 2 weeks. Institutional short-vol strategies crowded the same way in April 2026.",
+    currentDetail: "VIX dipped to ~10.5 in early April 2026 (7-year low) before rebounding to ~17 on Iran war uncertainty. The rebound is actually healthy — it prices in real risk. A secondary collapse to 11–13 would signal renewed dangerous complacency.",
+    redFlag: "VIX below 12 for more than 3 consecutive weeks, combined with record put/call ratio lows (CBOE equity P/C below 0.55). The 0DTE options proliferation makes sudden spikes more violent.",
+    source: "https://cboe.com/tradable-products/vix/",
+    sourceLabel: "CBOE VIX — daily close",
+    frequency: "DAILY — morning check"
+  },
+  {
+    rank: 5,
+    name: "Iran War / Oil Shock (Stagflation Risk)",
+    short: "Macro exogenous trigger",
+    status: "red",
+    current: "WTI ~$107",
+    currentShort: "$107 WTI",
+    threshold: "Danger if oil >$130 sustained",
+    barPct: 78,
+    historical: "1973–74 oil shock → 45% S&P bear market. 1990 Gulf War → 20% correction. 2022 Russia/Ukraine → 25% S&P decline. Energy shocks compress corporate margins, lift inflation, and handcuff the Fed simultaneously.",
+    currentDetail: "WTI crude up ~70% YTD. Brent briefly hit $120/bbl. Gasoline avg up 41% YTD ($4.22/gal). March CPI surged 0.9% monthly. Fed held rates for third consecutive meeting. AI data centers are among the most energy-intensive infrastructure on earth — oil shock hits hyperscaler operating costs directly.",
+    redFlag: "Brent crude above $130 sustained for 4+ weeks. Airline capacity cuts accelerating. Fed minutes showing rate hike discussion. Energy-driven CPI above 4% year-over-year.",
+    source: "https://eia.gov/petroleum/",
+    sourceLabel: "EIA — weekly petroleum report (Wednesdays)",
+    frequency: "WEEKLY — every Wednesday 10:30am ET"
+  },
+  {
+    rank: 6,
+    name: "Fed Leadership & Policy Uncertainty",
+    short: "Powell exit, Warsh transition",
+    status: "yellow",
+    current: "4 dissents",
+    currentShort: "4 dissents",
+    threshold: "Watch for hawkish Warsh signal",
+    barPct: 55,
+    historical: "1979 Volcker transition → bond market crash, deep recession. 2013 'taper tantrum' (Bernanke hint) → 10% correction in days. Central bank leadership changes inject policy uncertainty that markets price as a risk premium.",
+    currentDetail: "Powell's chair term ends May 15. Kevin Warsh nomination pending Senate confirmation. April FOMC had 4 dissents — most since October 1992. Three voted to remove easing bias; one (Miran) voted for immediate cut. Maximum internal disagreement at a critical juncture.",
+    redFlag: "Warsh makes a public statement signaling tolerance for higher rates or reduced Fed independence. Any hint of rate hike in the first 60 days of his tenure. FOMC minutes showing majority hawkish shift.",
+    source: "https://federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    sourceLabel: "Fed.gov — FOMC calendar & minutes",
+    frequency: "MEETING-BY-MEETING — June 16–17 next"
+  },
+  {
+    rank: 7,
+    name: "AI Monetization Gap (ROI Evidence)",
+    short: "Capex-to-revenue conversion",
+    status: "yellow",
+    current: "Mixed",
+    currentShort: "Mixed",
+    threshold: "Red if 2+ hyperscalers miss cloud targets",
+    barPct: 58,
+    historical: "1999 dot-com: companies spent billions on infrastructure with no revenue model. The break came when analysts began asking 'when does this become a business?' Cisco's first guidance cut triggered the unwind.",
+    currentDetail: "Alphabet proving Cloud ROI (63% growth, $460B backlog — clear winner). Microsoft Copilot at 20M seats — growing but not ChatGPT-scale. Amazon AWS strong but FCF destroyed. Meta ROI opaque. The market is rewarding proof-of-ROI (GOOGL +34% in April) and punishing uncertainty (META -6% initial reaction to capex guide).",
+    redFlag: "A quarter where Azure or AWS growth decelerates below 20% while capex guidance remains elevated. Or Microsoft Copilot seat growth flattening below 3M new seats/quarter. Enterprise AI cancellations reported by any major software vendor.",
+    source: "https://insight.factset.com",
+    sourceLabel: "FactSet quarterly earnings commentary",
+    frequency: "QUARTERLY — each Mag 7 earnings"
+  },
+  {
+    rank: 8,
+    name: "Nvidia Semiconductor Cycle Position",
+    short: "The Cisco proxy of 2026",
+    status: "yellow",
+    current: "~$208, $4.5T cap",
+    currentShort: "~$208",
+    threshold: "Watch gross margin < 65%",
+    barPct: 62,
+    historical: "Cisco peaked at $82 in March 2000 with a 100× P/E, lost 86% by 2002 as telco capex collapsed. Nvidia FY2026 revenue of $216B (+65%) is the closest analog. ASIC competition (Google TPU, Amazon Trainium) rising to 27.8% of AI server shipments.",
+    currentDetail: "Blackwell sold out through mid-2026 — supply, not demand, is the constraint today. But Vera Rubin (next-gen GPU) delayed ~one quarter. This creates a potential demand digestion gap in H2 2026. Analyst consensus $260–300 PT. Fair value estimate (DCF) ~$142–160 — significant gap.",
+    redFlag: "Nvidia reports data center revenue growth below 20% YoY, or gross margin below 65%. Any hyperscaler announcing a shift to in-house ASIC production for primary workloads (Google, Amazon already building custom silicon).",
+    source: "https://investor.nvidia.com",
+    sourceLabel: "Nvidia IR — next report late May 2026",
+    frequency: "QUARTERLY — key May report coming"
+  },
+  {
+    rank: 9,
+    name: "Earnings Quality vs. Stock-Based Comp",
+    short: "GAAP beats vs. FCF reality",
+    status: "yellow",
+    current: "84% beat rate",
+    currentShort: "84% beat",
+    threshold: "Alert if beat rate drops to <75%",
+    barPct: 45,
+    historical: "1999–2000: revenue beats masked zero cash generation in most dot-com names. WorldCom inflated revenue via accounting fraud. The GAAP-to-FCF divergence is a reliable late-cycle signal that appears 1–3 quarters before the break.",
+    currentDetail: "84% EPS beat rate is the highest since Q1 2021 — a green signal on the surface. But strip out Mag 7 SBC (stock-based compensation exceeds $50B/yr combined) and adjust for capex-inflated depreciation, and real FCF quality is meaningfully lower. Amazon's $1.2B FCF vs. $26B prior year is the starkest example.",
+    redFlag: "EPS beat rate drops below 75% (5-yr average) for two consecutive quarters. Or if aggregate EPS beats while aggregate revenue misses — a sign of cost-cutting rather than revenue growth.",
+    source: "https://insight.factset.com",
+    sourceLabel: "FactSet Earnings Insight — every Friday",
+    frequency: "WEEKLY during earnings, monthly off-season"
+  },
+  {
+    rank: 10,
+    name: "Equity Risk Premium (ERP)",
+    short: "Stocks vs. risk-free Treasuries",
+    status: "red",
+    current: "Negative ERP",
+    currentShort: "Negative",
+    threshold: "Danger at ERP < 0 sustained",
+    barPct: 80,
+    historical: "A negative ERP (equities yield less than risk-free bonds) is extremely rare. It appeared briefly in 1999 and lasted until the dot-com crash. It also appeared in Japan pre-1989 crash. When stocks offer no risk premium over T-bills, the only buyers are pure momentum players.",
+    currentDetail: "For the first time in over two decades, the ERP has turned negative — investors receive no additional return for the risk of holding equities over Treasuries. With the 10-yr yield near 4.3% and the S&P earnings yield around 4.0–4.2% (forward P/E of ~21×), the math clearly disfavors equities on a risk-adjusted basis.",
+    redFlag: "ERP remaining negative for more than 2 consecutive months. Or 10-yr yield rising above 4.75% while the S&P continues hitting highs — this implies the market is ignoring the risk-free alternative.",
+    source: "https://fred.stlouisfed.org/series/DGS10",
+    sourceLabel: "FRED — 10yr Treasury yield + FactSet forward P/E",
+    frequency: "WEEKLY — calculate manually each Friday"
+  }
+];
+
+const CHECKLIST_ITEMS = [
+  { title: "Check VIX daily close", desc: "Log in spreadsheet. Alert if <12 or >30.", freq: "DAILY", key: "vix" },
+  { title: "Read FactSet Earnings Insight", desc: "Forward P/E, beat rate, earnings revisions direction.", freq: "EVERY FRIDAY", key: "factset" },
+  { title: "Check EIA weekly oil report", desc: "WTI/Brent. Alert if Brent >$130.", freq: "EVERY WEDNESDAY", key: "eia" },
+  { title: "Monitor CBOE put/call ratio", desc: "Equity-only P/C. Alert if <0.55 (excess bullishness).", freq: "DAILY", key: "pcr" },
+  { title: "Calc Equity Risk Premium", desc: "(1 / Forward P/E) minus 10yr yield. Alert if negative.", freq: "EVERY FRIDAY", key: "erp" },
+  { title: "Check S&P breadth (A/D line)", desc: "% of S&P 500 above 200dma. Alert if index makes high while breadth falls.", freq: "WEEKLY", key: "breadth" },
+  { title: "Update Shiller CAPE", desc: "multpl.com. Alert if approaching 42×.", freq: "MONTHLY", key: "cape" },
+  { title: "Review hyperscaler FCF", desc: "After each earnings. Track Amazon / Microsoft FCF vs. capex.", freq: "QUARTERLY", key: "fcf" },
+  { title: "Check FINRA margin debt", desc: "Monthly report. Alert if new all-time high while market stagnates.", freq: "MONTHLY", key: "margin" },
+  { title: "Track Nvidia gross margin", desc: "In earnings. Alert if <65% or data center growth <20% YoY.", freq: "QUARTERLY", key: "nvda" },
+  { title: "Monitor Fed communications", desc: "FOMC minutes, Fed speeches. Alert for rate hike language.", freq: "EVERY 6 WEEKS", key: "fed" },
+  { title: "Check Iran war / oil headlines", desc: "Escalation = immediate red. Iran ceasefire = green. Follow EIA + Reuters.", freq: "DAILY", key: "iran" },
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const checkState = {};
+
+// ── RENDER INDICATORS ──────────────────────────────────────────────────────────
+function renderIndicators() {
+  const container = document.getElementById('indicators-list');
+  container.innerHTML = '';
+  INDICATORS.forEach((ind, i) => {
+    const row = document.createElement('div');
+    row.className = 'indicator-row';
+    row.id = `ind-${i}`;
+    row.innerHTML = `
+      <div class="indicator-main" onclick="toggleExpand(${i})">
+        <div class="rank">${ind.rank}</div>
+        <div class="indicator-name">
+          <strong>${ind.name}</strong>
+          <span>${ind.short}</span>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track"><div class="bar-fill ${ind.status}" style="width:${ind.barPct}%"></div></div>
+          <div class="bar-label">Risk: ${ind.barPct}%</div>
+        </div>
+        <div class="indicator-value-col">
+          <div class="current-val ${ind.status}">${ind.currentShort}</div>
+          <div class="threshold-val">⚡ ${ind.threshold}</div>
+        </div>
+        <div class="status-badge ${ind.status}">${ind.status === 'green' ? '● LOW' : ind.status === 'yellow' ? '● CAUTION' : '● HIGH'}</div>
+      </div>
+      <div class="indicator-detail">
+        <div class="detail-block">
+          <h4>Historical precedent</h4>
+          <p>${ind.historical}</p>
+        </div>
+        <div class="detail-block">
+          <h4>Current status — May 2026</h4>
+          <p>${ind.currentDetail}</p>
+        </div>
+        <div class="detail-block">
+          <h4>Red flag threshold</h4>
+          <p class="highlight">${ind.redFlag}</p>
+          <a href="${ind.source}" target="_blank" rel="noopener" class="data-source-link">↗ ${ind.sourceLabel}</a>
+          <div class="check-freq" style="margin-top:8px;">${ind.frequency}</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function toggleExpand(i) {
+  const row = document.getElementById(`ind-${i}`);
+  row.classList.toggle('expanded');
+}
+
+// ── RENDER CHECKLIST ──────────────────────────────────────────────────────────
+function renderChecklist() {
+  const grid = document.getElementById('checklist-grid');
+  grid.innerHTML = '';
+  CHECKLIST_ITEMS.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'check-item' + (checkState[item.key] ? ' checked' : '');
+    div.onclick = () => toggleCheck(item.key, div);
+    div.innerHTML = `
+      <div class="checkbox"><span class="checkbox-tick">✓</span></div>
+      <div class="check-content">
+        <div class="check-title">${item.title}</div>
+        <div class="check-desc">${item.desc}</div>
+        <div class="check-freq">${item.freq}</div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function toggleCheck(key, el) {
+  checkState[key] = !checkState[key];
+  el.classList.toggle('checked', checkState[key]);
+  if (checkState[key]) addLog(`Marked complete: ${CHECKLIST_ITEMS.find(i=>i.key===key)?.title}`, 'green');
+}
+
+// ── LIVE TIME ─────────────────────────────────────────────────────────────────
+function updateTime() {
+  const now = new Date();
+  document.getElementById('live-time').textContent = now.toLocaleString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+    hour: '2-digit', minute: '2-digit', second: '2-digit'
+  });
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// ── LOG ───────────────────────────────────────────────────────────────────────
+const INIT_LOGS = [
+  { msg: "Mag 7 Q1 2026 earnings complete — AI capex $725B confirmed", tag: "red", time: "May 01" },
+  { msg: "Fed holds at 3.5–3.75% — 4 dissents (most since Oct 1992)", tag: "yellow", time: "Apr 29" },
+  { msg: "Alphabet Cloud +63% — strongest ROI signal this cycle", tag: "green", time: "Apr 29" },
+  { msg: "Amazon FCF collapses: $1.2B vs $26B year-ago", tag: "red", time: "Apr 29" },
+  { msg: "VIX hit ~10.5 intraday — 7-year low complacency extreme", tag: "red", time: "Apr 08" },
+  { msg: "S&P 500 hits all-time high 7,230 — +27% yr/yr", tag: "yellow", time: "May 01" },
+  { msg: "Iran war: Brent briefly above $120/bbl", tag: "red", time: "Apr 29" },
+  { msg: "Meta user count fell 20M QoQ (Iran/Russia restrictions)", tag: "yellow", time: "Apr 29" },
+];
+
+function renderInitLogs() {
+  const body = document.getElementById('log-body');
+  INIT_LOGS.forEach(l => {
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    div.innerHTML = `<span class="log-time">${l.time}</span><span class="log-msg">${l.msg}</span><span class="log-tag ${l.tag}">${l.tag.toUpperCase()}</span>`;
+    body.appendChild(div);
+  });
+}
+
+function addLog(msg, tag) {
+  const body = document.getElementById('log-body');
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  const div = document.createElement('div');
+  div.className = 'log-entry';
+  div.innerHTML = `<span class="log-time">${time}</span><span class="log-msg">${msg}</span><span class="log-tag ${tag}">${tag.toUpperCase()}</span>`;
+  body.insertBefore(div, body.firstChild);
+  setTimeout(() => div.classList.remove('flash'), 600);
+  div.classList.add('flash');
+}
+
+// ── NEEDLE ────────────────────────────────────────────────────────────────────
+// -90 = far left (safe), +90 = far right (crash)
+// current risk score ~6.4/10 → about +22deg
+function setNeedle(score) {
+  const deg = -90 + (score / 10) * 180;
+  document.getElementById('needle').style.transform = `rotate(${deg}deg)`;
+}
+
+// ── REFRESH SIMULATION ────────────────────────────────────────────────────────
+function simulateRefresh() {
+  const icon = document.getElementById('refresh-icon');
+  icon.classList.add('spin');
+  addLog('Manual refresh triggered — recalculating signals', 'yellow');
+  setTimeout(() => {
+    icon.classList.remove('spin');
+    addLog('All signals updated — no status changes detected', 'green');
+  }, 1800);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderIndicators();
+renderChecklist();
+renderInitLogs();
+setTimeout(() => setNeedle(6.4), 500);
+</script>
+</body>
+</html>
