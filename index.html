@@ -1,1586 +1,270 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Bubble Signal Tracker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<title>每周市场展望 — 2026年5月11日—15日当周</title>
 <style>
   :root {
-    --bg: #fdf6e3;
-    --bg2: #fffef8;
-    --bg3: #f5e8c8;
-    --border: rgba(0,0,0,0.08);
-    --border2: rgba(0,0,0,0.15);
-    --text: #1a1f2e;
-    --text2: #5a6272;
-    --text3: #9aa0ac;
-    --green: #1a7f37;
-    --green-dim: rgba(26,127,55,0.10);
-    --yellow: #9a6700;
-    --yellow-dim: rgba(154,103,0,0.10);
-    --red: #cf222e;
-    --red-dim: rgba(207,34,46,0.10);
-    --blue: #0969da;
-    --blue-dim: rgba(9,105,218,0.10);
-    --accent: #8250df;
-    --mono: 'Space Mono', monospace;
-    --serif: 'DM Serif Display', serif;
-    --sans: 'IBM Plex Sans', sans-serif;
+    --bg: #0f1115;
+    --card: #161a22;
+    --card-2: #1c2230;
+    --line: #2a3142;
+    --text: #e6e9ef;
+    --muted: #8a93a6;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --accent: #a78bfa;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
+  * { box-sizing: border-box; }
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.6;
-    min-height: 100vh;
+    margin: 0; padding: 32px;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Inter", system-ui, sans-serif;
+    font-size: 14px; line-height: 1.55;
   }
-
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* ── HEADER ── */
+  .wrap { max-width: 1180px; margin: 0 auto; }
   header {
-    border-bottom: 1px solid var(--border2);
-    padding: 28px 0 20px;
-    margin-bottom: 32px;
-  }
-
-  .header-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .brand-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--red);
-    box-shadow: 0 0 8px var(--red);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--red); }
-    50% { opacity: 0.6; box-shadow: 0 0 16px var(--red); }
-  }
-
-  .brand-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text2);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  h1 {
-    font-family: var(--serif);
-    font-size: clamp(26px, 4vw, 42px);
-    font-weight: 400;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    margin-top: 6px;
-    line-height: 1.1;
-  }
-
-  h1 em {
-    color: var(--accent);
-    font-style: italic;
-  }
-
-  .header-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    min-width: 160px;
-  }
-
-  .timestamp {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text3);
-  }
-
-  #live-time {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--blue);
-    letter-spacing: 0.05em;
-  }
-
-  .overall-score {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--red-dim);
-    border: 1px solid rgba(207,34,46,0.25);
-    border-radius: 6px;
-    padding: 8px 14px;
-    margin-top: 4px;
-  }
-
-  .overall-score .label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--red);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .overall-score .value {
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--red);
-  }
-
-  /* ── MACRO CARDS ── */
-  .macro-strip {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 32px;
-  }
-
-  .macro-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-
-  .macro-card:hover {
-    border-color: var(--border2);
-  }
-
-  .macro-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
-
-  .macro-card.green::before { background: var(--green); }
-  .macro-card.yellow::before { background: var(--yellow); }
-  .macro-card.red::before { background: var(--red); }
-  .macro-card.blue::before { background: var(--blue); }
-
-  .macro-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--text3);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .macro-value {
-    font-family: var(--mono);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.02em;
-  }
-
-  .macro-value.green { color: var(--green); }
-  .macro-value.yellow { color: var(--yellow); }
-  .macro-value.red { color: var(--red); }
-  .macro-value.blue { color: var(--blue); }
-
-  .macro-sub {
-    font-size: 11px;
-    color: var(--text2);
-    margin-top: 3px;
-  }
-
-  .macro-change {
-    font-family: var(--mono);
-    font-size: 10px;
-    margin-top: 4px;
-  }
-
-  .macro-change.up { color: var(--green); }
-  .macro-change.down { color: var(--red); }
-  .macro-change.flat { color: var(--text3); }
-
-  /* ── SECTION HEADING ── */
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .section-head h2 {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text2);
-    font-weight: 400;
-    transition: color 0.15s;
-  }
-
-  .section-head:hover h2 { color: var(--text); }
-
-  .section-head::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-    order: 1;
-  }
-
-  .section-chevron {
-    order: 2;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text3);
-    transition: transform 0.25s ease;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  .section-head.open .section-chevron { transform: rotate(0deg); }
-  .section-head:not(.open) .section-chevron { transform: rotate(-90deg); }
-
-  .section-body {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s ease;
-    margin-bottom: 32px;
-  }
-
-  .section-body.open { grid-template-rows: 1fr; }
-
-  .section-body-inner { overflow: hidden; }
-
-  /* ── INDICATOR TABLE ── */
-  .indicators {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 40px;
-  }
-
-  .indicator-row {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-
-  .indicator-row:hover {
-    border-color: var(--border2);
-    background: var(--bg3);
-  }
-
-  .indicator-row.expanded {
-    border-color: var(--border2);
-  }
-
-  .indicator-main {
-    display: grid;
-    grid-template-columns: 28px 1fr auto auto auto;
-    gap: 12px;
-    align-items: center;
-    padding: 14px 16px;
-  }
-
-  .rank {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text3);
-    text-align: center;
-  }
-
-  .indicator-name {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .indicator-name strong {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .indicator-name span {
-    font-size: 11px;
-    color: var(--text3);
-    font-family: var(--mono);
-  }
-
-  .indicator-value-col {
-    text-align: right;
-    min-width: 90px;
-  }
-
-  .current-val {
-    font-family: var(--mono);
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  .current-val.green { color: var(--green); }
-  .current-val.yellow { color: var(--yellow); }
-  .current-val.red { color: var(--red); }
-
-  .threshold-val {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text3);
-    margin-top: 2px;
-  }
-
-  /* Progress bar */
-  .bar-col {
-    width: 100px;
-  }
-
-  .bar-track {
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .bar-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 1s ease;
-  }
-
-  .bar-fill.green { background: var(--green); }
-  .bar-fill.yellow { background: var(--yellow); }
-  .bar-fill.red { background: var(--red); }
-
-  .bar-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--text3);
-    margin-top: 4px;
-    text-align: right;
-  }
-
-  /* Status badge */
-  .status-badge {
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    padding: 4px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    min-width: 72px;
-    text-align: center;
-  }
-
-  .status-badge.green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(26,127,55,0.2); }
-  .status-badge.yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(154,103,0,0.2); }
-  .status-badge.red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(207,34,46,0.2); }
-
-  /* Expanded detail */
-  .indicator-detail {
-    display: none;
-    padding: 0 16px 16px;
-    border-top: 1px solid var(--border);
-    margin-top: 0;
-  }
-
-  .indicator-row.expanded .indicator-detail {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    animation: fadeIn 0.2s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .detail-block {
-    padding-top: 14px;
-  }
-
-  .detail-block h4 {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--text3);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .detail-block p {
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.55;
-  }
-
-  .detail-block .highlight {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 11px;
-  }
-
-  .data-source-link {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--blue);
-    text-decoration: none;
-    margin-top: 6px;
-    border-bottom: 1px solid rgba(9,105,218,0.3);
-    transition: border-color 0.2s;
-  }
-
-  .data-source-link:hover { border-color: var(--blue); }
-
-  /* ── HISTORY LOG ── */
-  .log-panel {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0;
-    margin-bottom: 40px;
-    overflow: hidden;
-  }
-
-  .log-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .log-header h3 {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text2);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 400;
-  }
-
-  .log-body {
-    font-family: var(--mono);
-    font-size: 11px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  .log-entry {
-    display: grid;
-    grid-template-columns: 120px 1fr auto;
-    gap: 12px;
-    padding: 8px 16px;
-    border-bottom: 1px solid var(--border);
-    align-items: center;
-    animation: slideIn 0.3s ease;
-  }
-
-  @keyframes slideIn {
-    from { opacity: 0; background: rgba(9,105,218,0.06); }
-    to { opacity: 1; background: transparent; }
-  }
-
-  .log-entry:last-child { border-bottom: none; }
-
-  .log-time { color: var(--text3); }
-  .log-msg { color: var(--text2); }
-  .log-tag { font-size: 9px; padding: 2px 7px; border-radius: 3px; }
-  .log-tag.red { background: var(--red-dim); color: var(--red); }
-  .log-tag.yellow { background: var(--yellow-dim); color: var(--yellow); }
-  .log-tag.green { background: var(--green-dim); color: var(--green); }
-
-  /* ── CHECKLIST ── */
-  .checklist-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 40px;
-  }
-
-  @media (max-width: 640px) {
-    .checklist-grid { grid-template-columns: 1fr; }
-    .indicator-main { grid-template-columns: 28px 1fr auto auto; }
-    .bar-col { display: none; }
-    .indicator-row.expanded .indicator-detail { grid-template-columns: 1fr; }
-  }
-
-  .check-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    user-select: none;
-  }
-
-  .check-item:hover { border-color: var(--border2); }
-
-  .check-item.checked {
-    background: var(--bg3);
-    border-color: rgba(26,127,55,0.25);
-  }
-
-  .checkbox {
-    width: 18px;
-    height: 18px;
-    border: 1.5px solid var(--border2);
-    border-radius: 4px;
-    flex-shrink: 0;
-    margin-top: 1px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-
-  .check-item.checked .checkbox {
-    background: var(--green);
-    border-color: var(--green);
-  }
-
-  .checkbox-tick {
-    display: none;
-    color: #000;
-    font-size: 11px;
-    font-weight: 700;
-  }
-
-  .check-item.checked .checkbox-tick { display: block; }
-
-  .check-content {}
-  .check-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .check-desc {
-    font-size: 11px;
-    color: var(--text3);
-    line-height: 1.5;
-  }
-
-  .check-freq {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--blue);
-    margin-top: 4px;
-    letter-spacing: 0.08em;
-  }
-
-  /* ── SCENARIO PANEL ── */
-  .scenario-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 40px;
-  }
-
-  @media (max-width: 640px) { .scenario-grid { grid-template-columns: 1fr; } }
-
-  .scenario-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .scenario-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-
-  .scenario-card.bull::before { background: var(--green); }
-  .scenario-card.base::before { background: var(--yellow); }
-  .scenario-card.bear::before { background: var(--red); }
-
-  .scenario-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--text3);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-
-  .scenario-name {
-    font-family: var(--serif);
-    font-size: 20px;
-    margin-bottom: 4px;
-  }
-
-  .scenario-name.bull { color: var(--green); }
-  .scenario-name.base { color: var(--yellow); }
-  .scenario-name.bear { color: var(--red); }
-
-  .scenario-prob {
-    font-family: var(--mono);
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-
-  .scenario-prob.bull { color: var(--green); }
-  .scenario-prob.base { color: var(--yellow); }
-  .scenario-prob.bear { color: var(--red); }
-
-  .scenario-desc {
-    font-size: 11px;
-    color: var(--text2);
-    line-height: 1.6;
-    margin-bottom: 12px;
-  }
-
-  .scenario-triggers {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text3);
-    border-top: 1px solid var(--border);
-    padding-top: 10px;
-    line-height: 1.7;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 24px 0 40px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .footer-note {
-    font-size: 11px;
-    color: var(--text3);
-    max-width: 520px;
-    line-height: 1.7;
-  }
-
-  .footer-note a {
-    color: var(--blue);
-    text-decoration: none;
-  }
-
-  .refresh-btn {
-    font-family: var(--mono);
-    font-size: 11px;
-    background: var(--bg3);
-    color: var(--text2);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .refresh-btn:hover {
-    background: var(--bg2);
-    color: var(--text);
-    border-color: var(--border2);
-  }
-
-  .spin { animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
-
-  /* ── GAUGE ── */
-  .gauge-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-    margin-bottom: 32px;
-  }
-
-  .gauge-wrap {
-    position: relative;
-    width: 240px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .gauge-svg { width: 240px; height: 130px; }
-
-  .gauge-needle {
-    transform-origin: 120px 120px;
-    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .gauge-label {
-    font-family: var(--serif);
-    font-size: 28px;
-    color: var(--text);
-    margin-top: -8px;
-  }
-
-  .gauge-sublabel {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .gauge-tagline {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 44px;
-    margin-left: 44px;
-    border-left: 1px solid var(--border2);
-  }
-
-  .tagline-risk {
-    font-family: 'Noto Serif SC', var(--serif);
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--red);
-    letter-spacing: 0.08em;
-    line-height: 1.25;
-  }
-
-  .tagline-motto {
-    font-family: 'Noto Serif SC', var(--serif);
-    font-size: 19px;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    line-height: 1.4;
-  }
-
-  .tagline-motto sup {
-    font-size: 10px;
-    font-style: normal;
-    vertical-align: super;
-    letter-spacing: 0;
-  }
-
-  @media (max-width: 640px) {
-    .gauge-section { flex-direction: column; gap: 24px; }
-    .gauge-tagline {
-      padding-left: 0;
-      margin-left: 0;
-      border-left: none;
-      border-top: 1px solid var(--border2);
-      padding-top: 20px;
-      text-align: center;
-    }
-  }
-
-  /* update flash */
-  .flash {
-    animation: flashBg 0.5s ease;
-  }
-
-  @keyframes flashBg {
-    0% { background: rgba(9,105,218,0.10); }
-    100% { background: transparent; }
-  }
-
-  /* ── MACRO SNAPSHOT TOOLTIPS ── */
-  .macro-info-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 1px solid var(--border2);
-    background: transparent;
-    color: var(--text3);
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
-    z-index: 2;
-    padding: 0;
-  }
-  .macro-info-btn:hover,
-  .macro-info-btn.active {
-    background: var(--blue);
-    color: #fff;
-    border-color: var(--blue);
-  }
-  .macro-tip {
-    position: fixed;
-    z-index: 1000;
-    width: 300px;
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    padding: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-6px);
-    transition: opacity 0.18s, transform 0.18s;
-  }
-  .macro-tip.active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-  .macro-tip-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 0.05em;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-  .macro-tip-row {
-    margin-bottom: 9px;
-  }
-  .macro-tip-row:last-child { margin-bottom: 0; }
-  .macro-tip-lbl {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--blue);
-    margin-bottom: 2px;
-  }
-  .macro-tip-txt {
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.5;
-  }
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px;
+  }
+  h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .subtitle { color: var(--muted); font-size: 13px; }
+  .grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 18px;
+  }
+  .card h2 {
+    margin: 0 0 12px; font-size: 12px; letter-spacing: 0.08em;
+    color: var(--muted); font-weight: 600;
+  }
+  .col-6 { grid-column: span 6; }
+  .col-12 { grid-column: span 12; }
+  .col-4 { grid-column: span 4; }
+  .col-8 { grid-column: span 8; }
+
+  /* Tape snapshot */
+  .tape { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat { background: var(--card-2); border-radius: 8px; padding: 10px 12px; }
+  .stat .label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  .stat .val { font-size: 18px; font-weight: 600; margin-top: 2px; }
+  .stat .delta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+  .warn { color: var(--amber); }
+
+  /* Calendar */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table th { text-align: left; color: var(--muted); font-weight: 500; font-size: 11px;
+             letter-spacing: 0.06em; padding: 6px 8px;
+             border-bottom: 1px solid var(--line); }
+  table td { padding: 8px; border-bottom: 1px solid var(--line); }
+  table tr:last-child td { border-bottom: none; }
+  td.event { font-weight: 600; }
+  td.meta { color: var(--muted); }
+
+  /* Branches */
+  .branch { background: var(--card-2); border-radius: 8px; padding: 12px;
+            border-left: 3px solid var(--line); margin-bottom: 8px; }
+  .branch.a { border-left-color: var(--green); }
+  .branch.b { border-left-color: var(--amber); }
+  .branch.c { border-left-color: var(--red); }
+  .branch .head { display: flex; justify-content: space-between; align-items: baseline;
+                  font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  .branch .trigger { color: var(--muted); font-size: 12px; }
+  .branch .range { font-family: "SF Mono", monospace; font-weight: 600; margin-top: 4px; font-size: 13px; }
+  .prob-tag { font-family: "SF Mono", monospace; color: var(--muted); font-weight: 600; }
+
+  /* Prob bar */
+  .probbar { display: flex; height: 36px; border-radius: 8px; overflow: hidden;
+             border: 1px solid var(--line); }
+  .probbar div { display: flex; align-items: center; justify-content: center;
+                 font-weight: 600; font-size: 13px; color: #0f1115; }
+  .pb-up { background: var(--green); }
+  .pb-flat { background: var(--amber); }
+  .pb-down { background: var(--red); }
+  .point {
+    font-family: "SF Mono", monospace; font-size: 13px; color: var(--muted);
+    margin-top: 10px; text-align: center;
+  }
+  .point b { color: var(--text); font-size: 15px; }
+
+  /* Risk card */
+  .risk { background: linear-gradient(135deg, #2a1a1a, #1c2230); border-color: #4a2a2a; }
+  .risk h2 { color: var(--red); }
+  .risk .level { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .risk .threshold { font-family: "SF Mono", monospace; color: var(--amber);
+                     background: #1a1d24; padding: 6px 8px; border-radius: 6px;
+                     font-size: 12px; display: inline-block; margin-top: 4px; }
+  .risk .secondary { color: var(--muted); font-size: 12px; margin-top: 10px;
+                     padding-top: 10px; border-top: 1px solid var(--line); }
+
+  /* Drivers / signals */
+  .siglist { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sigbox h3 { margin: 0 0 6px; font-size: 11px; color: var(--muted);
+               letter-spacing: 0.06em; }
+  .sigbox ul { margin: 0; padding-left: 16px; }
+  .sigbox li { margin-bottom: 4px; font-size: 12.5px; }
+
+  .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .pmcard { background: var(--card-2); border: 1px dashed var(--line); }
+  .pmcard h2 { color: var(--blue); }
+
+  footer { color: var(--muted); font-size: 11px; margin-top: 20px;
+           padding-top: 14px; border-top: 1px solid var(--line); }
 </style>
 </head>
 <body>
-  
-  
-<div class="container">
+<div class="wrap">
 
-  <!-- TITLE -->
-  <div style="text-align:center; padding: 36px 0 8px;">
-    <div style="font-family:var(--serif); font-size:clamp(32px,6vw,72px); color:var(--text); letter-spacing:-0.03em; line-height:1;">
-      This Time is Different™
-    </div>
-  </div>
-
-  <!-- HEADER -->
   <header>
-    <div class="header-top">
-      <div>
-        <div class="brand">
-          <div class="brand-dot"></div>
-          <div class="brand-label">Signal Monitor · AI & Tech Bubble Risk</div>
-        </div>
-        <h1>The <em>AI Bubble</em> Monitor</h1>
-      </div>
-      <div class="header-meta">
-        <div class="timestamp">Last updated</div>
-        <div id="live-time">—</div>
-        <div class="overall-score">
-          <div class="label">Risk Score</div>
-          <div class="value" id="risk-score">6.1 / 10</div>
-        </div>
-      </div>
+    <div>
+      <h1>每周市场展望 — 2026年5月11日—15日当周</h1>
+      <div class="subtitle">编制于2026年5月10日周日 · 起点标普500为7,398.93 · CPI周,无FOMC会议,无Mag-7财报</div>
     </div>
+    <div class="subtitle">基准情景:<span class="up">上涨</span> · <b>41 / 23 / 36</b></div>
   </header>
 
-  <!-- GAUGE -->
-  <div class="gauge-section">
-    <div class="gauge-wrap">
-      <svg class="gauge-svg" viewBox="0 0 240 130" aria-label="Risk gauge showing elevated-to-high bubble risk">
-        <defs>
-          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#1a7f37"/>
-            <stop offset="40%" stop-color="#9a6700"/>
-            <stop offset="75%" stop-color="#cf222e"/>
-            <stop offset="100%" stop-color="#6e1318"/>
-          </linearGradient>
-        </defs>
-        <!-- arc track -->
-        <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="rgba(0,0,0,0.08)" stroke-width="16" fill="none" stroke-linecap="round"/>
-        <!-- colored arc -->
-        <path d="M 20 120 A 100 100 0 0 1 220 120" stroke="url(#gaugeGrad)" stroke-width="16" fill="none" stroke-linecap="round"/>
-        <!-- tick marks -->
-        <g stroke="var(--bg)" stroke-width="2">
-          <line x1="120" y1="20" x2="120" y2="36" transform="rotate(-90 120 120)"/>
-          <line x1="120" y1="20" x2="120" y2="30" transform="rotate(-45 120 120)"/>
-          <line x1="120" y1="20" x2="120" y2="30" transform="rotate(0 120 120)"/>
-          <line x1="120" y1="20" x2="120" y2="30" transform="rotate(45 120 120)"/>
-          <line x1="120" y1="20" x2="120" y2="36" transform="rotate(90 120 120)"/>
-        </g>
-        <!-- labels -->
-        <text x="14" y="126" font-family="Space Mono" font-size="9" fill="#1a7f37">LOW</text>
-        <text x="83" y="30" font-family="Space Mono" font-size="9" fill="#9a6700">MED</text>
-        <text x="194" y="126" font-family="Space Mono" font-size="9" fill="#cf222e">HIGH</text>
-        <!-- needle -->
-        <g class="gauge-needle" id="needle" style="transform: rotate(28deg)">
-          <line x1="120" y1="120" x2="120" y2="30" stroke="var(--text)" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="120" cy="120" r="5" fill="var(--text)"/>
-        </g>
-      </svg>
-      <div class="gauge-label">Elevated</div>
-      <div class="gauge-sublabel">Bubble Risk — May 5, 2026</div>
-    </div>
-    <div class="gauge-tagline">
-      <div class="tagline-risk">目前风险偏高</div>
-      <div class="tagline-motto">据说，这次不一样!</div>
-    </div>
-  </div>
-
-  <!-- MACRO STRIP -->
-  <div class="section-head"><h2>Market Snapshot</h2></div>
-  <div class="macro-strip" id="macro-strip">
-    <div class="macro-card yellow">
-      <button class="macro-info-btn" onclick="showMacroTip('sp500',this)" aria-label="About S&P 500">ⓘ</button>
-      <div class="macro-label">S&P 500</div>
-      <div class="macro-value yellow">7,310</div>
-      <div class="macro-sub">May 5, 2026 — New ATH</div>
-      <div class="macro-change up">▲ +28.5% yr/yr</div>
-    </div>
-    <div class="macro-card red">
-      <button class="macro-info-btn" onclick="showMacroTip('cape',this)" aria-label="About Shiller CAPE">ⓘ</button>
-      <div class="macro-label">Shiller CAPE</div>
-      <div class="macro-value red">~39×</div>
-      <div class="macro-sub">LT avg ~17×</div>
-      <div class="macro-change down">▲ Danger zone</div>
-    </div>
-    <div class="macro-card yellow">
-      <button class="macro-info-btn" onclick="showMacroTip('fwdpe',this)" aria-label="About Forward P/E">ⓘ</button>
-      <div class="macro-label">Forward P/E</div>
-      <div class="macro-value yellow">20.9×</div>
-      <div class="macro-sub">10yr avg 18.9×</div>
-      <div class="macro-change down">▲ 10.6% above avg</div>
-    </div>
-    <div class="macro-card yellow">
-      <button class="macro-info-btn" onclick="showMacroTip('vix',this)" aria-label="About VIX">ⓘ</button>
-      <div class="macro-label">VIX</div>
-      <div class="macro-value yellow">15.20</div>
-      <div class="macro-sub">↓ Ceasefire risk-on</div>
-      <div class="macro-change up">▼ Easing from 17</div>
-    </div>
-    <div class="macro-card yellow">
-      <button class="macro-info-btn" onclick="showMacroTip('wti',this)" aria-label="About WTI Crude">ⓘ</button>
-      <div class="macro-label">WTI Crude</div>
-      <div class="macro-value yellow">~$96</div>
-      <div class="macro-sub">↓ Ceasefire easing</div>
-      <div class="macro-change up">▼ From $107 peak</div>
-    </div>
-    <div class="macro-card yellow">
-      <button class="macro-info-btn" onclick="showMacroTip('fedrate',this)" aria-label="About Fed Rate">ⓘ</button>
-      <div class="macro-label">Fed Rate</div>
-      <div class="macro-value yellow">3.75%</div>
-      <div class="macro-sub">On hold (3rd meeting)</div>
-      <div class="macro-change flat">— Higher for longer</div>
-    </div>
-    <div class="macro-card red">
-      <button class="macro-info-btn" onclick="showMacroTip('capex',this)" aria-label="About Hyperscaler Capex">ⓘ</button>
-      <div class="macro-label">Hyperscaler Capex</div>
-      <div class="macro-value red">$725B</div>
-      <div class="macro-sub">2026 guidance</div>
-      <div class="macro-change down">▲ FCF compressing</div>
-    </div>
-    <div class="macro-card green">
-      <button class="macro-info-btn" onclick="showMacroTip('eps',this)" aria-label="About S&P EPS Growth">ⓘ</button>
-      <div class="macro-label">S&P EPS Growth '26</div>
-      <div class="macro-value green">+28%</div>
-      <div class="macro-sub">Q1 2026 — best since 2021</div>
-      <div class="macro-change up">▲ 84% beat rate</div>
-    </div>
-  </div>
-
-  <!-- SCENARIOS (moved above indicators) -->
-  <div class="section-head">
-    <h2>Scenario Analysis</h2>
-  </div>
-  <div class="scenario-grid">
-        <div class="scenario-card bull">
-          <div class="scenario-label">Scenario A</div>
-          <div class="scenario-name bull">Soft Landing</div>
-          <div class="scenario-prob bull">25%</div>
-          <div class="scenario-desc">Iran ceasefire holding (confirmed May 5). Oil retreating toward $85–90. If ceasefire holds through summer, Fed may resume cuts in Q3. AI monetization evidence accelerating — Alphabet Cloud +63%, AMD expects +33% revenue. S&P could reach 7,800–8,100.</div>
-          <div class="scenario-triggers">
-            Triggers: ceasefire holds · oil &lt;$85 · NVDA beats May<br>
-            Lead time: 1–2 months
-          </div>
-        </div>
-        <div class="scenario-card base">
-          <div class="scenario-label">Scenario B</div>
-          <div class="scenario-name base">Mid-Cycle Correction</div>
-          <div class="scenario-prob base">50%</div>
-          <div class="scenario-desc">Ceasefire fragile, oil stabilises $90–100. Fed on hold all year. Nvidia China revenue = zero (export ban). SaaS sector in freefall (CRMD, NOW -30% YTD). AI ROI mixed — correction 10–15% in Q3–Q4, then recovery.</div>
-          <div class="scenario-triggers">
-            Triggers: NVDA miss May · SaaSpocalypse deepens · ERP negative<br>
-            Lead time: 2–4 months
-          </div>
-        </div>
-        <div class="scenario-card bear">
-          <div class="scenario-label">Scenario C</div>
-          <div class="scenario-name bear">Sharp Pop</div>
-          <div class="scenario-prob bear">25%</div>
-          <div class="scenario-desc">Ceasefire collapses, oil surges above $130. Nvidia May earnings disappoint on China zero revenue + Rubin delay. Warsh hawkish surprise post-May 15. SaaSpocalypse spreads to infrastructure names. S&P drops 20–30% in 2–3 months.</div>
-          <div class="scenario-triggers">
-            Triggers: ceasefire breaks · NVDA miss · VIX &gt;35 · Warsh hike signal<br>
-            Lead time: days to weeks
-          </div>
-        </div>
-      </div>
-
-  <!-- INDICATORS -->
-  <div class="section-head" onclick="toggleSection('sec-indicators')" role="button" tabindex="0" aria-expanded="false">
-    <h2>Signal Indicators</h2>
-    <span class="section-chevron" aria-hidden="true">▾</span>
-  </div>
-  <div class="section-body" id="sec-indicators">
-    <div class="section-body-inner">
-      <div class="indicators" id="indicators-list"></div>
-    </div>
-  </div>
-
-  <!-- LOG -->
-  <div class="section-head" onclick="toggleSection('sec-log')" role="button" tabindex="0" aria-expanded="false">
-    <h2>Update Log</h2>
-    <span class="section-chevron" aria-hidden="true">▾</span>
-  </div>
-  <div class="section-body" id="sec-log">
-    <div class="section-body-inner">
-      <div class="log-panel">
-        <div class="log-header">
-          <h3>Signal activity feed</h3>
-          <span style="font-family:var(--mono);font-size:10px;color:var(--text3);">Auto-updates</span>
-        </div>
-        <div class="log-body" id="log-body"></div>
+  <!-- TASK 1 POSTMORTEM -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card pmcard col-12">
+      <h2>任务一 — 复盘(截至2026年5月8日当周)</h2>
+      <div style="font-size:13px;">
+        <b>无前期预测可供评分。</b>预测日志中目前仅有一条未结的记录(本周,截至2026-05-15);校准循环从本次预测开始,首次Brier评分将在下周日实际行情公布后填入。
+        背景:周五标普500收于<b>7,398.93</b>(周五+0.84%,<b>当周+2.3%</b>),创历史新高,实现<b>连续六周上涨</b> — 自2024年10月以来最长的连涨纪录。驱动因素为4月非农就业数据强于预期(新增11.5万,失业率4.3%),叠加伊朗停火预期使油价回落约7%,尽管周四周五出现阿联酋遭导弹袭击及美军向伊朗油轮开火等事件。
+        下周需警惕的偏差:不要被连涨势头锚定 — 历史先验仍应作为起点。
       </div>
     </div>
   </div>
 
-  <!-- WEEKLY CHECKLIST -->
-  <div class="section-head" onclick="toggleSection('sec-checklist')" role="button" tabindex="0" aria-expanded="false">
-    <h2>Monitoring Checklist</h2>
-    <span class="section-chevron" aria-hidden="true">▾</span>
-  </div>
-  <div class="section-body" id="sec-checklist">
-    <div class="section-body-inner">
-      <div class="checklist-grid" id="checklist-grid"></div>
+  <!-- TAPE -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card col-12">
+      <h2>行情与跨资产快照 — 5月8日周五收盘</h2>
+      <div class="tape">
+        <div class="stat"><div class="label">标普500</div><div class="val">7,398.93</div><div class="delta up">周五+0.84% · 当周+2.3% · 历史新高</div></div>
+        <div class="stat"><div class="label">VIX</div><div class="val">17.19</div><div class="delta">低波动/平静 · 无市场压力</div></div>
+        <div class="stat"><div class="label">10年期美债</div><div class="val">4.38%</div><div class="delta">区间震荡 · 久期中性</div></div>
+        <div class="stat"><div class="label">高收益债利差</div><div class="val">279 bps</div><div class="delta up">较一季度285bp收窄 · 风险偏好</div></div>
+        <div class="stat"><div class="label">布伦特 / WTI</div><div class="val">$101 / $95</div><div class="delta down">当周-7% · 停火预期推动</div></div>
+        <div class="stat"><div class="label">NAAIM 仓位</div><div class="val warn">96.67</div><div class="delta warn">5月6日 · 激进多头</div></div>
+        <div class="stat"><div class="label">连涨周数</div><div class="val">6 周</div><div class="delta">自2024年10月以来最长</div></div>
+        <div class="stat"><div class="label">SPX Gamma 锚定</div><div class="val">7,400</div><div class="delta">看涨墙=峰值GEX · 钉住效应</div></div>
+      </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- TWO COLUMN: CALENDAR + DRIVERS -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card col-6">
+      <h2>下周宏观与财报日历</h2>
+      <table>
+        <thead><tr><th>日期</th><th>事件</th><th>市场预期 / 备注</th></tr></thead>
+        <tbody>
+          <tr><td>周二 5/12 8:30</td><td class="event">CPI(4月)</td><td class="meta">总体+0.6% 环比 / +3.7% 同比 · 核心+0.3% 环比 / +2.7% 同比 · 富国证券更偏热:核心+0.5%</td></tr>
+          <tr><td>周二 5/12</td><td>克利夫兰联储Nowcast</td><td class="meta">核心0.21% 环比,总体3.56% 同比(低于市场预期 = 偏凉)</td></tr>
+          <tr><td>周三 5/13 8:30</td><td class="event">PPI(4月)</td><td class="meta">能源传导验证 · 次要信号</td></tr>
+          <tr><td>周四 5/14 8:30</td><td>初请失业金 · 零售销售 · 进出口物价</td><td class="meta">消费脉搏 + 关税/通胀解读</td></tr>
+          <tr><td>周五 5/15 8:30</td><td>纽约联储制造业 · 工业产出 · 产能利用率</td><td class="meta">地区制造业 · 二季度工业初读</td></tr>
+          <tr><td>—</td><td>FOMC</td><td class="meta">本周无会议 · 下次为6月16-17日(降息25bp概率约28%)</td></tr>
+          <tr><td>—</td><td>Mag-7 财报</td><td class="meta">本周无 · 英伟达将于5月20日周三发布(下周)</td></tr>
+          <tr><td>背景</td><td>伊朗 / 霍尔木兹海峡</td><td class="meta">海峡自2月28日起关闭;停火脆弱;上周阿联酋遭导弹袭击 + 美军向油轮开火</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card col-6">
+      <h2>偏离56/14/30先验的信号</h2>
+      <div class="siglist">
+        <div class="sigbox">
+          <h3 style="color:var(--green);">偏多信号</h3>
+          <ul>
+            <li>高收益债利差 <b>279 bps</b> — 收窄,无信用压力</li>
+            <li>布伦特原油 <b>当周-7%</b>,停火预期推动 — 能源顺风</li>
+            <li>克利夫兰Nowcast核心数据<b>低于</b>经济学家共识</li>
+            <li>本周无Mag-7财报风险</li>
+            <li>市场广度自4月8日起持续位于50/200日均线上方</li>
+          </ul>
+        </div>
+        <div class="sigbox">
+          <h3 style="color:var(--red);">偏空信号</h3>
+          <ul>
+            <li>NAAIM <b>96.67</b> — 激进多头,反向看空信号</li>
+            <li>连涨6周 — 均值回归压力累积</li>
+            <li>钉住<b>7,400看涨墙</b> = 峰值GEX = 上行受限</li>
+            <li>CPI为二元事件;富国证券核心+0.5%将明确触发"偏热"阈值</li>
+            <li>伊朗/霍尔木兹尾部风险仍在;油价仅一则头条之差就可能再度飙升</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">本周最重要驱动:<b>周二CPI</b>。信号权重排序:1) CPI数据,2) 7,400附近的交易商钉住,3) 信用/高收益债方向,4) 伊朗相关头条。</div>
+    </div>
+  </div>
+
+  <!-- BRANCHES + PROB SPLIT -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card col-8">
+      <h2>情景分支</h2>
+
+      <div class="branch a">
+        <div class="head"><span>A · CPI偏凉/清晰过关 <span class="up">→ 趋势延续</span></span><span class="prob-tag">概率 = 30%</span></div>
+        <div class="trigger">触发:核心CPI环比 ≤ 0.25%(克利夫兰模型读数) 且 霍尔木兹停火维持</div>
+        <div class="range">标普500 7,440 – 7,520 &nbsp;·&nbsp; +0.55% 至 +2.04%</div>
+      </div>
+
+      <div class="branch b">
+        <div class="head"><span>B · CPI符合预期 <span class="warn">→ 钉住7,400</span></span><span class="prob-tag">概率 = 38%</span></div>
+        <div class="trigger">触发:核心CPI环比 0.25%–0.32%;无意外;交易商Gamma锚定价格</div>
+        <div class="range">标普500 7,370 – 7,440 &nbsp;·&nbsp; -0.39% 至 +0.55%</div>
+      </div>
+
+      <div class="branch c">
+        <div class="head"><span>C · CPI偏热 <span class="down">或伊朗局势升级 → 重新定价下行</span></span><span class="prob-tag">概率 = 32%</span></div>
+        <div class="trigger">触发:核心CPI环比 ≥ 0.35%(富国证券式读数) 或 霍尔木兹再度关闭 / 油价 $115+</div>
+        <div class="range">标普500 7,200 – 7,340 &nbsp;·&nbsp; -0.80% 至 -2.69%</div>
+      </div>
+    </div>
+
+    <div class="card col-4">
+      <h2>概率分布 — 上涨 / 横盘 / 下跌</h2>
+      <div class="probbar">
+        <div class="pb-up" style="width:41%;">上涨 41%</div>
+        <div class="pb-flat" style="width:23%;">横盘 23%</div>
+        <div class="pb-down" style="width:36%;">下跌 36%</div>
+      </div>
+      <div class="point">概率加权点位:<b>标普500 ~7,390</b><br/><span style="font-size:11px;">先验为56 / 14 / 30 · 仓位拥挤+CPI二元风险将质量向横盘/下跌偏移</span></div>
+      <div style="margin-top:14px; font-size:12px; color:var(--muted);">
+        预测区间:<b style="color:var(--text); font-family:'SF Mono',monospace;">7,320 – 7,460</b><br/>
+        方向判断:<b style="color:var(--green);">上涨</b>(多数派;较横盘/下跌信心薄弱)
+      </div>
+    </div>
+  </div>
+
+  <!-- BIGGEST RISK -->
+  <div class="grid">
+    <div class="card risk col-12">
+      <h2>最大单一风险</h2>
+      <div class="level"><span class="down">周二核心CPI偏热,重新定价美联储路径</span></div>
+      <div style="font-size:13px;">
+        传导机制:核心CPI环比 ≥ 0.35%(≥ 2.9% 同比)→ 10年期收益率+10–15bp → 标普500下跌1.8% 至 2.5%。富国证券是经济学家中已明确预警的异常值;若4月能源向核心服务的传导显现,数据将清晰突破阈值。该判断可于周二8:30(美东时间)即时证伪。
+      </div>
+      <div class="threshold">阈值 · 核心CPI环比 ≥ 0.35%(≥ 2.9% 同比) · 预期标普500影响 -1.8% 至 -2.5%</div>
+
+      <div class="secondary">
+        <b style="color:var(--text);">次要风险:</b>伊朗/霍尔木兹再度升级 — 在上周阿联酋遭导弹袭击及美军向伊朗油轮开火后,停火脆弱。霍尔木兹再度关闭或油价相关头条 → 布伦特冲击$115+ → 标普500下跌1.5% 至 2%,通过通胀预期+避险买盘实现。关注:伊朗/伊朗革命卫队任何声明;新的油轮事件;美军部署消息。
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <div class="footer-note">
-      Data sourced from FactSet Earnings Insight, FRED (St. Louis Fed), CBOE VIX, Reuters, Fortune, Motley Fool, Polymarket. This dashboard is for informational and analytical purposes only — not financial advice. All figures as of May 5, 2026. Key updates: Iran ceasefire confirmed, S&P/Nasdaq new ATH, AMD +33% revenue, Nvidia China revenue = 0, SaaSpocalypse deepening.
-    </div>
-    <button class="refresh-btn" onclick="simulateRefresh()">
-      <span id="refresh-icon">↻</span> Refresh
-    </button>
+    方法 · 遵循CLAUDE.md工作流。先验锚定56/14/30。偏空方向偏离先验依据:NAAIM 96.67、连涨6周、7,400处Gamma钉住、CPI二元风险、霍尔木兹尾部;偏多方向依据:高收益债利差279bp、布伦特当周-7%、克利夫兰Nowcast偏凉、本周无Mag-7风险。预测桶评分(Brier)将于下周日填入。
   </footer>
 
 </div>
-
-<script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-
-const INDICATORS = [
-  {
-    rank: 1,
-    name: "Capex vs. Free Cash Flow Divergence",
-    short: "Hyperscaler FCF crush",
-    status: "yellow",
-    current: "$725B capex",
-    currentShort: "$725B",
-    threshold: "2+ quarters FCF compression",
-    barPct: 65,
-    historical: "WorldCom/Cisco capex overbuild 1999–2000 preceded 78% Nasdaq crash. Telco fiber overbuild left $1T in stranded assets.",
-    currentDetail: "Amazon FCF collapsed from $26B to $1.2B YoY. Microsoft, Meta also compressing. Alphabet the lone FCF compounder (Cloud ROI proven). The gap between GAAP earnings and cash generation is widening.",
-    redFlag: "Two consecutive quarters of FCF decline across 3+ hyperscalers, combined with decelerating cloud revenue growth. Watch for Nvidia guidance cuts as upstream demand signal.",
-    source: "https://insight.factset.com",
-    sourceLabel: "FactSet Earnings Insight (weekly)",
-    frequency: "QUARTERLY — each earnings"
-  },
-  {
-    rank: 2,
-    name: "Shiller CAPE Ratio",
-    short: "Cyclically Adjusted P/E",
-    status: "red",
-    current: "~39×",
-    currentShort: "~39×",
-    threshold: "Alert at >42×",
-    barPct: 87,
-    historical: "Peaked at 44× in March 2000 (dot-com), ~31 in 1929. Readings above 30× historically produce negative or very poor 10-year real returns. Long-term average: ~17×.",
-    currentDetail: "At ~39×, we are roughly 12% below the 2000 peak. Only seen at these levels twice before: eve of 1929 crash and the dot-com bubble. The AI earnings growth partially justifies the premium — but it provides little margin for error.",
-    redFlag: "CAPE above 42× combined with downward earnings revisions would signal the final blow-off stage. A sudden earnings miss at this multiple means rapid multiple compression.",
-    source: "https://multpl.com/shiller-pe",
-    sourceLabel: "multpl.com — Shiller PE (monthly)",
-    frequency: "MONTHLY — check after CPI/jobs"
-  },
-  {
-    rank: 3,
-    name: "Market Concentration (Mag 7 Weight)",
-    short: "Top 7 = ~33% of S&P 500",
-    status: "red",
-    current: "~33%",
-    currentShort: "33%",
-    threshold: "Alert if breadth fails on new highs",
-    barPct: 82,
-    historical: "By late 1999, top-10 Nasdaq names exceeded 40% of index weight. When they rolled over (Cisco, Intel, MSFT), no diversified support remained. The 2000–2002 bear took Nasdaq down 78%.",
-    currentDetail: "Mag 7 (AAPL, MSFT, GOOGL, AMZN, META, NVDA, TSLA) control ~33% of S&P 500. A single large-cap miss can move the index materially. Breadth is narrowing — non-AI sectors underperforming on new highs is the classic warning.",
-    redFlag: "S&P 500 hitting all-time highs while fewer than 50% of stocks are above their 200-day moving averages. Or two Mag 7 names cutting guidance in the same week.",
-    source: "https://slickcharts.com/sp500/components",
-    sourceLabel: "Slickcharts.com — component weights",
-    frequency: "WEEKLY — check breadth vs. index"
-  },
-  {
-    rank: 4,
-    name: "VIX / Volatility Complacency",
-    short: "Fear gauge + short-vol crowding",
-    status: "yellow",
-    current: "15.20",
-    currentShort: "15.20",
-    threshold: "Danger if VIX returns to <12",
-    barPct: 45,
-    historical: "VIX hit sub-11 in early 2018 before Volmageddon — doubled in one day, wiped inverse-vol ETFs, caused 10% S&P correction in 2 weeks. Institutional short-vol strategies crowded the same way in April 2026.",
-    currentDetail: "VIX at ~15.2 today (May 5), falling from 17 on Iran ceasefire news. Still in a healthy range (15–22). The April low of 10.5 was dangerous; current level correctly prices in residual geopolitical risk. Watch for a secondary collapse below 12 if ceasefire euphoria overpowers fundamentals.",
-    redFlag: "VIX below 12 for more than 3 consecutive weeks, combined with record put/call ratio lows (CBOE equity P/C below 0.55). The 0DTE options proliferation makes sudden spikes more violent.",
-    source: "https://cboe.com/tradable-products/vix/",
-    sourceLabel: "CBOE VIX — daily close",
-    frequency: "DAILY — morning check"
-  },
-  {
-    rank: 5,
-    name: "Iran War / Oil Shock (Stagflation Risk)",
-    short: "Macro exogenous trigger",
-    status: "yellow",
-    current: "WTI ~$96",
-    currentShort: "$96 WTI",
-    threshold: "Danger if ceasefire breaks & oil >$120",
-    barPct: 55,
-    historical: "1973–74 oil shock → 45% S&P bear market. 1990 Gulf War → 20% correction. 2022 Russia/Ukraine → 25% S&P decline. Energy shocks compress corporate margins, lift inflation, and handcuff the Fed simultaneously.",
-    currentDetail: "🟡 UPDATED (May 5): US-Iran ceasefire confirmed holding. WTI crude dropped from ~$107 to ~$96. Stagflation risk is easing but not eliminated — ceasefire remains fragile. AI data centers' energy cost headwind is reducing. March CPI +0.9% monthly still on record; Fed needs 2+ months of cooling data before cutting.",
-    redFlag: "Ceasefire breaks — oil surges back above $115. Sustained Brent above $120 for 4+ weeks. Airline capacity cuts accelerating. Fed minutes showing rate hike discussion.",
-    source: "https://eia.gov/petroleum/",
-    sourceLabel: "EIA — weekly petroleum report (Wednesdays)",
-    frequency: "WEEKLY — every Wednesday 10:30am ET"
-  },
-  {
-    rank: 6,
-    name: "Fed Leadership & Policy Uncertainty",
-    short: "Powell exit, Warsh transition",
-    status: "yellow",
-    current: "4 dissents",
-    currentShort: "4 dissents",
-    threshold: "Watch for hawkish Warsh signal",
-    barPct: 55,
-    historical: "1979 Volcker transition → bond market crash, deep recession. 2013 'taper tantrum' (Bernanke hint) → 10% correction in days. Central bank leadership changes inject policy uncertainty that markets price as a risk premium.",
-    currentDetail: "Powell's chair term ends May 15. Kevin Warsh nomination pending Senate confirmation. April FOMC had 4 dissents — most since October 1992. Three voted to remove easing bias; one (Miran) voted for immediate cut. Maximum internal disagreement at a critical juncture.",
-    redFlag: "Warsh makes a public statement signaling tolerance for higher rates or reduced Fed independence. Any hint of rate hike in the first 60 days of his tenure. FOMC minutes showing majority hawkish shift.",
-    source: "https://federalreserve.gov/monetarypolicy/fomccalendars.htm",
-    sourceLabel: "Fed.gov — FOMC calendar & minutes",
-    frequency: "MEETING-BY-MEETING — June 16–17 next"
-  },
-  {
-    rank: 7,
-    name: "AI Monetization Gap (ROI Evidence)",
-    short: "Capex-to-revenue conversion",
-    status: "yellow",
-    current: "Mixed",
-    currentShort: "Mixed",
-    threshold: "Red if 2+ hyperscalers miss cloud targets",
-    barPct: 58,
-    historical: "1999 dot-com: companies spent billions on infrastructure with no revenue model. The break came when analysts began asking 'when does this become a business?' Cisco's first guidance cut triggered the unwind.",
-    currentDetail: "Alphabet proving Cloud ROI (63% growth, $460B backlog — clear winner). Microsoft Copilot at 20M seats — growing but not ChatGPT-scale. Amazon AWS strong but FCF destroyed. Meta ROI opaque. The market is rewarding proof-of-ROI (GOOGL +34% in April) and punishing uncertainty (META -6% initial reaction to capex guide).",
-    redFlag: "A quarter where Azure or AWS growth decelerates below 20% while capex guidance remains elevated. Or Microsoft Copilot seat growth flattening below 3M new seats/quarter. Enterprise AI cancellations reported by any major software vendor.",
-    source: "https://insight.factset.com",
-    sourceLabel: "FactSet quarterly earnings commentary",
-    frequency: "QUARTERLY — each Mag 7 earnings"
-  },
-  {
-    rank: 8,
-    name: "Nvidia Semiconductor Cycle Position",
-    short: "The Cisco proxy of 2026",
-    status: "yellow",
-    current: "~$208, $4.5T cap",
-    currentShort: "~$199",
-    threshold: "Watch gross margin < 65%",
-    barPct: 72,
-    historical: "Cisco peaked at $82 in March 2000 with a 100× P/E, lost 86% by 2002 as telco capex collapsed. Nvidia FY2026 revenue of $216B (+65%) is the closest analog. ASIC competition (Google TPU, Amazon Trainium) rising to 27.8% of AI server shipments.",
-    currentDetail: "🚨 NEW (May 5): CEO Jensen Huang confirmed Nvidia's China market share has fallen to ZERO following export restrictions — a major revenue headwind not previously priced in. Blackwell sold out through mid-2026 but Vera Rubin delayed ~one quarter. Stock at ~$199, down from highs. May earnings report is the key event.",
-    redFlag: "May earnings: data center revenue growth below 20% YoY, or gross margin below 65%. China zero revenue combined with Rubin delay = potential H2 2026 demand gap. Any hyperscaler shifting primary workloads to in-house ASICs.",
-    source: "https://investor.nvidia.com",
-    sourceLabel: "Nvidia IR — next report late May 2026",
-    frequency: "QUARTERLY — key May report coming"
-  },
-  {
-    rank: 9,
-    name: "Earnings Quality vs. Stock-Based Comp",
-    short: "GAAP beats vs. FCF reality",
-    status: "yellow",
-    current: "84% beat rate",
-    currentShort: "84% beat",
-    threshold: "Alert if beat rate drops to <75%",
-    barPct: 45,
-    historical: "1999–2000: revenue beats masked zero cash generation in most dot-com names. WorldCom inflated revenue via accounting fraud. The GAAP-to-FCF divergence is a reliable late-cycle signal that appears 1–3 quarters before the break.",
-    currentDetail: "84% EPS beat rate is the highest since Q1 2021 — a green signal on the surface. But strip out Mag 7 SBC (stock-based compensation exceeds $50B/yr combined) and adjust for capex-inflated depreciation, and real FCF quality is meaningfully lower. Amazon's $1.2B FCF vs. $26B prior year is the starkest example.",
-    redFlag: "EPS beat rate drops below 75% (5-yr average) for two consecutive quarters. Or if aggregate EPS beats while aggregate revenue misses — a sign of cost-cutting rather than revenue growth.",
-    source: "https://insight.factset.com",
-    sourceLabel: "FactSet Earnings Insight — every Friday",
-    frequency: "WEEKLY during earnings, monthly off-season"
-  },
-  {
-    rank: 10,
-    name: "Equity Risk Premium (ERP)",
-    short: "Stocks vs. risk-free Treasuries",
-    status: "red",
-    current: "Negative ERP",
-    currentShort: "Negative",
-    threshold: "Danger at ERP < 0 sustained",
-    barPct: 80,
-    historical: "A negative ERP (equities yield less than risk-free bonds) is extremely rare. It appeared briefly in 1999 and lasted until the dot-com crash. It also appeared in Japan pre-1989 crash. When stocks offer no risk premium over T-bills, the only buyers are pure momentum players.",
-    currentDetail: "For the first time in over two decades, the ERP has turned negative — investors receive no additional return for the risk of holding equities over Treasuries. With the 10-yr yield near 4.3% and the S&P earnings yield around 4.0–4.2% (forward P/E of ~21×), the math clearly disfavors equities on a risk-adjusted basis.",
-    redFlag: "ERP remaining negative for more than 2 consecutive months. Or 10-yr yield rising above 4.75% while the S&P continues hitting highs — this implies the market is ignoring the risk-free alternative.",
-    source: "https://fred.stlouisfed.org/series/DGS10",
-    sourceLabel: "FRED — 10yr Treasury yield + FactSet forward P/E",
-    frequency: "WEEKLY — calculate manually each Friday"
-  }
-];
-
-const CHECKLIST_ITEMS = [
-  { title: "Check VIX daily close", desc: "Log in spreadsheet. Alert if <12 or >30.", freq: "DAILY", key: "vix" },
-  { title: "Read FactSet Earnings Insight", desc: "Forward P/E, beat rate, earnings revisions direction.", freq: "EVERY FRIDAY", key: "factset" },
-  { title: "Check EIA weekly oil report", desc: "WTI/Brent. Alert if Brent >$130.", freq: "EVERY WEDNESDAY", key: "eia" },
-  { title: "Monitor CBOE put/call ratio", desc: "Equity-only P/C. Alert if <0.55 (excess bullishness).", freq: "DAILY", key: "pcr" },
-  { title: "Calc Equity Risk Premium", desc: "(1 / Forward P/E) minus 10yr yield. Alert if negative.", freq: "EVERY FRIDAY", key: "erp" },
-  { title: "Check S&P breadth (A/D line)", desc: "% of S&P 500 above 200dma. Alert if index makes high while breadth falls.", freq: "WEEKLY", key: "breadth" },
-  { title: "Update Shiller CAPE", desc: "multpl.com. Alert if approaching 42×.", freq: "MONTHLY", key: "cape" },
-  { title: "Review hyperscaler FCF", desc: "After each earnings. Track Amazon / Microsoft FCF vs. capex.", freq: "QUARTERLY", key: "fcf" },
-  { title: "Check FINRA margin debt", desc: "Monthly report. Alert if new all-time high while market stagnates.", freq: "MONTHLY", key: "margin" },
-  { title: "Track Nvidia gross margin", desc: "In earnings. Alert if <65% or data center growth <20% YoY.", freq: "QUARTERLY", key: "nvda" },
-  { title: "Monitor Fed communications", desc: "FOMC minutes, Fed speeches. Alert for rate hike language.", freq: "EVERY 6 WEEKS", key: "fed" },
-  { title: "Check Iran war / oil headlines", desc: "Escalation = immediate red. Iran ceasefire = green. Follow EIA + Reuters.", freq: "DAILY", key: "iran" },
-];
-
-// ── STATE ──────────────────────────────────────────────────────────────────────
-const checkState = {};
-
-// ── RENDER INDICATORS ──────────────────────────────────────────────────────────
-function renderIndicators() {
-  const container = document.getElementById('indicators-list');
-  container.innerHTML = '';
-  INDICATORS.forEach((ind, i) => {
-    const row = document.createElement('div');
-    row.className = 'indicator-row';
-    row.id = `ind-${i}`;
-    row.innerHTML = `
-      <div class="indicator-main" onclick="toggleExpand(${i})">
-        <div class="rank">${ind.rank}</div>
-        <div class="indicator-name">
-          <strong>${ind.name}</strong>
-          <span>${ind.short}</span>
-        </div>
-        <div class="bar-col">
-          <div class="bar-track"><div class="bar-fill ${ind.status}" style="width:${ind.barPct}%"></div></div>
-          <div class="bar-label">Risk: ${ind.barPct}%</div>
-        </div>
-        <div class="indicator-value-col">
-          <div class="current-val ${ind.status}">${ind.currentShort}</div>
-          <div class="threshold-val">⚡ ${ind.threshold}</div>
-        </div>
-        <div class="status-badge ${ind.status}">${ind.status === 'green' ? '● LOW' : ind.status === 'yellow' ? '● CAUTION' : '● HIGH'}</div>
-      </div>
-      <div class="indicator-detail">
-        <div class="detail-block">
-          <h4>Historical precedent</h4>
-          <p>${ind.historical}</p>
-        </div>
-        <div class="detail-block">
-          <h4>Current status — May 2026</h4>
-          <p>${ind.currentDetail}</p>
-        </div>
-        <div class="detail-block">
-          <h4>Red flag threshold</h4>
-          <p class="highlight">${ind.redFlag}</p>
-          <a href="${ind.source}" target="_blank" rel="noopener" class="data-source-link">↗ ${ind.sourceLabel}</a>
-          <div class="check-freq" style="margin-top:8px;">${ind.frequency}</div>
-        </div>
-      </div>
-    `;
-    container.appendChild(row);
-  });
-}
-
-function toggleExpand(i) {
-  const row = document.getElementById(`ind-${i}`);
-  row.classList.toggle('expanded');
-}
-
-// ── RENDER CHECKLIST ──────────────────────────────────────────────────────────
-function renderChecklist() {
-  const grid = document.getElementById('checklist-grid');
-  grid.innerHTML = '';
-  CHECKLIST_ITEMS.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'check-item' + (checkState[item.key] ? ' checked' : '');
-    div.onclick = () => toggleCheck(item.key, div);
-    div.innerHTML = `
-      <div class="checkbox"><span class="checkbox-tick">✓</span></div>
-      <div class="check-content">
-        <div class="check-title">${item.title}</div>
-        <div class="check-desc">${item.desc}</div>
-        <div class="check-freq">${item.freq}</div>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-function toggleCheck(key, el) {
-  checkState[key] = !checkState[key];
-  el.classList.toggle('checked', checkState[key]);
-  if (checkState[key]) addLog(`Marked complete: ${CHECKLIST_ITEMS.find(i=>i.key===key)?.title}`, 'green');
-}
-
-// ── LAST UPDATED ──────────────────────────────────────────────────────────────
-document.getElementById('live-time').textContent = 'May 5, 2026, 06:00 PM';
-
-// ── LOG ───────────────────────────────────────────────────────────────────────
-const INIT_LOGS = [
-  { msg: "S&P 500 & Nasdaq hit NEW ALL-TIME HIGHS — AI chip stocks surge", tag: "yellow", time: "May 05" },
-  { msg: "US-Iran ceasefire confirmed holding — oil drops to ~$96/bbl", tag: "green", time: "May 05" },
-  { msg: "AMD Q1 earnings: revenue +33% YoY — AI chip demand robust", tag: "green", time: "May 05" },
-  { msg: "Nvidia China market share = ZERO after export ban (Jensen Huang)", tag: "red", time: "May 05" },
-  { msg: "Philadelphia Semiconductor Index hits record high", tag: "yellow", time: "May 05" },
-  { msg: "SaaSpocalypse: Salesforce & ServiceNow each -30% YTD", tag: "red", time: "May 04" },
-  { msg: "Capital Economics: 'AI bubble has already burst in SaaS sector'", tag: "red", time: "May 04" },
-  { msg: "S&P 500 Q1 EPS growth: +28% YoY — strongest since 2021", tag: "green", time: "May 01" },
-  { msg: "Mag 7 Q1 2026 earnings complete — AI capex $725B confirmed", tag: "red", time: "May 01" },
-  { msg: "Fed holds at 3.5–3.75% — 4 dissents (most since Oct 1992)", tag: "yellow", time: "Apr 29" },
-  { msg: "Alphabet Cloud +63% — strongest ROI signal this cycle", tag: "green", time: "Apr 29" },
-  { msg: "Amazon FCF collapses: $1.2B vs $26B year-ago", tag: "red", time: "Apr 29" },
-];
-
-function renderInitLogs() {
-  const body = document.getElementById('log-body');
-  INIT_LOGS.forEach(l => {
-    const div = document.createElement('div');
-    div.className = 'log-entry';
-    div.innerHTML = `<span class="log-time">${l.time}</span><span class="log-msg">${l.msg}</span><span class="log-tag ${l.tag}">${l.tag.toUpperCase()}</span>`;
-    body.appendChild(div);
-  });
-}
-
-function addLog(msg, tag) {
-  const body = document.getElementById('log-body');
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  const div = document.createElement('div');
-  div.className = 'log-entry';
-  div.innerHTML = `<span class="log-time">${time}</span><span class="log-msg">${msg}</span><span class="log-tag ${tag}">${tag.toUpperCase()}</span>`;
-  body.insertBefore(div, body.firstChild);
-  setTimeout(() => div.classList.remove('flash'), 600);
-  div.classList.add('flash');
-}
-
-// ── NEEDLE ────────────────────────────────────────────────────────────────────
-// -90 = far left (safe), +90 = far right (crash)
-// current risk score ~6.4/10 → about +22deg
-function setNeedle(score) {
-  const deg = -90 + (score / 10) * 180;
-  document.getElementById('needle').style.transform = `rotate(${deg}deg)`;
-}
-
-// ── REFRESH SIMULATION ────────────────────────────────────────────────────────
-function simulateRefresh() {
-  const icon = document.getElementById('refresh-icon');
-  icon.classList.add('spin');
-  addLog('Manual refresh triggered — recalculating signals', 'yellow');
-  setTimeout(() => {
-    icon.classList.remove('spin');
-    addLog('All signals updated — no status changes detected', 'green');
-  }, 1800);
-}
-
-// ── COLLAPSIBLE SECTIONS ──────────────────────────────────────────────────────
-
-function toggleSection(id) {
-  const body = document.getElementById(id);
-  const head = body.previousElementSibling;
-  const isOpen = body.classList.toggle('open');
-  head.classList.toggle('open', isOpen);
-  head.setAttribute('aria-expanded', isOpen);
-}
-
-// ── MACRO SNAPSHOT TOOLTIPS ───────────────────────────────────────────────────
-
-const MACRO_TIPS = {
-  sp500: {
-    label: 'S&P 500 Index',
-    what: 'Market-cap-weighted index of 500 large US companies — the primary benchmark for US equity health and investor sentiment.',
-    why: 'A fast-rising index driven by multiple expansion rather than earnings is the core bubble signal. When gains concentrate in 7 AI names, any single miss cascades across the entire index.',
-    target: 'Watch for a rally above 8,000 with narrowing breadth (fewer than 50% of stocks above their 200-day MA). A drop below 6,500 would confirm a correction.'
-  },
-  cape: {
-    label: 'Shiller CAPE Ratio',
-    what: '10-year inflation-adjusted P/E — smooths economic cycles to reveal true long-horizon valuation, developed by Nobel laureate Robert Shiller.',
-    why: 'The most reliable long-term bubble detector. Dot-com peak was 44×; 1929 was ~31×. At 39× we are in the top 2% of all-time readings, historically implying very poor 10-year forward returns.',
-    target: 'Historical avg ~17×. Warning >30×. Danger zone >35×. Red flag >40×. Reversion to 25× requires either 35% earnings growth or a 35% price drop — historically the latter dominates.'
-  },
-  fwdpe: {
-    label: 'Forward P/E',
-    what: 'Current price divided by next-12-month consensus EPS estimates. Unlike CAPE, this reflects near-term analyst expectations.',
-    why: 'Elevated forward P/E prices in perfection. At 20.9× (vs. 18.9× historical average), any earnings miss — especially AI capex ROI disappointments — causes outsized multiple compression.',
-    target: 'Historical avg 18.9×. Fairly valued 18–20×. Stretched >21×. Watch for H2 2026 earnings revisions that would push the implied P/E above 23×.'
-  },
-  vix: {
-    label: 'VIX — Fear Index',
-    what: 'CBOE Volatility Index measures expected 30-day S&P 500 volatility derived from options pricing. Known as the market\'s "fear gauge."',
-    why: 'Dangerously low VIX signals investor complacency — a hallmark of late-stage bubbles. The April 2026 dip to 10.5 was a 7-year low. Short-vol crowding unwinds violently when volatility spikes.',
-    target: 'Healthy range 15–22. Complacency zone <13 (short-vol unwind risk). Fear zone >30. Crisis >40. Current 17 is recovering to a healthy level.'
-  },
-  wti: {
-    label: 'WTI Crude Oil',
-    what: 'West Texas Intermediate benchmark crude price — a direct input into global inflation, consumer spending, and corporate margins.',
-    why: 'Oil shocks trigger stagflation: the Fed cannot cut rates even as growth slows, compressing tech multiples from both ends — higher discount rates and weaker consumer. The Iran war adds ~$25–30/bbl.',
-    target: 'Benign below $85. Elevated $85–100. Stagflation risk above $100. Recession risk if sustained above $120 for 2+ months.'
-  },
-  fedrate: {
-    label: 'Federal Funds Rate',
-    what: 'The Fed\'s benchmark short-term interest rate set by the FOMC — determines the cost of borrowing across the entire economy.',
-    why: 'AI stocks are long-duration assets. Higher rates shrink the present value of distant future cash flows, directly compressing multiples. Rate cuts are the single biggest AI valuation re-rating catalyst.',
-    target: 'Bullish below 3.0% and cutting. Neutral 3.0–3.75% on hold. Headwind above 4.0%. Any surprise hike would be a significant negative shock to AI valuations.'
-  },
-  capex: {
-    label: 'Hyperscaler AI Capex',
-    what: '2026 AI infrastructure spend: Microsoft $80B, Google $75B, Amazon $105B, Meta ~$65B. This is the demand foundation for Nvidia and the entire AI supply chain.',
-    why: 'This $725B justifies Nvidia\'s $3T+ valuation and the AI ecosystem. If cloud AI monetization (Azure AI, AWS Bedrock, Google Workspace) does not deliver ROI, capex gets cut — cascading down to chips and data centers.',
-    target: 'Green: guidance maintained or raised. Yellow: softening language on earnings calls. Red: any single-company cut >5% from stated 2026 guidance. Watch July 2026 earnings closely.'
-  },
-  eps: {
-    label: 'S&P 500 EPS Growth',
-    what: 'Year-over-year blended earnings per share growth for the S&P 500 per FactSet consensus — the fundamental earnings engine behind index valuation.',
-    why: 'Earnings growth is what ultimately justifies elevated valuations. At +21.3%, the market expects exceptional AI-driven productivity. A miss with CAPE at 39× forces rapid multiple compression.',
-    target: 'Supportive above 15%. Concerning if revised down to 10–15%. Dangerous below 10% at current CAPE. Track FactSet Earnings Insight weekly for estimate drift.'
-  }
-};
-
-let activeMacroTip = null;
-
-function showMacroTip(key, btn) {
-  const tip = document.getElementById('macro-tip');
-  const data = MACRO_TIPS[key];
-  if (!data) return;
-  if (activeMacroTip === key && tip.classList.contains('active')) {
-    hideMacroTip();
-    return;
-  }
-  tip.innerHTML = `
-    <div class="macro-tip-title">${data.label}</div>
-    <div class="macro-tip-row">
-      <div class="macro-tip-lbl">What it is</div>
-      <div class="macro-tip-txt">${data.what}</div>
-    </div>
-    <div class="macro-tip-row">
-      <div class="macro-tip-lbl">Why track for AI bubble</div>
-      <div class="macro-tip-txt">${data.why}</div>
-    </div>
-    <div class="macro-tip-row">
-      <div class="macro-tip-lbl">Watch level</div>
-      <div class="macro-tip-txt">${data.target}</div>
-    </div>
-  `;
-  document.querySelectorAll('.macro-info-btn.active').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const rect = btn.closest('.macro-card').getBoundingClientRect();
-  const tipW = 300;
-  let left = rect.left;
-  let top = rect.bottom + 8;
-  if (left + tipW > window.innerWidth - 12) left = window.innerWidth - tipW - 12;
-  if (left < 12) left = 12;
-  if (top + 230 > window.innerHeight - 12) top = rect.top - 230 - 8;
-  tip.style.left = left + 'px';
-  tip.style.top = top + 'px';
-  tip.classList.add('active');
-  activeMacroTip = key;
-}
-
-function hideMacroTip() {
-  document.getElementById('macro-tip').classList.remove('active');
-  document.querySelectorAll('.macro-info-btn.active').forEach(b => b.classList.remove('active'));
-  activeMacroTip = null;
-}
-
-// ── INIT ──────────────────────────────────────────────────────────────────────
-renderIndicators();
-renderChecklist();
-renderInitLogs();
-setTimeout(() => setNeedle(6.1), 500);
-document.addEventListener('click', e => {
-  if (!e.target.closest('.macro-info-btn') && !e.target.closest('#macro-tip')) hideMacroTip();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') hideMacroTip();
-  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('section-head')) {
-    e.preventDefault();
-    toggleSection(e.target.nextElementSibling.id);
-  }
-});
-window.addEventListener('scroll', hideMacroTip, { passive: true });
-</script>
-<div id="macro-tip" class="macro-tip" role="tooltip"></div>
 </body>
 </html>
