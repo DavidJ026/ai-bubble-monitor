@@ -102,6 +102,33 @@
   .sig-val { font-family: var(--mono); font-size: 12px; font-weight: 600; }
   .sig-dir { font-size: 10px; font-family: var(--mono); }
   .alert-card { background: rgba(96,165,250,0.07); border: 1px solid rgba(96,165,250,0.3); border-radius: 8px; padding: 16px 18px; }
+
+  /* ── 周内波动区间可视化 ── */
+  .iw-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+  .iw-subtitle { font-size: 11px; font-family: var(--mono); color: var(--muted); }
+  .range-track-wrap { position: relative; margin: 0 0 8px 0; }
+  .range-scale { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 6px; }
+  .range-track { position: relative; height: 56px; background: var(--bg3); border-radius: 6px; overflow: visible; }
+  .range-fill-iw { position: absolute; top: 8px; height: 16px; background: rgba(251,191,36,0.18); border: 1px solid rgba(251,191,36,0.5); border-radius: 3px; }
+  .range-fill-eow { position: absolute; top: 32px; height: 16px; background: rgba(96,165,250,0.18); border: 1px solid rgba(96,165,250,0.5); border-radius: 3px; }
+  .range-label-iw { position: absolute; top: 8px; height: 16px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--yellow); white-space: nowrap; pointer-events: none; }
+  .range-label-eow { position: absolute; top: 32px; height: 16px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--blue); white-space: nowrap; pointer-events: none; }
+  .range-cursor { position: absolute; top: 4px; bottom: 4px; width: 2px; background: var(--accent); border-radius: 2px; }
+  .range-cursor-label { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; color: var(--accent); white-space: nowrap; font-weight: 700; }
+  .iw-legend { display: flex; gap: 18px; margin: 10px 0 14px; flex-wrap: wrap; }
+  .iw-legend-item { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; }
+  .legend-swatch { width: 24px; height: 10px; border-radius: 2px; }
+  .iw-event-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .iw-event-row:last-child { border-bottom: none; }
+  .iw-event-day { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .iw-event-name { font-size: 12px; }
+  .iw-event-swing { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+  .iw-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .iw-stat { background: var(--bg3); border-radius: 6px; padding: 10px 12px; text-align: center; }
+  .iw-stat .is-label { font-size: 10px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+  .iw-stat .is-val { font-size: 1.1rem; font-family: var(--mono); font-weight: 700; }
+  .warn-card { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.28); border-radius: 8px; padding: 16px 18px; }
+
   footer { text-align: center; color: var(--muted); font-size: 11px; font-family: var(--mono); margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border); }
 </style>
 </head>
@@ -218,6 +245,97 @@
     <div class="pe-label">概率加权点估值</div>
     <div class="pe-val">~7,495</div>
     <div class="pe-range">0.55×7,615 + 0.25×7,440 + 0.20×7,246 = 7,495 &nbsp;|&nbsp; 基准区间：7,380–7,680</div>
+  </div>
+</div>
+
+<!-- 周内波动区间 -->
+<div class="section" style="border-color: rgba(251,191,36,0.4);">
+  <div class="iw-header">
+    <div>
+      <div class="section-title" style="margin-bottom:2px;">▌ 周内波动区间 — 预期峰谷振幅</div>
+      <div class="iw-subtitle">本周4个交易日内有3个二元催化剂（伊朗 · 美联储 · 日银），无论周四收盘价如何，周内剧烈震荡不可避免</div>
+    </div>
+  </div>
+
+  <!-- 区间可视化：刻度7,000–7,900（900点跨度）-->
+  <div class="range-track-wrap">
+    <div class="range-scale">
+      <span>7,000</span><span>7,225</span><span>7,450</span><span>7,675</span><span>7,900</span>
+    </div>
+    <div class="range-track">
+      <!-- 周内区间：7,150–7,780 → left:16.7%, width:70% -->
+      <div class="range-fill-iw" style="left:16.7%; width:70%;"></div>
+      <div class="range-label-iw" style="left:16.7%; width:70%;">7,150 ←— 周内预期区间 —→ 7,780</div>
+      <!-- 收盘区间：7,380–7,680 → left:42.2%, width:33.3% -->
+      <div class="range-fill-eow" style="left:42.2%; width:33.3%;"></div>
+      <div class="range-label-eow" style="left:42.2%; width:33.3%;">7,380 ←— 周收盘基准区间 —→ 7,680</div>
+      <!-- 当前价格：7,431 → 47.9% -->
+      <div class="range-cursor" style="left:47.9%;">
+        <div class="range-cursor-label">当前 7,431</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="iw-legend">
+    <div class="iw-legend-item">
+      <div class="legend-swatch" style="background:rgba(251,191,36,0.35); border:1px solid rgba(251,191,36,0.6);"></div>
+      <span style="color:var(--yellow);">周内区间 &nbsp;7,150 – 7,780 &nbsp;（较开盘 ±4.3%）</span>
+    </div>
+    <div class="iw-legend-item">
+      <div class="legend-swatch" style="background:rgba(96,165,250,0.35); border:1px solid rgba(96,165,250,0.6);"></div>
+      <span style="color:var(--blue);">周收盘基准区间 &nbsp;7,380 – 7,680 &nbsp;（较开盘 ±2.0%）</span>
+    </div>
+    <div class="iw-legend-item">
+      <div class="legend-swatch" style="background:var(--accent); border:none; width:4px;"></div>
+      <span style="color:var(--accent);">当前开盘 7,431</span>
+    </div>
+  </div>
+
+  <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">分催化剂震幅估算</div>
+  <div class="iw-event-row">
+    <div class="iw-event-day">周一 6/16</div>
+    <div class="iw-event-name"><strong>伊朗MOU签署（周末催化剂）</strong> — 若周日签署，期货跳空高开；若谈判破裂，跳空低开。纯二元开盘。</div>
+    <div class="iw-event-swing" style="color:var(--yellow);">±1.5% – ±2.5%</div>
+  </div>
+  <div class="iw-event-row">
+    <div class="iw-event-day">周二 6/17</div>
+    <div class="iw-event-name"><strong>日本银行利率决议</strong> — 意外加息将推升日元，引发套息平仓。不加息则小幅缓解。下行风险不对称。</div>
+    <div class="iw-event-swing" style="color:var(--orange);">−1.5% / +0.3%</div>
+  </div>
+  <div class="iw-event-row">
+    <div class="iw-event-day">周三 6/18<br><span style="color:var(--red);font-size:10px;">⚠ 关键</span></div>
+    <div class="iw-event-name"><strong>美联储决议 北京时间凌晨2点 — 沃什点阵图 + 新闻发布会</strong> — 周内最大单日风险。若2026年中位利率超3.75%，10年期国债利率急升，股市快速下跌。若中性或偏鸽，叠加伊朗利好形成双重正向冲击。</div>
+    <div class="iw-event-swing" style="color:var(--red);">±1.5% – ±2.5%</div>
+  </div>
+  <div class="iw-event-row">
+    <div class="iw-event-day">周四 6/19<br><span style="color:var(--accent);font-size:10px;">周收盘</span></div>
+    <div class="iw-event-name"><strong>ACN + KR + KMX财报 · 周收盘（朱尼斯节周五休市）</strong> — ACN是企业AI需求风向标。周四收盘即为本周最终价格，无周五交易日修复。</div>
+    <div class="iw-event-swing" style="color:var(--muted);">±0.5% – ±1.0%</div>
+  </div>
+
+  <div class="iw-summary">
+    <div class="iw-stat">
+      <div class="is-label">预期周内最低点</div>
+      <div class="is-val red">7,150</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">伊朗崩裂 + 日银加息 + 沃什鹰派</div>
+    </div>
+    <div class="iw-stat">
+      <div class="is-label">周内振幅</div>
+      <div class="is-val yellow">630点</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">较开盘峰谷振幅 ±4.3%</div>
+    </div>
+    <div class="iw-stat">
+      <div class="is-label">预期周内最高点</div>
+      <div class="is-val green">7,780</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">伊朗签署 + 美联储中性 + VIX→15</div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;" class="warn-card">
+    <div style="font-size:11px;font-family:var(--mono);color:var(--yellow);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">⚡ 周内高波动性警示</div>
+    <div style="font-size:12px;line-height:1.6;color:var(--text);">
+      周内区间（7,150–7,780）<strong>是周收盘基准区间的3倍宽</strong>（7,380–7,680）。伊朗（周一）、日银（周二）、美联储点阵图（周三）三个不相关二元事件各自具备1.5–2.5%的双向冲击能力，集中在一周缩短至4个交易日的周一至周三。<strong>周内区间不是基准情景，而是波动包络。</strong>不要将周收盘目标价用作止损位，而不考虑3–4%的周内最大回撤风险。
+    </div>
   </div>
 </div>
 
