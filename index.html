@@ -35,7 +35,27 @@
     margin: 0 auto;
   }
   h1 { font-family: var(--serif); color: var(--accent); font-size: 1.5rem; margin-bottom: 4px; }
-  .meta { color: var(--muted); font-size: 12px; font-family: var(--mono); margin-bottom: 28px; letter-spacing: 0.04em; }
+  .meta { color: var(--muted); font-size: 12px; font-family: var(--mono); margin-bottom: 18px; letter-spacing: 0.04em; }
+
+  /* ── 研判横幅（方向 + 点估值）── */
+  .call-hero { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; border-radius: 12px; padding: 18px 24px; margin-bottom: 28px; border: 1px solid; position: relative; overflow: hidden; }
+  .call-hero-up { background: linear-gradient(135deg, rgba(52,211,153,0.20), rgba(52,211,153,0.04)); border-color: rgba(52,211,153,0.55); box-shadow: 0 0 26px rgba(52,211,153,0.18); }
+  .call-hero-down { background: linear-gradient(135deg, rgba(248,113,113,0.20), rgba(248,113,113,0.04)); border-color: rgba(248,113,113,0.55); box-shadow: 0 0 26px rgba(248,113,113,0.18); }
+  .call-hero-flat { background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(251,191,36,0.04)); border-color: rgba(251,191,36,0.55); box-shadow: 0 0 26px rgba(251,191,36,0.14); }
+  .ch-dir { display: flex; align-items: center; gap: 10px; }
+  .ch-arrow { font-size: 2.1rem; line-height: 1; }
+  .ch-word { font-family: var(--mono); font-size: 2.3rem; font-weight: 700; letter-spacing: 0.04em; }
+  .call-hero-up .ch-arrow, .call-hero-up .ch-word { color: var(--green); text-shadow: 0 0 14px rgba(52,211,153,0.5); }
+  .call-hero-down .ch-arrow, .call-hero-down .ch-word { color: var(--red); text-shadow: 0 0 14px rgba(248,113,113,0.5); }
+  .call-hero-flat .ch-arrow, .call-hero-flat .ch-word { color: var(--yellow); text-shadow: 0 0 14px rgba(251,191,36,0.5); }
+  .ch-divider { width: 1px; align-self: stretch; background: var(--border); }
+  .ch-point { display: flex; flex-direction: column; gap: 2px; }
+  .ch-plabel { font-size: 10px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .ch-pval { font-family: var(--mono); font-size: 1.85rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+  .ch-pchg { font-size: 0.95rem; font-weight: 700; }
+  .ch-prob { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; }
+  .ch-prob strong { color: var(--text); }
+  @media (max-width: 560px) { .ch-prob { margin-left: 0; width: 100%; text-align: left; } }
   .section { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 16px; }
   .section-title { font-size: 0.65rem; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
   .pm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
@@ -136,6 +156,19 @@
 
 <h1>标普500每周市场研判</h1>
 <div class="meta">2026年6月15日当周 &nbsp;|&nbsp; 生成于2026-06-14（周日） &nbsp;|&nbsp; SPX开盘于 7,431.46 &nbsp;|&nbsp; ⚡ 美联储6月16–17日议息（沃什首秀）· 伊朗谅解备忘录即将签署 · 4个交易日（6月19日朱尼斯节休市）</div>
+
+<div class="call-hero call-hero-up">
+  <div class="ch-dir">
+    <span class="ch-arrow">▲</span>
+    <span class="ch-word">上涨</span>
+  </div>
+  <div class="ch-divider"></div>
+  <div class="ch-point">
+    <div class="ch-plabel">概率加权点估值</div>
+    <div class="ch-pval">~7,495 <span class="ch-pchg green">+0.85%</span></div>
+  </div>
+  <div class="ch-prob"><strong>上涨 62%</strong> · 持平 17% · 下跌 21%<br>基准区间 7,380–7,680</div>
+</div>
 
 <!-- 复盘 -->
 <div class="section">
