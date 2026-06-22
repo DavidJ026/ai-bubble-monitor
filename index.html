@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每周市场研判 — 2026年6月15日当周</title>
+<title>每周市场预判 — 2026年6月22日当周</title>
 <style>
   :root {
     --bg: #0f1117;
@@ -29,7 +29,7 @@
     color: var(--text);
     font-family: var(--sans);
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
     padding: 24px 16px;
     max-width: 900px;
     margin: 0 auto;
@@ -37,7 +37,6 @@
   h1 { font-family: var(--serif); color: var(--accent); font-size: 1.5rem; margin-bottom: 4px; }
   .meta { color: var(--muted); font-size: 12px; font-family: var(--mono); margin-bottom: 18px; letter-spacing: 0.04em; }
 
-  /* ── 研判横幅（方向 + 点估值）── */
   .call-hero { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; border-radius: 12px; padding: 18px 24px; margin-bottom: 28px; border: 1px solid; position: relative; overflow: hidden; }
   .call-hero-up { background: linear-gradient(135deg, rgba(52,211,153,0.20), rgba(52,211,153,0.04)); border-color: rgba(52,211,153,0.55); box-shadow: 0 0 26px rgba(52,211,153,0.18); }
   .call-hero-down { background: linear-gradient(135deg, rgba(248,113,113,0.20), rgba(248,113,113,0.04)); border-color: rgba(248,113,113,0.55); box-shadow: 0 0 26px rgba(248,113,113,0.18); }
@@ -56,12 +55,14 @@
   .ch-prob { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; }
   .ch-prob strong { color: var(--text); }
   @media (max-width: 560px) { .ch-prob { margin-left: 0; width: 100%; text-align: left; } }
+
   .section { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 16px; }
-  .section-title { font-size: 0.65rem; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
+  .section-title { font-size: 0.72rem; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-bottom: 12px; }
+
   .pm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
   .pm-stat { background: var(--bg3); border-radius: 6px; padding: 12px 14px; }
-  .pm-stat .label { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .pm-stat .value { font-size: 1.15rem; font-family: var(--mono); font-weight: 700; }
+  .pm-stat .label { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; letter-spacing: 0.04em; }
+  .pm-stat .value { font-size: 1.1rem; font-family: var(--mono); font-weight: 700; }
   .green { color: var(--green); }
   .yellow { color: var(--yellow); }
   .red { color: var(--red); }
@@ -69,63 +70,89 @@
   .muted { color: var(--muted); }
   .pm-questions { display: grid; gap: 10px; }
   .pm-q { background: var(--bg3); border-radius: 6px; padding: 12px 14px; }
-  .pm-q .qnum { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.1em; }
-  .pm-q .qtext { font-size: 13px; line-height: 1.5; }
-  .tag { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 10px; font-family: var(--mono); font-weight: 700; margin-right: 4px; text-transform: uppercase; }
+  .pm-q .qnum { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; letter-spacing: 0.04em; }
+  .pm-q .qtext { font-size: 13px; line-height: 1.7; }
+  .tag { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 10px; font-family: var(--mono); font-weight: 700; margin-right: 4px; }
   .tag-red { background: rgba(248,113,113,0.15); color: var(--red); }
   .tag-green { background: rgba(52,211,153,0.15); color: var(--green); }
   .tag-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
   .tag-blue { background: rgba(96,165,250,0.12); color: var(--blue); }
   .tag-muted { background: rgba(136,146,164,0.12); color: var(--muted); }
+
   .tape-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .tape-item { background: var(--bg3); border-radius: 6px; padding: 10px 12px; }
-  .tape-item .ti-label { font-size: 10px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+  .tape-item .ti-label { font-size: 10px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.03em; margin-bottom: 3px; }
   .tape-item .ti-val { font-size: 1.05rem; font-family: var(--mono); font-weight: 700; }
   .tape-item .ti-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
   .prob-bar-container { display: flex; flex-direction: column; gap: 8px; }
   .prob-row { display: flex; align-items: center; gap: 10px; }
   .prob-label { font-family: var(--mono); font-size: 12px; width: 50px; text-align: right; }
   .prob-bar-wrap { flex: 1; background: var(--bg3); border-radius: 4px; height: 22px; overflow: hidden; }
   .prob-bar { height: 100%; display: flex; align-items: center; padding-left: 8px; font-family: var(--mono); font-size: 11px; font-weight: 700; border-radius: 4px; }
   .prob-pct { font-family: var(--mono); font-size: 12px; width: 36px; color: var(--muted); }
+
   .branch { border-left: 3px solid; border-radius: 0 6px 6px 0; padding: 12px 14px; margin-bottom: 10px; background: var(--bg3); }
   .branch-a { border-color: var(--green); }
   .branch-b { border-color: var(--blue); }
+  .branch-c { border-color: var(--yellow); }
+  .branch-d { border-color: var(--orange); }
   .branch-e { border-color: var(--red); }
   .branch .bhead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
-  .branch .btitle { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .branch .btitle { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; }
   .branch .bpct { font-family: var(--mono); font-size: 13px; font-weight: 700; }
   .branch .brange { font-family: var(--mono); font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-  .branch .bdesc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .branch .bdesc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
   .risk-card { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; padding: 16px 18px; }
   .risk-card .rh { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
   .risk-card .ricon { font-size: 1.4rem; }
   .risk-card .rtitle { font-size: 1rem; font-weight: 700; color: var(--red); margin-bottom: 3px; }
-  .risk-card .rdesc { font-size: 12px; color: var(--muted); line-height: 1.5; }
-  .risk-threshold { background: rgba(248,113,113,0.12); border-radius: 4px; padding: 8px 12px; font-family: var(--mono); font-size: 12px; margin-top: 10px; }
+  .risk-card .rdesc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .risk-threshold { background: rgba(248,113,113,0.12); border-radius: 4px; padding: 8px 12px; font-family: var(--mono); font-size: 12px; margin-top: 10px; line-height: 1.7; }
   .risk-threshold span { color: var(--red); font-weight: 700; }
-  .cal-row { display: grid; grid-template-columns: 80px 1fr auto; gap: 10px; align-items: start; padding: 9px 0; border-bottom: 1px solid var(--border); }
+
+  .warn-card { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.28); border-radius: 8px; padding: 16px 18px; }
+
+  .cal-row { display: grid; grid-template-columns: 96px 1fr auto; gap: 10px; align-items: start; padding: 9px 0; border-bottom: 1px solid var(--border); }
   .cal-row:last-child { border-bottom: none; }
   .cal-date { font-family: var(--mono); font-size: 11px; color: var(--muted); }
   .cal-event { font-size: 13px; }
   .cal-imp { font-family: var(--mono); font-size: 10px; }
-  .bias-note { background: rgba(246,201,14,0.08); border: 1px solid rgba(246,201,14,0.25); border-radius: 6px; padding: 12px 14px; font-size: 13px; color: var(--text); line-height: 1.6; }
+
+  .bias-note { background: rgba(246,201,14,0.08); border: 1px solid rgba(246,201,14,0.25); border-radius: 6px; padding: 12px 14px; font-size: 13px; color: var(--text); line-height: 1.8; }
   .bias-note strong { color: var(--accent); }
+
   .point-est { text-align: center; padding: 18px; background: var(--bg3); border-radius: 8px; margin-top: 14px; }
-  .point-est .pe-label { font-size: 10px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .point-est .pe-label { font-size: 10px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.06em; margin-bottom: 6px; }
   .point-est .pe-val { font-size: 2rem; font-family: var(--mono); font-weight: 700; color: var(--accent); }
   .point-est .pe-range { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 4px; }
+
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
   .sig-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); gap: 10px; }
   .sig-row:last-child { border-bottom: none; }
-  .sig-name { font-size: 12px; color: var(--muted); }
+  .sig-name { font-size: 12px; color: var(--muted); min-width: 130px; }
   .sig-val { font-family: var(--mono); font-size: 12px; font-weight: 600; }
-  .sig-dir { font-size: 10px; font-family: var(--mono); }
+  .sig-dir { font-size: 11px; font-family: var(--sans); color: var(--muted); text-align: right; }
+
   .alert-card { background: rgba(96,165,250,0.07); border: 1px solid rgba(96,165,250,0.3); border-radius: 8px; padding: 16px 18px; }
 
-  /* ── 周内波动区间可视化 ── */
+  .tail-card { border-radius: 8px; padding: 16px 18px; border: 1px solid; }
+  .tail-green { background: rgba(52,211,153,0.07); border-color: rgba(52,211,153,0.35); }
+  .tail-amber { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.4); }
+  .tail-red { background: rgba(248,113,113,0.09); border-color: rgba(248,113,113,0.45); }
+  .tail-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .tail-state { font-family: var(--mono); font-size: 1.3rem; font-weight: 700; letter-spacing:0.05em; }
+  .tail-gauge { flex:1; height:10px; background:var(--bg3); border-radius:5px; overflow:hidden; }
+  .tail-gauge-fill { height:100%; border-radius:5px; }
+  .tail-prob { font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .tail-signals { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+  .tail-sig { font-size:11px; font-family:var(--sans); padding:6px 9px; border-radius:4px; background:var(--bg3); }
+
   .iw-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
   .iw-subtitle { font-size: 11px; font-family: var(--mono); color: var(--muted); }
+
   .range-track-wrap { position: relative; margin: 0 0 8px 0; }
   .range-scale { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 6px; }
   .range-track { position: relative; height: 56px; background: var(--bg3); border-radius: 6px; overflow: visible; }
@@ -138,173 +165,437 @@
   .iw-legend { display: flex; gap: 18px; margin: 10px 0 14px; flex-wrap: wrap; }
   .iw-legend-item { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; }
   .legend-swatch { width: 24px; height: 10px; border-radius: 2px; }
-  .iw-event-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+
+  .iw-event-row { display: grid; grid-template-columns: 116px 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
   .iw-event-row:last-child { border-bottom: none; }
   .iw-event-day { font-family: var(--mono); font-size: 11px; color: var(--muted); }
   .iw-event-name { font-size: 12px; }
   .iw-event-swing { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+
   .iw-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px; }
   .iw-stat { background: var(--bg3); border-radius: 6px; padding: 10px 12px; text-align: center; }
-  .iw-stat .is-label { font-size: 10px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+  .iw-stat .is-label { font-size: 10px; color: var(--muted); font-family: var(--mono); letter-spacing: 0.03em; margin-bottom: 4px; }
   .iw-stat .is-val { font-size: 1.1rem; font-family: var(--mono); font-weight: 700; }
-  .warn-card { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.28); border-radius: 8px; padding: 16px 18px; }
 
-  footer { text-align: center; color: var(--muted); font-size: 11px; font-family: var(--mono); margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border); }
+  footer { text-align: center; color: var(--muted); font-size: 11px; font-family: var(--mono); margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border); line-height: 1.7; }
 </style>
 </head>
 <body>
 
-<h1>标普500每周市场研判</h1>
-<div class="meta">2026年6月15日当周 &nbsp;|&nbsp; 生成于2026-06-14（周日） &nbsp;|&nbsp; SPX开盘于 7,431.46 &nbsp;|&nbsp; ⚡ 美联储6月16–17日议息（沃什首秀）· 伊朗谅解备忘录即将签署 · 4个交易日（6月19日朱尼斯节休市）</div>
+<h1>标普500 每周市场预判</h1>
+<div class="meta">2026-06-22 当周 &nbsp;|&nbsp; 生成于 2026-06-21（周日） &nbsp;|&nbsp; 标普起点 7,500.58（历史收盘新高） &nbsp;|&nbsp; ⚡ 美光(MU) 周三6/24 · 核心PCE 周五6/26 · 季末再平衡至6/30</div>
 
 <div class="call-hero call-hero-up">
   <div class="ch-dir">
     <span class="ch-arrow">▲</span>
-    <span class="ch-word">上涨</span>
+    <span class="ch-word">看涨</span>
   </div>
   <div class="ch-divider"></div>
   <div class="ch-point">
-    <div class="ch-plabel">概率加权点估值</div>
-    <div class="ch-pval">~7,495 <span class="ch-pchg green">+0.85%</span></div>
+    <div class="ch-plabel">概率加权点位预估</div>
+    <div class="ch-pval">~7,515 <span class="ch-pchg green">+0.19%</span></div>
   </div>
-  <div class="ch-prob"><strong>上涨 62%</strong> · 持平 17% · 下跌 21%<br>基准区间 7,380–7,680</div>
+  <div class="ch-prob"><strong>涨 46%</strong> · 平 24% · 跌 30%<br>基准区间 7,430–7,580 &nbsp;·&nbsp; 低信心</div>
 </div>
 
-<!-- 复盘 -->
+<div class="section" style="border-color: rgba(246,201,14,0.3);">
+  <div class="bias-note">
+    <strong>一句话总结：</strong>主判断为低信心的<strong>缓步上行</strong>——伊朗尾部风险已解除、趋势完好、AI 财报动能强劲；但市场在历史新高处已处超买，正进入季末再平衡，叠加偏鹰的美联储与较厚的 30% 下行尾部（PCE 偏热或美光 AI 指引不及预期），使期望收盘接近持平。 &nbsp; <strong>尾部风险：绿灯 — 未来4周出现 &gt;8% 回撤的概率约 6%。</strong>
+  </div>
+</div>
+
+<!-- ══════════ 复盘 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 任务一 — 复盘：截至2026-06-13当周</div>
+  <div class="section-title">▌ 任务1 — 复盘：截至 2026-06-20 当周</div>
+
   <div class="pm-grid">
-    <div class="pm-stat"><div class="label">预测方向</div><div class="value red">下跌 <span style="font-size:0.75rem;color:var(--muted)">（42%——概率最高区间）</span></div></div>
-    <div class="pm-stat"><div class="label">实际方向</div><div class="value green">上涨 <span style="font-size:0.75rem;color:var(--muted)">+0.65%</span></div></div>
-    <div class="pm-stat"><div class="label">预测区间</div><div class="value blue">7,250 – 7,480</div></div>
-    <div class="pm-stat"><div class="label">实际收盘（6月12日周五）</div><div class="value green">7,431.46 <span class="tag tag-green">区间命中 ✓</span></div></div>
-    <div class="pm-stat"><div class="label">方向命中</div><div class="value red">未命中 ✗ <span style="font-size:0.7rem;color:var(--muted)">（预测下跌，实际上涨）</span></div></div>
-    <div class="pm-stat"><div class="label">布赖尔评分</div><div class="value red">0.57 <span style="font-size:0.7rem;color:var(--muted)">（差——主方向错误）</span></div></div>
+    <div class="pm-stat">
+      <div class="label">预测方向</div>
+      <div class="value green">看涨 <span style="font-size:0.75rem;color:var(--muted)">（62% — 主导分桶）</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">实际方向</div>
+      <div class="value green">上涨 <span style="font-size:0.75rem; color:var(--muted)">+0.93%</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">预测区间</div>
+      <div class="value blue">7,380 – 7,680</div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">实际收盘（6/18 周四）</div>
+      <div class="value green">7,500.58 <span class="tag tag-green">区间内 ✓ · 新高</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">方向命中</div>
+      <div class="value green">命中 ✓ <span style="font-size:0.7rem;color:var(--muted)">（预测涨，实际涨）</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">Brier 分数</div>
+      <div class="value green">0.217 <span style="font-size:0.7rem;color:var(--muted)">（良好 — 本日志中校准最佳）</span></div>
+    </div>
   </div>
+
   <div class="pm-grid" style="margin-bottom:14px;">
-    <div class="pm-stat"><div class="label">核心CPI 5月（对比触发阈值）</div><div class="value green">环比+0.2% / 同比2.9% <span class="tag tag-green">未触发</span></div></div>
-    <div class="pm-stat"><div class="label">整体CPI 5月</div><div class="value yellow">环比+0.5% / 同比4.2% <span class="tag tag-yellow">偏高</span></div></div>
-    <div class="pm-stat"><div class="label">伊朗和平谈判进展</div><div class="value green">谅解备忘录文本已达成 <span class="tag tag-green">牛市惊喜</span></div></div>
-    <div class="pm-stat"><div class="label">WTI原油（6月12日）</div><div class="value green">$85.36 <span style="font-size:0.7rem;color:var(--muted)">↓ -2.68%（和平曙光压油价）</span></div></div>
-    <div class="pm-stat"><div class="label">VIX（6月12日）</div><div class="value yellow">19.44 <span style="font-size:0.7rem;color:var(--muted)">↓ 从21.51</span></div></div>
-    <div class="pm-stat"><div class="label">SpaceX上市（6月12日）</div><div class="value green">首日+19%→$161 <span class="tag tag-green">市值超2万亿</span></div></div>
+    <div class="pm-stat">
+      <div class="label">伊朗/美国协议（6/15）</div>
+      <div class="value green">签署14点谅解备忘录 <span class="tag tag-green">尾部解除</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">FOMC 6/17（沃什首会）</div>
+      <div class="value yellow">维持 3.50–3.75% · 点阵图→3.80% <span class="tag tag-yellow">偏鹰</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">WTI 原油</div>
+      <div class="value green">~$76 <span style="font-size:0.7rem;color:var(--muted)">↓ 周跌8%-10%，霍尔木兹复航</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">VIX（6/18）</div>
+      <div class="value green">18.44 <span style="font-size:0.7rem;color:var(--muted)">↓ 从 19.44</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">10年期收益率</div>
+      <div class="value yellow">4.46% <span style="font-size:0.7rem;color:var(--muted)">≈持平于4.48%；鹰派被吸收</span></div>
+    </div>
+    <div class="pm-stat">
+      <div class="label">AAII 看多（6/18）</div>
+      <div class="value yellow">36.6% <span style="font-size:0.7rem;color:var(--muted)">↑ +6.2pp；低于均值 — 未现狂热</span></div>
+    </div>
   </div>
+
   <div class="pm-questions">
-    <div class="pm-q"><div class="qnum">Q1 — 预测与实际对比</div><div class="qtext">预测概率最高区间为<strong>下跌</strong>（42%），基于6月6日复盘注记，点估值约7,347。实际走势：SPX于本周中段触及50日均线（~7,230），随后周四大涨+1.75%、周五再涨+0.50%，收盘<strong>7,431.46</strong>（周涨幅+0.65%）。区间命中✓（7,250–7,480）。方向判断失误，区间判断正确。</div></div>
-    <div class="pm-q"><div class="qnum">Q2 — 哪些信号对了？哪些错了？</div><div class="qtext"><span class="tag tag-green">正确</span> <strong>AAII看空47.7%</strong>——逆向看多信号如期兑现，前一周去风险后资金重新入场。<br><br><span class="tag tag-green">正确</span> <strong>50日均线~7,230为强支撑</strong>——指数在该位置精准获得买盘。<br><br><span class="tag tag-red">错误</span> <strong>主方向预测为下跌（42%）</strong>——核心风险（CPI≥0.32%环比）未触发，仅+0.2%。风险未触发时，历史先验（56%上涨）强势回归。<br><br><span class="tag tag-red">错误</span> <strong>未充分定价伊朗正面解决概率</strong>——伊朗进展+CPI平稳+NAAIM正常化+AAII逆向=多重利多叠加，明显低估。</div></div>
-    <div class="pm-q"><div class="qnum">Q3 — 最大风险是否触发？</div><div class="qtext"><span class="tag tag-green">未触发</span> 核心CPI≥0.32%环比——实际+0.2%，远低于阈值。风险消除后，市场从7,230（50日均）两日内反弹至7,431。</div></div>
-    <div class="pm-q"><div class="qnum">Q4 — 偏离先验是否合理？</div><div class="qtext">历史先验56/14/30，本次调整为40/18/42（偏空）。<strong>调整依据不充分：</strong>NAAIM已从98回落至79，非极端位置。在NAAIM正常化且AAII逆向看多的背景下，56%上涨先验本应是锚点。</div></div>
-    <div class="pm-q"><div class="qnum">Q5 — 本周应关注的系统性偏差</div><div class="qtext"><strong>规则确认：NAAIM级联下跌周后，若下周命名风险未触发，应回归历史先验（56%上涨）。</strong>本日志3个样本已确认。另：伊朗谈判"即将签署"表述本日志已出现3次，每次均更接近事实。若谅解备忘录于本周日（6月14日）签署，周一将跳空高开+1.5%~+2.5%，应将此纳入基础情景。</div></div>
-  </div>
-</div>
-
-<!-- 行情快照 -->
-<div class="section">
-  <div class="section-title">▌ 任务二 — 预测：2026-06-15当周 | 行情快照</div>
-  <div class="tape-grid">
-    <div class="tape-item"><div class="ti-label">SPX收盘（6月12日）</div><div class="ti-val green">7,431.46</div><div class="ti-sub">周涨+0.65% | 50日均线反弹</div></div>
-    <div class="tape-item"><div class="ti-label">VIX</div><div class="ti-val yellow">19.44</div><div class="ti-sub">↓ 从21.51 | 偏高；对冲仓位在位</div></div>
-    <div class="tape-item"><div class="ti-label">10年期美债收益率</div><div class="ti-val yellow">4.48%</div><div class="ti-sub">↓ 从上周4.55% | 小幅缓和</div></div>
-    <div class="tape-item"><div class="ti-label">WTI原油</div><div class="ti-val green">$85.36</div><div class="ti-sub">↓ 受伊朗和平预期压制</div></div>
-    <div class="tape-item"><div class="ti-label">NAAIM（6月10日）</div><div class="ti-val green">79.27</div><div class="ti-sub">↓ 从98.39 | 中性，重新加仓空间充足</div></div>
-    <div class="tape-item"><div class="ti-label">AAII看空比例</div><div class="ti-val green">47.7%</div><div class="ti-sub">逆向看多信号（>45%触发）</div></div>
-    <div class="tape-item"><div class="ti-label">美元指数</div><div class="ti-val">99.85</div><div class="ti-sub">弱美元利好股市</div></div>
-    <div class="tape-item"><div class="ti-label">50日均线</div><div class="ti-val blue">~7,231</div><div class="ti-sub">本周测试并守住 ✓</div></div>
-    <div class="tape-item"><div class="ti-label">年内高点</div><div class="ti-val">7,620.9</div><div class="ti-sub">6月1日高点；下一阻力位</div></div>
-  </div>
-</div>
-
-<!-- 主叙事 -->
-<div class="section">
-  <div class="section-title">▌ 本周最重要叙事</div>
-  <div class="alert-card">
-    <div style="font-size:1rem; font-weight:700; color:var(--blue); margin-bottom:8px;">🕊️ 伊朗谅解备忘录 + 美联储议息（沃什首秀）</div>
-    <div style="font-size:13px; color:var(--muted); line-height:1.6;">
-      两大催化剂主导4个交易日短周。<strong>（1）伊朗：</strong>巴基斯坦总理6月13日称MOU文本可在"24小时内签署"。若周日签署，周一跳空高开+1.5%~+2.5%，WTI跌至$78–82，VIX压缩至16–17。<strong>（2）美联储：</strong>沃什首次会议，维持利率几成定局（97%），但点阵图与发布会是真正的新信息。鸽派叠加伊朗反弹；鹰派则压制涨幅。节奏：周一伊朗主导，周三下午美联储主导。
+    <div class="pm-q">
+      <div class="qnum">Q1 — 预测 vs. 实际？</div>
+      <div class="qtext">预测<strong>看涨</strong>为主导分桶（62%），点位预估约 7,495。实际：标普升至历史收盘新高 <strong>7,500.58</strong>（周涨 +0.93%，三大指数同创新高）。区间命中 ✓（7,380–7,680）。盘中曾在美联储决议日（6/17，盘中为"新主席任内自1994年以来最差的美联储日"）回落至约 7,405，随后由芯片股带动反弹至周四收盘新高（6/19 六月节休市，使周四成为本周收盘日）。方向与区间双双正确。</div>
+    </div>
+    <div class="pm-q">
+      <div class="qnum">Q2 — 哪些信号对了？哪些错了？</div>
+      <div class="qtext">
+        <span class="tag tag-green">正确</span> <strong>双二元基准情形。</strong>该判断将看涨概率锚定在 62%，逻辑是：当主导风险集是两个互不相关的"触发/不触发"事件时，"两者都不向下冲击"的情形才是主导情形。这是<strong>第2次确认</strong>（继 5/22 英伟达超预期+伊朗停火之后）——该规则已固化。<br><br>
+        <span class="tag tag-green">正确</span> <strong>将伊朗化解作为基准情形</strong>计入而非折价——备忘录于 6/15 签署，油价下跌约 8%–10%。<br><br>
+        <span class="tag tag-green">正确</span> <strong>AI/芯片领导力坚韧</strong>——半导体带动了美联储后的反弹。<br><br>
+        <span class="tag tag-yellow">关注</span> <strong>鹰派美联储被无视。</strong>所命名的风险（沃什 2026 年中值点位高于 3.75%）确实<em>触发</em>了——点阵图转向加息倾向（中值 3.80%，18人中17人认为通胀风险偏上行）——但建模的 −2% 至 −3.5% 冲击并未兑现。动能/AI 趋势压过了宏观鹰派。新增观察项。
+      </div>
+    </div>
+    <div class="pm-q">
+      <div class="qnum">Q3 — 最大风险是否触发？影响是否在区间内？</div>
+      <div class="qtext"><span class="tag tag-yellow">分化</span> 最大风险有两条腿。<strong>伊朗破裂腿（WTI &gt;$93）：未触发</strong>——反而相反；协议签署、油价跌至约 $76。<strong>沃什鹰派腿（2026中值点位 &gt;3.75%）：触发</strong>，但被市场吸收——标普仍收于新高。鹰派点阵图引发了盘中美联储日的冲洗（约 7,405），但在一个交易日内完全收复。净结果：该风险向持续回撤的传导未能成立。</div>
+    </div>
+    <div class="pm-q">
+      <div class="qnum">Q4 — 偏离先验是否合理？</div>
+      <div class="qtext">先验 56/14/30。基于双二元"两者都不触发"逻辑移至 62/17/21。<strong>合理 ✓。</strong>这是日志中校准最好的方向判断（Brier 0.217）。看涨倾向正确且幅度适当；唯一边际批评是下行情形 21% 略微高估了一个事后证明是暂时的鹰派冲洗。</div>
+    </div>
+    <div class="pm-q">
+      <div class="qnum">Q5 — 本周需警惕的系统性偏差</div>
+      <div class="qtext"><strong>新增观察：历史新高处对鹰派美联储的无视。</strong>当前 AI/动能趋势正压过宏观鹰派。在 AI 买盘仍在时，不要本能地押注鹰派美联储的下行情形——但要跟踪<strong>收窄的市场宽度</strong>（约 61% 个股位于 50 日均线上、动能放缓、领涨集中于 AI 与能源）。一旦宽度破位，上行的收益率/加息倾向逆风将开始咬人。同时重新应用<strong>低估持平桶的教训</strong>：在极值处的二元催化周，不要饿着持平桶。</div>
     </div>
   </div>
 </div>
 
-<!-- 宏观日历 -->
+<!-- ══════════ 盘面快照 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 宏观日历 — 6月15日当周</div>
-  <div class="cal-row"><div class="cal-date">周一 6/15</div><div class="cal-event">5月工业生产 &nbsp;<span style="color:var(--muted);font-size:12px;">预期环比+0.3%</span></div><div class="cal-imp muted">低</div></div>
-  <div class="cal-row"><div class="cal-date">周二 6/16</div><div class="cal-event">美联储会议开始 · <strong>日本央行利率决议</strong> · 5月新屋开工与建筑许可</div><div class="cal-imp yellow">高（日银）</div></div>
-  <div class="cal-row"><div class="cal-date">周三 6/17</div><div class="cal-event"><strong>🔴 美联储利率决议 美东时间下午2点</strong>（维持~97%） · 沃什发布会2:30 · 最新点阵图+SEP · 5月零售销售</div><div class="cal-imp red">关键</div></div>
-  <div class="cal-row"><div class="cal-date">周四 6/18</div><div class="cal-event">埃森哲（ACN）财报 · 克罗格（KR）财报 · CarMax（KMX）财报 · 初请失业金</div><div class="cal-imp yellow">中</div></div>
-  <div class="cal-row"><div class="cal-date">周五 6/19</div><div class="cal-event">🎆 <strong>朱尼斯节——市场休市</strong></div><div class="cal-imp muted">休市</div></div>
-  <div style="margin-top:10px;" class="bias-note"><strong>4个交易日效应：</strong>期权卖方提前削减风险，压缩已实现波动率。<strong>周四收盘即为本周收盘。</strong></div>
+  <div class="section-title">▌ 任务2 — 预测：2026-06-22 当周 | 盘面与内部结构快照</div>
+  <div class="tape-grid">
+    <div class="tape-item">
+      <div class="ti-label">标普收盘（6/18）</div>
+      <div class="ti-val green">7,500.58</div>
+      <div class="ti-sub">周涨 +0.93% | 历史新高</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">VIX</div>
+      <div class="ti-val green">18.44</div>
+      <div class="ti-sub">↓ 从 19.44 | 期限结构正向(contango)</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">10年期收益率</div>
+      <div class="ti-val yellow">4.46%</div>
+      <div class="ti-sub">鹰派点阵图后偏上行</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">2年期（估）</div>
+      <div class="ti-val">~4.22%</div>
+      <div class="ti-sub">2s10s ≈ +24bp | 加息倾向抬高短端</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">WTI 原油</div>
+      <div class="ti-val green">~$76</div>
+      <div class="ti-sub">↓ 周跌约8-10% | 霍尔木兹复航</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">布伦特原油</div>
+      <div class="ti-val green">~$80</div>
+      <div class="ti-sub">伊朗协议=通胀缓解</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">美元指数（估）</div>
+      <div class="ti-val">~99.2</div>
+      <div class="ti-sub">在100附近区间震荡</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">50日均线（估）</div>
+      <div class="ti-val blue">~7,320</div>
+      <div class="ti-sub">上行；远低于现价 — 趋势向上</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">宽度（&gt;50日线占比）</div>
+      <div class="ti-val yellow">~61%</div>
+      <div class="ti-sub">动能持平偏弱 | 在收窄</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">NAAIM（估）</div>
+      <div class="ti-val yellow">~80</div>
+      <div class="ti-sub">中性 — 未达 &gt;95 极值</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">AAII 看多</div>
+      <div class="ti-val yellow">36.6%</div>
+      <div class="ti-sub">低于 37.5% 均值 — 无狂热</div>
+    </div>
+    <div class="tape-item">
+      <div class="ti-label">趋势状态</div>
+      <div class="ti-val green">历史新高</div>
+      <div class="ti-sub">强上升趋势；短期超买</div>
+    </div>
+  </div>
 </div>
 
-<!-- 地缘政治 -->
+<!-- ══════════ 跨资产 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 地缘政治 / 政策</div>
-  <div class="pm-stat" style="margin-bottom:10px;"><div class="label">美伊和平谅解备忘录</div><div class="value green" style="font-size:0.95rem;">巴基斯坦总理："最终文本可在24小时内签署" — 6月13日</div></div>
-  <div style="font-size:13px;line-height:1.6;color:var(--text);">协议内容：①伊朗立即开放霍尔木兹海峡；②美国解除海上封锁；③美国解冻250亿美元伊朗资产；④最终协议签署前不施加新制裁。特朗普6月11日取消打击计划，伊朗外长称谈判"从未如此接近"。执行风险仍存。</div>
-  <div style="margin-top:10px;font-size:12px;color:var(--muted);"><strong>若周日/周一签署：</strong>WTI跌至$78–82（-6%至-9%）→通胀预期下降→10年期美债收益率跌10–15基点→VIX压缩至16–17→SPX跳空高开+1.5%至+2.5%。原材料、工业领涨；油企随油价下跌。</div>
-  <div style="margin-top:10px;font-size:12px;color:var(--muted);"><strong>日银风险：</strong>若加息，日元走强，套息平仓压力上升。2024年8月为历史参照（3日内SPX-6%）。当前规模较小但非零风险。</div>
-  <div style="margin-top:10px;font-size:12px;color:var(--muted);"><strong>SpaceX：</strong>SPCX首日+19%至$161（6月12日）。MSCI纳入从6月13日起生效，带来持续被动买盘。市值2万亿美元，跻身美国前十大上市公司。</div>
+  <div class="section-title">▌ 跨资产解读</div>
+  <div class="sig-row">
+    <div class="sig-name">10年期美债</div>
+    <div class="sig-val yellow">4.46%</div>
+    <div class="sig-dir">鹰派点阵图后偏上行。PCE 偏热会推升至 4.60–4.65%——这是主要的股市逆风。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">2s10s 利差（估）</div>
+    <div class="sig-val">+24bp</div>
+    <div class="sig-dir">加息倾向点阵图抬高短端。未倒挂；无衰退信号。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">WTI 原油</div>
+    <div class="sig-val green">~$76</div>
+    <div class="sig-dir">伊朗协议+霍尔木兹复航解除了油价/通胀尾部。PCE 前的去通胀顺风。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">高收益信用（估）</div>
+    <div class="sig-val green">收窄(偏紧)</div>
+    <div class="sig-dir">与历史新高相符；无信用领先的背离。若股市动摇关注 HYG/LQD。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">美元指数</div>
+    <div class="sig-val">~99.2</div>
+    <div class="sig-dir">略偏软、接近100——中性偏支撑。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">VIX 期限结构</div>
+    <div class="sig-val green">正向(contango)</div>
+    <div class="sig-dir">VIX 18.44 &lt; VIX3M（正常）。无压力机制；均值回归押注不受惩罚。</div>
+  </div>
+  <div style="margin-top:10px;" class="bias-note">
+    <strong>跨资产解读：建设性但对利率敏感。</strong>下跌的油价 + 偏紧的信用 + 正向的波动率期限结构 = 顺周期。唯一的隐患在曲线前端：鹰派美联储叠加偏热的 PCE，是唯一能重新定价久期并压制股市缓涨的组合。债券/信用尚未发出警告——目前如此。
+  </div>
 </div>
 
-<!-- 预测市场 -->
+<!-- ══════════ 主导叙事 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 预测市场与即时数据</div>
-  <div class="sig-row"><div class="sig-name">CME FedWatch — 6月17日维持不变</div><div class="sig-val green">97.1%</div><div class="sig-dir muted">几近确定。利率维持在3.50–3.75%。</div></div>
-  <div class="sig-row"><div class="sig-name">年内加息概率</div><div class="sig-val yellow">57%</div><div class="sig-dir muted">仍处于6月5日非农冲击后高位。伊朗油价回落可压低该概率。</div></div>
-  <div class="sig-row"><div class="sig-name">克利夫兰联储通胀即时预测</div><div class="sig-val green">核心环比0.2%（6月）</div><div class="sig-dir muted">与5月实际值一致，无急升风险。</div></div>
-  <div class="sig-row"><div class="sig-name">NAAIM（6月10日）</div><div class="sig-val green">79.27</div><div class="sig-dir muted">中性，重新加仓空间充足。</div></div>
-  <div class="sig-row"><div class="sig-name">AAII看空比例</div><div class="sig-val green">47.7%</div><div class="sig-dir muted">&gt;45%历史上预示4–6周逆向看多窗口，信号触发。</div></div>
+  <div class="section-title">▌ 本周最重要的叙事</div>
+  <div class="alert-card">
+    <div style="font-size:1rem; font-weight:700; color:var(--blue); margin-bottom:8px;">🧠 AI 财报参照（美光）vs. 核心 PCE — 在历史新高处</div>
+    <div style="font-size:13px; color:var(--muted); line-height:1.8;">
+      随着伊朗尾部解除、美联储已成定局，本周收敛为两个二元事件。<strong>(1) 美光(MU)，周三6/24 盘后：</strong>本轮周期首个重要的 AI/存储财报——市场预期营收约 350 亿美元（同比 +276%），由 HBM/数据中心存储超级周期驱动。鉴于领导力已极度收窄（AI + 能源），美光的数据中心/HBM 指引是指数级别的 AI 情绪参照，而非单一个股。干净的超预期并上调将延续这轮加速上行；指引令人失望则有触发 AVGO 式芯片大跌的风险（已固化的常设监控项）。<strong>(2) 核心 PCE，周五6/26：</strong>在新近转鹰的点阵图背景下，美联储最看重的通胀指标——市场预期环比 +0.1–0.2% / 同比 2.6%。偏冷维持缓涨；偏热则坐实加息倾向并重新定价久期。两者之下：<strong>季末（6/30）养老金再平衡</strong>，在股市强劲的一个季度之后，倾向于机械性卖出股票。
+    </div>
+  </div>
 </div>
 
-<!-- 情景分支 -->
+<!-- ══════════ 宏观日历 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 情景分支</div>
+  <div class="section-title">▌ 宏观日历 — 6月22日当周</div>
+  <div class="cal-row">
+    <div class="cal-date">周一 6/22</div>
+    <div class="cal-event">平静开局——无一线数据。成屋销售（5月）。市场关注美联储官员的会后口风。</div>
+    <div class="cal-imp muted">低</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-date">周二 6/23</div>
+    <div class="cal-event">谘商会消费者信心（6月） &nbsp;·&nbsp; 新屋销售（5月） &nbsp;·&nbsp; 美联储官员讲话</div>
+    <div class="cal-imp muted">低-中</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-date">周三 6/24</div>
+    <div class="cal-event"><strong>🔴 美光(MU) 财年Q3财报 — 盘后</strong>（AI/HBM 存储参照） &nbsp;·&nbsp; 建筑许可（终值）</div>
+    <div class="cal-imp red">关键(AI)</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-date">周四 6/25</div>
+    <div class="cal-event">一季度 GDP 终值 <span style="color:var(--muted);font-size:12px;">（预期 +1.6%）</span> &nbsp;·&nbsp; 初请失业金 <span style="color:var(--muted);font-size:12px;">（预期 22.5万）</span> &nbsp;·&nbsp; 耐用品订单 <span style="color:var(--muted);font-size:12px;">（预期 +0.2%）</span> &nbsp;·&nbsp; <strong>联邦快递(FDX) + 耐克(NKE) 盘后财报</strong></div>
+    <div class="cal-imp yellow">中</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-date">周五 6/26</div>
+    <div class="cal-event"><strong>🔴 核心 PCE 物价指数（5月）</strong> <span style="color:var(--muted);font-size:12px;">预期环比 +0.1–0.2% / 同比 2.6%</span> &nbsp;·&nbsp; 个人收入（+0.4%）与支出 &nbsp;·&nbsp; 密歇根信心终值</div>
+    <div class="cal-imp red">关键</div>
+  </div>
+  <div style="margin-top:10px;" class="bias-note">
+    <strong>本周形态：</strong>周一至周二平静漂移，随后是两个二元事件——<strong>美光周三盘后</strong>为周四定下 AI 基调，<strong>核心 PCE 周五</strong>是宏观闸门。季末再平衡资金流贯穿全周，至 6/30 节点累积。<em>（PCE 时间：BEA 的"个人收入与支出"发布；部分日历列在周四 6/25——把周四/周五视为宏观窗口。）</em>
+  </div>
+</div>
+
+<!-- ══════════ 财报 ══════════ -->
+<div class="section">
+  <div class="section-title">▌ 财报日历（无 Mag-7 — 但美光是 AI 代理变量）</div>
+  <div class="cal-row">
+    <div class="cal-date">周三 6/24</div>
+    <div class="cal-event"><strong>美光(MU)</strong> — 财年Q3，盘后。市场预期营收约 350 亿美元（同比 +276%），由 HBM/数据中心存储超级周期驱动；EPS 同比大幅上升。隐含波动幅度约 ±7–9%。<strong>关键传闻指标：HBM 配额、数据中心 DRAM 定价、财年Q4 指引。</strong>本周通过 AI 情绪对指数的参照度最高。</div>
+    <div class="cal-imp red">高(AI)</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-date">周四 6/25</div>
+    <div class="cal-event"><strong>联邦快递(FDX)</strong> — 财年Q4。EPS 预期约 $6.41，营收约 240 亿美元（同比 +8%）。全球贸易/工业经济风向标；指引 &gt; 当期数字。关税/货运评论对周期股重要。</div>
+    <div class="cal-imp yellow">中</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-date">周四 6/25</div>
+    <div class="cal-event"><strong>耐克(NKE)</strong> — 财年Q4。可选消费复苏参照；中国需求 + 直营利润率。指数权重低，但消费情绪信号高。</div>
+    <div class="cal-imp muted">对指数影响低</div>
+  </div>
+  <div style="margin-top:10px;font-size:12px;color:var(--muted);">本周无 Mag-7（英伟达下次约8月底）。美光是 AI 代理变量；联邦快递/耐克提供宏观风向标色彩。宏观闸门（PCE）与美光共同主导本周判断。</div>
+</div>
+
+<!-- ══════════ 地缘政治 ══════════ -->
+<div class="section">
+  <div class="section-title">▌ 地缘政治 / 政治</div>
+  <div class="pm-stat" style="margin-bottom:10px;">
+    <div class="label">伊朗-美国 14点谅解备忘录</div>
+    <div class="value green" style="font-size:0.95rem;">6/15 签署 — 60天停火 · 霍尔木兹免费复航 · 解除海上封锁</div>
+  </div>
+  <div style="font-size:13px;line-height:1.8;color:var(--text);">
+    <strong>现状：</strong>14点谅解备忘录于 6/15 以电子方式签署，结束敌对行动、向商业航运重新开放霍尔木兹海峡（60天内免费通行）、解除美国对伊朗港口的海上封锁。伊朗重申不寻求核武器；永久协议仍待谈判。市场上涨、油价下跌约 8%–10%。<strong>这解除了自5月以来一直笼罩盘面的主导左尾（油价/霍尔木兹通胀冲击）。</strong>
+  </div>
+  <div style="margin-top:10px;font-size:12px;color:var(--muted);">
+    <strong>"60天测试"：</strong>该框架是"先造势、后细节"——执行机制未定，停火为期60天。执行摩擦是慢燃风险，而非本周二元事件。油价需重新定价至约 $93 以上（协议破裂）才会重新点燃通胀尾部。
+  </div>
+  <div style="margin-top:10px;font-size:12px;color:var(--muted);">
+    <strong>美联储政治：</strong>沃什的首次会议将点阵图转向加息倾向（2026中值 3.80%，18人中17人见上行通胀风险；沃什未提交自己的点）。鹰派倾向是常设宏观逆风——只有当数据（PCE）予以坐实时才会咬人。
+  </div>
+</div>
+
+<!-- ══════════ 预测市场 ══════════ -->
+<div class="section">
+  <div class="section-title">▌ 预测市场与即时预测(Nowcast)</div>
+  <div class="sig-row">
+    <div class="sig-name">CME FedWatch — 7/29 维持</div>
+    <div class="sig-val green">~89%</div>
+    <div class="sig-dir">尽管点阵图偏鹰，7月维持仍是基准；加息风险属下半年故事。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">2026 美联储路径（点阵图）</div>
+    <div class="sig-val yellow">加息倾向</div>
+    <div class="sig-dir">18人中9人预计至少加息1次；中值 3.80%（高于现行 3.50–3.75%）。仍有1点为降息。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">克利夫兰联储/即时预测（估）</div>
+    <div class="sig-val green">核心PCE ~环比0.2%</div>
+    <div class="sig-dir">与共识偏冷一侧一致；油价下跌是去通胀顺风。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">周一6/22 标普高开概率</div>
+    <div class="sig-val yellow">~44%</div>
+    <div class="sig-dir">周一略偏低开（预测市场隐含）——与超买/季末一致。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">伊朗协议维持（Polymarket，估）</div>
+    <div class="sig-val green">偏高</div>
+    <div class="sig-dir">已签署备忘录；近期破裂概率低。"60天测试"是中期观察点。</div>
+  </div>
+  <div class="sig-row">
+    <div class="sig-name">NAAIM（估）</div>
+    <div class="sig-val yellow">~80</div>
+    <div class="sig-dir">中性——远低于触发下行底线规则的 &gt;95 极值。</div>
+  </div>
+</div>
+
+<!-- ══════════ 已定价 vs. 可能意外 ══════════ -->
+<div class="section">
+  <div class="section-title">▌ 已定价 vs. 可能的意外</div>
+  <div class="two-col">
+    <div>
+      <div style="font-size:11px;font-family:var(--mono);color:var(--muted);margin-bottom:8px;">左尾 — 向下冲击</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>偏热核心 PCE（周五）：</strong>环比 ≥+0.3% 或同比 ≥2.8% 坐实鹰派点阵图 → 10年期升向 4.60–4.65% → 标普 −1.5% 至 −2.5%。最干净的机械式下行触发。<br><br>
+        <strong>美光 AI 指引不及（周三盘后）：</strong>HBM/数据中心指引偏软 → 芯片板块大跌（AVGO/6月6日重演）→ AI 领导力瓦解，拖累指数 −1.5% 至 −2.5%。<br><br>
+        <strong>季末再平衡：</strong>强劲股市季度之后，养老金/目标日期基金的卖出使资金流偏负，至 6/30——是缓慢下磨而非冲击。
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-family:var(--mono);color:var(--muted);margin-bottom:8px;">右尾 — 向上冲击</div>
+      <div style="font-size:13px;line-height:1.8;">
+        <strong>美光超预期上调 + PCE 偏冷：</strong>对 AI 超级周期与温和通胀的双重确认 → 加速上行延续，标普目标 7,620–7,680。<br><br>
+        <strong>油价继续下跌：</strong>WTI 在霍尔木兹正常化下跌向 $70 → 去通胀叙事增强 → 10年期回落 → 估值扩张。<br><br>
+        <strong>宽度扩散：</strong>若行情扩散超越 AI + 能源，超买担忧消退，趋势在季末"橱窗粉饰"中自我维持。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 条件分支 ══════════ -->
+<div class="section">
+  <div class="section-title">▌ 条件分支</div>
+
   <div class="branch branch-a">
-    <div class="bhead"><div class="btitle green">情景A — 伊朗MOU签署 + 美联储维持/中性</div><div class="bpct green">55%</div></div>
-    <div class="brange green">7,550 – 7,680</div>
-    <div class="bdesc">伊朗MOU于6月14日签署→WTI跌至$78–82→VIX压缩→SPX周一跳空+1.5%–+2.5%。美联储周三维持，沃什发布会中性偏鹰（点阵图小幅上调或不变）。油价下行对冲鹰派色彩。原材料与工业领涨，4日短周限制但方向向上。</div>
+    <div class="bhead">
+      <div class="btitle green">分支 A — PCE 偏冷 + 美光超预期/上调</div>
+      <div class="bpct green">46%</div>
+    </div>
+    <div class="brange green">7,540 – 7,650</div>
+    <div class="bdesc">核心 PCE 落在共识或以下（环比 ≤+0.2%），美光在 HBM/数据中心存储上交出干净的超预期并上调。AI 领导力重新加速，伊朗解除后的去通胀顺风维持，加速上行延伸至新高。季末"橱窗粉饰"增添买盘。本周收涨，测试 7,620–7,680 区域。</div>
   </div>
+
   <div class="branch branch-b">
-    <div class="bhead"><div class="btitle blue">情景B — 伊朗协议未签署 + 美联储维持</div><div class="bpct blue">25%</div></div>
-    <div class="brange blue">7,380 – 7,500</div>
-    <div class="bdesc">本周无协议签署，谈判继续。美联储维持，无重大意外。4日短周降低入场意愿。SPX在当前水平附近震荡，周收盘基本持平。</div>
+    <div class="bhead">
+      <div class="btitle blue">分支 B — 数据符合预期 + 美光好坏参半 + 再平衡震荡</div>
+      <div class="bpct blue">24%</div>
+    </div>
+    <div class="brange blue">7,470 – 7,540</div>
+    <div class="bdesc">PCE 符合预期，美光"超预期但指引谨慎"或利好出尽，季末再平衡压制盘面。超买状态与周一略偏低开带来横盘整理，贴近新高。标普原地踏步；本周大致持平收盘（±0.5%）。</div>
   </div>
+
   <div class="branch branch-e">
-    <div class="bhead"><div class="btitle red">情景C — 美联储偏鹰意外 或 伊朗协议崩溃</div><div class="bpct red">20%</div></div>
-    <div class="brange red">7,172 – 7,320</div>
-    <div class="bdesc">沃什点阵图上调（2026年中位数超3.75%）→10年期升至4.65%+→SPX -2%至-3%。或：伊朗MOU签署后因执行争议崩溃→WTI回弹至$92–97→通胀再次走高→SPX -2%至-3.5%。日银加息可能放大任一情景。</div>
+    <div class="bhead">
+      <div class="btitle red">分支 C — PCE 偏热 或 美光 AI 指引不及</div>
+      <div class="bpct red">30%</div>
+    </div>
+    <div class="brange red">7,340 – 7,460</div>
+    <div class="bdesc">要么核心 PCE 偏热（环比 ≥+0.3% / 同比 ≥2.8%）→ 坐实鹰派点阵图 → 10年期飙升 → 标普 −1.5% 至 −2.5%；要么美光数据中心/HBM 指引令人失望 → AVGO 式芯片大跌瓦解收窄的 AI 领导力。季末卖出放大任一情形。PCE 偏热与美光不及同时发生，是 −3% 以上的压力尾部。</div>
   </div>
+
   <div class="point-est">
-    <div class="pe-label">概率加权点估值</div>
-    <div class="pe-val">~7,495</div>
-    <div class="pe-range">0.55×7,615 + 0.25×7,440 + 0.20×7,246 = 7,495 &nbsp;|&nbsp; 基准区间：7,380–7,680</div>
+    <div class="pe-label">概率加权点位预估</div>
+    <div class="pe-val">~7,515</div>
+    <div class="pe-range">0.46 × 7,595 + 0.24 × 7,505 + 0.30 × 7,400 ≈ 7,515 &nbsp;|&nbsp; 基准区间：7,430–7,580 &nbsp;|&nbsp; 较 7,500.58 +0.19%</div>
   </div>
 </div>
 
-<!-- 周内波动区间 -->
+<!-- ══════════ 周内波动区间 ══════════ -->
 <div class="section" style="border-color: rgba(251,191,36,0.4);">
   <div class="iw-header">
     <div>
-      <div class="section-title" style="margin-bottom:2px;">▌ 周内波动区间 — 预期峰谷振幅</div>
-      <div class="iw-subtitle">本周4个交易日内有3个二元催化剂（伊朗 · 美联储 · 日银），无论周四收盘价如何，周内剧烈震荡不可避免</div>
+      <div class="section-title" style="margin-bottom:2px;">▌ 周内波动区间 — 预期峰谷</div>
+      <div class="iw-subtitle">两个二元催化（美光周三盘后 · 核心PCE周五）——比上周三事件冲刺更平静，但美光跳空可能剧烈</div>
     </div>
   </div>
 
-  <!-- 区间可视化：刻度7,000–7,900（900点跨度）-->
+  <!-- 区间可视化：刻度 7,200–7,800（600点跨度） -->
   <div class="range-track-wrap">
     <div class="range-scale">
-      <span>7,000</span><span>7,225</span><span>7,450</span><span>7,675</span><span>7,900</span>
+      <span>7,200</span><span>7,350</span><span>7,500</span><span>7,650</span><span>7,800</span>
     </div>
     <div class="range-track">
-      <!-- 周内区间：7,150–7,780 → left:16.7%, width:70% -->
-      <div class="range-fill-iw" style="left:16.7%; width:70%;"></div>
-      <div class="range-label-iw" style="left:16.7%; width:70%;">7,150 ←— 周内预期区间 —→ 7,780</div>
-      <!-- 收盘区间：7,380–7,680 → left:42.2%, width:33.3% -->
-      <div class="range-fill-eow" style="left:42.2%; width:33.3%;"></div>
-      <div class="range-label-eow" style="left:42.2%; width:33.3%;">7,380 ←— 周收盘基准区间 —→ 7,680</div>
-      <!-- 当前价格：7,431 → 47.9% -->
-      <div class="range-cursor" style="left:47.9%;">
-        <div class="range-cursor-label">当前 7,431</div>
+      <div class="range-fill-iw" style="left:23.3%; width:43.3%;"></div>
+      <div class="range-label-iw" style="left:23.3%; width:43.3%;">7,340 ←— 周内区间 —→ 7,600</div>
+      <div class="range-fill-eow" style="left:38.3%; width:25.0%;"></div>
+      <div class="range-label-eow" style="left:38.3%; width:25.0%;">7,430 ←— 周末基准 —→ 7,580</div>
+      <div class="range-cursor" style="left:50.1%;">
+        <div class="range-cursor-label">现价 7,501</div>
       </div>
     </div>
   </div>
@@ -312,113 +603,161 @@
   <div class="iw-legend">
     <div class="iw-legend-item">
       <div class="legend-swatch" style="background:rgba(251,191,36,0.35); border:1px solid rgba(251,191,36,0.6);"></div>
-      <span style="color:var(--yellow);">周内区间 &nbsp;7,150 – 7,780 &nbsp;（较开盘 ±4.3%）</span>
+      <span style="color:var(--yellow);">周内区间 &nbsp;7,340 – 7,600 &nbsp;（较起点约 −2.1% / +1.3%）</span>
     </div>
     <div class="iw-legend-item">
       <div class="legend-swatch" style="background:rgba(96,165,250,0.35); border:1px solid rgba(96,165,250,0.6);"></div>
-      <span style="color:var(--blue);">周收盘基准区间 &nbsp;7,380 – 7,680 &nbsp;（较开盘 ±2.0%）</span>
+      <span style="color:var(--blue);">周末基准区间 &nbsp;7,430 – 7,580 &nbsp;（较起点 ±1.0%）</span>
     </div>
     <div class="iw-legend-item">
       <div class="legend-swatch" style="background:var(--accent); border:none; width:4px;"></div>
-      <span style="color:var(--accent);">当前开盘 7,431</span>
+      <span style="color:var(--accent);">当前起点 7,501</span>
     </div>
   </div>
 
-  <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">分催化剂震幅估算</div>
+  <div style="font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:0.04em;margin-bottom:8px;">逐催化事件摆动估计</div>
   <div class="iw-event-row">
-    <div class="iw-event-day">周一 6/16</div>
-    <div class="iw-event-name"><strong>伊朗MOU签署（周末催化剂）</strong> — 若周日签署，期货跳空高开；若谈判破裂，跳空低开。纯二元开盘。</div>
-    <div class="iw-event-swing" style="color:var(--yellow);">±1.5% – ±2.5%</div>
+    <div class="iw-event-day">周一-周二 6/22–23</div>
+    <div class="iw-event-name"><strong>平静漂移 + 消费者信心</strong> — 超买/季末偏低开（预测市场隐含周一高开44%）。低数据窗口；由仓位与美联储口风定调。</div>
+    <div class="iw-event-swing" style="color:var(--muted);">±0.4% – ±0.8%</div>
   </div>
   <div class="iw-event-row">
-    <div class="iw-event-day">周二 6/17</div>
-    <div class="iw-event-name"><strong>日本银行利率决议</strong> — 意外加息将推升日元，引发套息平仓。不加息则小幅缓解。下行风险不对称。</div>
-    <div class="iw-event-swing" style="color:var(--orange);">−1.5% / +0.3%</div>
+    <div class="iw-event-day">周三 6/24<br><span style="color:var(--red);font-size:10px;">⚠ AI 二元</span></div>
+    <div class="iw-event-name"><strong>美光(MU) 财年Q3 — 盘后</strong> — 美光隐含波动 ±7–9%；通过收窄的 AI 领导力对指数形成参照。超预期上调使半导体周四跳空高开；指引不及有 AVGO 式芯片大跌风险。</div>
+    <div class="iw-event-swing" style="color:var(--orange);">±0.8% – ±1.5%</div>
   </div>
   <div class="iw-event-row">
-    <div class="iw-event-day">周三 6/18<br><span style="color:var(--red);font-size:10px;">⚠ 关键</span></div>
-    <div class="iw-event-name"><strong>美联储决议 北京时间凌晨2点 — 沃什点阵图 + 新闻发布会</strong> — 周内最大单日风险。若2026年中位利率超3.75%，10年期国债利率急升，股市快速下跌。若中性或偏鸽，叠加伊朗利好形成双重正向冲击。</div>
-    <div class="iw-event-swing" style="color:var(--red);">±1.5% – ±2.5%</div>
+    <div class="iw-event-day">周四 6/25</div>
+    <div class="iw-event-name"><strong>一季度GDP终值 · 初请失业金 · 耐用品 · 联邦快递+耐克盘后</strong> — 宏观风向标色彩与周期读数；对美光的反应延续。</div>
+    <div class="iw-event-swing" style="color:var(--muted);">±0.4% – ±0.9%</div>
   </div>
   <div class="iw-event-row">
-    <div class="iw-event-day">周四 6/19<br><span style="color:var(--accent);font-size:10px;">周收盘</span></div>
-    <div class="iw-event-name"><strong>ACN + KR + KMX财报 · 周收盘（朱尼斯节周五休市）</strong> — ACN是企业AI需求风向标。周四收盘即为本周最终价格，无周五交易日修复。</div>
-    <div class="iw-event-swing" style="color:var(--muted);">±0.5% – ±1.0%</div>
+    <div class="iw-event-day">周五 6/26<br><span style="color:var(--red);font-size:10px;">⚠ 宏观闸门</span></div>
+    <div class="iw-event-name"><strong>核心 PCE（5月）— 鹰派点阵图背景下美联储最看重的指标</strong> — 偏冷延续缓涨；偏热（环比 ≥+0.3%）重新定价久期，是最干净的下行触发。季末资金流叠加其上。</div>
+    <div class="iw-event-swing" style="color:var(--red);">±0.8% – ±1.5%</div>
   </div>
 
   <div class="iw-summary">
     <div class="iw-stat">
-      <div class="is-label">预期周内最低点</div>
-      <div class="is-val red">7,150</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:3px;">伊朗崩裂 + 日银加息 + 沃什鹰派</div>
+      <div class="is-label">预期周内低点</div>
+      <div class="is-val red">7,340</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">PCE偏热或美光不及+再平衡卖出</div>
     </div>
     <div class="iw-stat">
-      <div class="is-label">周内振幅</div>
-      <div class="is-val yellow">630点</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:3px;">较开盘峰谷振幅 ±4.3%</div>
+      <div class="is-label">周内摆动宽度</div>
+      <div class="is-val yellow">260 点</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">较起点约3.5%峰谷</div>
     </div>
     <div class="iw-stat">
-      <div class="is-label">预期周内最高点</div>
-      <div class="is-val green">7,780</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:3px;">伊朗签署 + 美联储中性 + VIX→15</div>
+      <div class="is-label">预期周内高点</div>
+      <div class="is-val green">7,600</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">PCE偏冷+美光超预期上调加速上行</div>
     </div>
   </div>
 
   <div style="margin-top:14px;" class="warn-card">
-    <div style="font-size:11px;font-family:var(--mono);color:var(--yellow);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">⚡ 周内高波动性警示</div>
-    <div style="font-size:12px;line-height:1.6;color:var(--text);">
-      周内区间（7,150–7,780）<strong>是周收盘基准区间的3倍宽</strong>（7,380–7,680）。伊朗（周一）、日银（周二）、美联储点阵图（周三）三个不相关二元事件各自具备1.5–2.5%的双向冲击能力，集中在一周缩短至4个交易日的周一至周三。<strong>周内区间不是基准情景，而是波动包络。</strong>不要将周收盘目标价用作止损位，而不考虑3–4%的周内最大回撤风险。
+    <div style="font-size:11px;font-family:var(--mono);color:var(--yellow);letter-spacing:0.04em;margin-bottom:6px;">⚡ 波动率提示（非高波动警告）</div>
+    <div style="font-size:12px;line-height:1.8;color:var(--text);">
+      周内区间（7,340–7,600，约 260 点）仅为周末基准区间（7,430–7,580）的约 1.7 倍——低于触发高波动警告的 2 倍门槛。本周比上周的伊朗+FOMC+日央行冲刺更平静：VIX 18.44 处于正向期限结构、伊朗尾部已解除、且无 FOMC。两个真正的摆动事件集中在后半周（美光周三盘后、PCE 周五）。<strong>周内区间是波动率包络，而非基准情形</strong>——基准情形是低信心地缓步上行至约 7,515。
     </div>
   </div>
 </div>
 
-<!-- 概率分布 -->
+<!-- ══════════ 概率拆分 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 概率分布</div>
+  <div class="section-title">▌ 概率拆分</div>
+
   <div class="prob-bar-container">
-    <div class="prob-row"><div class="prob-label green">上涨</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:62%;background:rgba(52,211,153,0.25);color:var(--green);">62%</div></div><div class="prob-pct green">62%</div></div>
-    <div class="prob-row"><div class="prob-label muted">平盘</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:17%;background:rgba(136,146,164,0.2);color:var(--muted);">17%</div></div><div class="prob-pct muted">17%</div></div>
-    <div class="prob-row"><div class="prob-label red">下跌</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:21%;background:rgba(248,113,113,0.2);color:var(--red);">21%</div></div><div class="prob-pct red">21%</div></div>
+    <div class="prob-row">
+      <div class="prob-label green">涨</div>
+      <div class="prob-bar-wrap">
+        <div class="prob-bar" style="width:46%; background: rgba(52,211,153,0.25); color:var(--green);">46%</div>
+      </div>
+      <div class="prob-pct green">46%</div>
+    </div>
+    <div class="prob-row">
+      <div class="prob-label muted">平</div>
+      <div class="prob-bar-wrap">
+        <div class="prob-bar" style="width:24%; background: rgba(136,146,164,0.2); color:var(--muted);">24%</div>
+      </div>
+      <div class="prob-pct muted">24%</div>
+    </div>
+    <div class="prob-row">
+      <div class="prob-label red">跌</div>
+      <div class="prob-bar-wrap">
+        <div class="prob-bar" style="width:30%; background: rgba(248,113,113,0.2); color:var(--red);">30%</div>
+      </div>
+      <div class="prob-pct red">30%</div>
+    </div>
   </div>
+
   <div style="margin-top:14px;" class="bias-note">
-    <strong>历史先验：56/14/30。</strong>上调至62/17/21，依据：①<strong>伊朗协议迫在眉睫</strong>——巴基斯坦总理"24小时内"=具体看多催化剂；②<strong>AAII看空47.7%</strong>=超45%阈值的逆向看多信号。下跌从30%降至21%：美联储维持几成定局，NAAIM处于79（非极端），50日均线本周已确认支撑。剩余21%下行风险来自伊朗崩溃+沃什偏鹰组合。
+    <strong>历史先验：56/14/30。</strong>将看涨下调至 46/24/30。两个命名信号使看涨偏离先验下调：(1) <strong>历史新高处超买并进入季末再平衡</strong>，叠加收窄的宽度（约61% &gt; 50日线，集中于AI/能源），压制近期上行空间；(2) <strong>鹰派点阵图</strong>意味着偏热的 PCE 有一条真实、机械的下行路径。<strong>持平刻意上调至 24%</strong>（高于此前几周约17%）——遵循已记录的教训：在极值处的二元催化周，持平桶被低估；贴近新高的横盘整理是非常可能的结果。下行维持在先验（30%）：伊朗尾部已解除、NAAIM 中性（非 &gt;95）、AAII 未现狂热，故无仓位踩踏触发器——但 PCE偏热/美光不及的尾部是真实的。
   </div>
 </div>
 
-<!-- 最大风险 -->
+<!-- ══════════ 最大风险 ══════════ -->
 <div class="section">
   <div class="section-title">▌ 单一最大风险</div>
   <div class="risk-card">
     <div class="rh">
       <div class="ricon">⚠️</div>
       <div>
-        <div class="rtitle">沃什鹰派点阵图 + 伊朗协议崩溃</div>
-        <div class="rdesc">最直接的机械传导风险：<strong>沃什首次点阵图显示2026年联邦基金利率中位数超过3.75%</strong>（暗示主动考虑加息），将重新定价整年美联储路径，推升10年期收益率至4.65%+，抵消伊朗油价利好。无需任何地缘政治触发即可直接重新定价股票。<br><br>次要风险：<strong>日银6月16日加息</strong>——日元走强，日元融资套息头寸被迫平仓，SPX快速下跌-1%至-2%（2024年8月缩小版）。</div>
+        <div class="rtitle">偏热的核心 PCE 重新定价已偏鹰的美联储</div>
+        <div class="rdesc">机械联系最强的下行触发。6月点阵图已转向加息倾向（2026中值 3.80%，18人中17人见上行通胀风险）。周五偏热的核心 PCE 将<strong>坐实</strong>这一倾向并立即重新定价前端：10年期升向 4.60–4.65%、7月维持的概率被侵蚀，驱动新高行情的对久期敏感的 AI/成长领导力将回吐涨幅。与地缘头条不同，这通过利率直接重新定价股票——无传导时滞。<br><br>次要风险：<strong>美光数据中心/HBM 指引不及（周三盘后）</strong>——鉴于领导力高度集中于 AI，偏软的指引可触发 AVGO 式芯片大跌（已固化的常设监控项），独立于宏观地瓦解收窄的领导力。</div>
       </div>
     </div>
     <div class="risk-threshold">
-      触发：<span>沃什2026年中位数点超3.75%</span> → 10年期升至4.65%+ → SPX -1.5%至-2.5%（7,241–7,315）<br>
-      或：<span>WTI回升至$93/桶以上（伊朗协议崩溃）</span> → 通胀再次走高+加息赔率>65% → SPX -2%至-3.5%（7,172–7,283）<br>
-      组合概率：20%（情景C）
+      触发：<span>核心 PCE 环比 ≥ +0.3%（或同比 ≥ 2.8%）vs 共识 2.6%</span> → 10年期升向 4.65% → 标普 −1.5% 至 −2.5%（7,320–7,430）<br>
+      或：<span>美光财年Q4 数据中心/HBM 指引不及</span> → AI 板块大跌 → 标普 −1.5% 至 −2.5%<br>
+      合计下行情形概率：30%（分支 C）；PCE偏热 + 美光不及同时发生，是 −3% 以上的压力尾部。
     </div>
   </div>
 </div>
 
-<!-- 滚动校准 -->
+<!-- ══════════ 尾部风险警报 ══════════ -->
 <div class="section">
-  <div class="section-title">▌ 滚动校准记录</div>
+  <div class="section-title">▌ 尾部风险警报（常开）— &gt;8% 回撤监控</div>
+  <div class="tail-card tail-green">
+    <div class="tail-head">
+      <div class="tail-state green">🟢 绿灯</div>
+      <div class="tail-gauge"><div class="tail-gauge-fill" style="width:6%; background:var(--green);"></div></div>
+      <div class="tail-prob"><strong>约 6%</strong> 未来4周出现 &gt;8% 回撤的概率</div>
+    </div>
+    <div style="font-size:12px;line-height:1.8;color:var(--text);">
+      默认绿灯——堆叠的互不相关压力信号不足两个。主导左尾（伊朗/霍尔木兹油价冲击）已被 6/15 备忘录<strong>解除</strong>。波动率温和（VIX 18.44、期限结构正向），信用偏紧，仓位中性（NAAIM ~80、AAII 未狂热），本周无 FOMC。概率估计仅略高于约 4% 的最低基准率，纯粹因为市场在历史新高处超买、股权风险溢价偏薄、且美联储偏鹰——是拉伸，而非承压。
+    </div>
+    <div class="tail-signals">
+      <div class="tail-sig green">波动率：VIX 18.44，正向结构 ✓ 无压力</div>
+      <div class="tail-sig green">信用：高收益利差偏紧 ✓ 无背离</div>
+      <div class="tail-sig green">仓位：NAAIM ~80 / AAII 36.6% ✓ 无极值</div>
+      <div class="tail-sig yellow">宽度：约61% &gt; 50日线，在收窄 ⚠ 软信号</div>
+      <div class="tail-sig yellow">利率：鹰派点阵图 + 10年期4.46% ⚠ 若PCE偏热则成逆风</div>
+      <div class="tail-sig green">地缘：伊朗尾部已解除 ✓</div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.7;">
+      需警惕的传导（会推向橙灯）：偏热核心 PCE → 10年期 &gt; 4.65% → AI/成长去估值，<em>同时</em>宽度跌破约50%，两个信号堆叠。单独来看，任一都不足以使警报离开绿灯。
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 日志 ══════════ -->
+<div class="section">
+  <div class="section-title">▌ 日志 — 校准累计</div>
   <div style="font-size:12px;font-family:var(--mono);color:var(--muted);">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div><div style="color:var(--text);">5周方向命中率</div><div style="font-size:1.1rem;font-weight:700;color:var(--yellow);">3/5（60%）</div></div>
-      <div><div style="color:var(--text);">平均布赖尔（5周）</div><div style="font-size:1.1rem;font-weight:700;color:var(--yellow);">0.579</div></div>
-      <div><div style="color:var(--text);">区间命中率</div><div style="font-size:1.1rem;font-weight:700;color:var(--green);">5/5（100%）</div></div>
-      <div><div style="color:var(--text);">最大风险触发率</div><div style="font-size:1.1rem;font-weight:700;color:var(--muted);">40%</div></div>
+      <div><div style="color:var(--text);">6周方向命中率</div><div style="font-size:1.1rem;font-weight:700;color:var(--green);">4/6 (67%)</div></div>
+      <div><div style="color:var(--text);">平均Brier（4周）</div><div style="font-size:1.1rem;font-weight:700;color:var(--yellow);">0.392</div><div style="font-size:10px;">(0.305+0.476+0.569+0.217)/4 — 改善中</div></div>
+      <div><div style="color:var(--text);">区间命中率</div><div style="font-size:1.1rem;font-weight:700;color:var(--green);">6/6 (100%)</div></div>
+      <div><div style="color:var(--text);">最新Brier</div><div style="font-size:1.1rem;font-weight:700;color:var(--green);">0.217</div><div style="font-size:10px;">日志最佳（6/20当周）</div></div>
     </div>
-    <div style="padding:10px;background:var(--bg3);border-radius:6px;font-size:12px;">布赖尔目标：&lt;0.30为良好，&lt;0.20为优秀。当前滚动均值0.579=校准质量差。系统性改进：更坚定锚定56%先验，非2个以上命名信号不偏离。</div>
+    <div style="padding:10px;background:var(--bg3);border-radius:6px;font-size:12px;line-height:1.7;">
+      Brier 目标：&lt;0.30 为良好，&lt;0.20 为优秀。随着固化规则（双二元基准情形、NAAIM极值下行底线）的复利，4周均值（0.392）稳步改善。上周的 0.217 是日志中校准最好的判断。本周注意：不要让强劲的历史新高动能压过超买/季末的均值回归风险——故将持平上调至 24% 并刻意标注为低信心。
+    </div>
   </div>
 </div>
 
-<footer>每周市场研判 · 生成于2026-06-14 · 非投资建议 · 数据来源：嘉信理财、BLS、CME FedWatch、NAAIM、AAII、FRED、NBC/NPR/CNBC、RFERL、Chase/Mitrade</footer>
+<footer>每周市场预判 · 生成于 2026-06-21 · 非投资建议 · 来源：Yahoo Finance / FRED（标普、VIX、10年期）、CNBC / Fox Business / Chase（6月FOMC与点阵图）、NPR / 半岛电视台 / TIME（伊朗备忘录）、TradingEconomics（油价）、Kiplinger / Yahoo（财报与经济日历）、CME FedWatch、AAII、NAAIM、Schwab 每周交易者展望</footer>
 
 </body>
 </html>
