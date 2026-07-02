@@ -2,269 +2,303 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>每周市场展望 — 2026年5月11日—15日当周</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每周市场预判 — 2026年7月6日当周</title>
 <style>
   :root {
-    --bg: #0f1115;
-    --card: #161a22;
-    --card-2: #1c2230;
-    --line: #2a3142;
-    --text: #e6e9ef;
-    --muted: #8a93a6;
-    --green: #4ade80;
-    --amber: #fbbf24;
-    --red: #f87171;
-    --blue: #60a5fa;
-    --accent: #a78bfa;
+    --bg: #0f1117; --bg2: #181b24; --bg3: #1e2230; --border: #2a2f3f;
+    --text: #e2e8f0; --muted: #8892a4;
+    --green: #34d399; --yellow: #fbbf24; --red: #f87171; --blue: #60a5fa;
+    --accent: #f6c90e; --purple: #a78bfa; --orange: #fb923c;
+    --mono: 'Space Mono', 'Courier New', monospace;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --serif: Georgia, serif;
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 32px;
-    background: var(--bg); color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Inter", system-ui, sans-serif;
-    font-size: 14px; line-height: 1.55;
-  }
-  .wrap { max-width: 1180px; margin: 0 auto; }
-  header {
-    display: flex; align-items: baseline; justify-content: space-between;
-    border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 24px;
-  }
-  h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
-  .subtitle { color: var(--muted); font-size: 13px; }
-  .grid {
-    display: grid; gap: 16px;
-    grid-template-columns: repeat(12, 1fr);
-  }
-  .card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 10px; padding: 18px;
-  }
-  .card h2 {
-    margin: 0 0 12px; font-size: 12px; letter-spacing: 0.08em;
-    color: var(--muted); font-weight: 600;
-  }
-  .col-6 { grid-column: span 6; }
-  .col-12 { grid-column: span 12; }
-  .col-4 { grid-column: span 4; }
-  .col-8 { grid-column: span 8; }
-
-  /* Tape snapshot */
-  .tape { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .stat { background: var(--card-2); border-radius: 8px; padding: 10px 12px; }
-  .stat .label { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
-  .stat .val { font-size: 18px; font-weight: 600; margin-top: 2px; }
-  .stat .delta { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .up { color: var(--green); }
-  .down { color: var(--red); }
-  .warn { color: var(--amber); }
-
-  /* Calendar */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  table th { text-align: left; color: var(--muted); font-weight: 500; font-size: 11px;
-             letter-spacing: 0.06em; padding: 6px 8px;
-             border-bottom: 1px solid var(--line); }
-  table td { padding: 8px; border-bottom: 1px solid var(--line); }
-  table tr:last-child td { border-bottom: none; }
-  td.event { font-weight: 600; }
-  td.meta { color: var(--muted); }
-
-  /* Branches */
-  .branch { background: var(--card-2); border-radius: 8px; padding: 12px;
-            border-left: 3px solid var(--line); margin-bottom: 8px; }
-  .branch.a { border-left-color: var(--green); }
-  .branch.b { border-left-color: var(--amber); }
-  .branch.c { border-left-color: var(--red); }
-  .branch .head { display: flex; justify-content: space-between; align-items: baseline;
-                  font-weight: 600; font-size: 13px; margin-bottom: 4px; }
-  .branch .trigger { color: var(--muted); font-size: 12px; }
-  .branch .range { font-family: "SF Mono", monospace; font-weight: 600; margin-top: 4px; font-size: 13px; }
-  .prob-tag { font-family: "SF Mono", monospace; color: var(--muted); font-weight: 600; }
-
-  /* Prob bar */
-  .probbar { display: flex; height: 36px; border-radius: 8px; overflow: hidden;
-             border: 1px solid var(--line); }
-  .probbar div { display: flex; align-items: center; justify-content: center;
-                 font-weight: 600; font-size: 13px; color: #0f1115; }
-  .pb-up { background: var(--green); }
-  .pb-flat { background: var(--amber); }
-  .pb-down { background: var(--red); }
-  .point {
-    font-family: "SF Mono", monospace; font-size: 13px; color: var(--muted);
-    margin-top: 10px; text-align: center;
-  }
-  .point b { color: var(--text); font-size: 15px; }
-
-  /* Risk card */
-  .risk { background: linear-gradient(135deg, #2a1a1a, #1c2230); border-color: #4a2a2a; }
-  .risk h2 { color: var(--red); }
-  .risk .level { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .risk .threshold { font-family: "SF Mono", monospace; color: var(--amber);
-                     background: #1a1d24; padding: 6px 8px; border-radius: 6px;
-                     font-size: 12px; display: inline-block; margin-top: 4px; }
-  .risk .secondary { color: var(--muted); font-size: 12px; margin-top: 10px;
-                     padding-top: 10px; border-top: 1px solid var(--line); }
-
-  /* Drivers / signals */
-  .siglist { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .sigbox h3 { margin: 0 0 6px; font-size: 11px; color: var(--muted);
-               letter-spacing: 0.06em; }
-  .sigbox ul { margin: 0; padding-left: 16px; }
-  .sigbox li { margin-bottom: 4px; font-size: 12.5px; }
-
-  .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
-  .pmcard { background: var(--card-2); border: 1px dashed var(--line); }
-  .pmcard h2 { color: var(--blue); }
-
-  footer { color: var(--muted); font-size: 11px; margin-top: 20px;
-           padding-top: 14px; border-top: 1px solid var(--line); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; padding: 24px 16px; max-width: 900px; margin: 0 auto; }
+  h1 { font-family: var(--serif); color: var(--accent); font-size: 1.5rem; margin-bottom: 4px; }
+  .meta { color: var(--muted); font-size: 12px; font-family: var(--mono); margin-bottom: 18px; letter-spacing: 0.04em; }
+  .interim-banner { background: rgba(96,165,250,0.10); border: 1px solid rgba(96,165,250,0.45); border-radius: 8px; padding: 10px 16px; font-size: 12px; color: var(--blue); margin-bottom: 20px; }
+  .call-hero { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; border-radius: 12px; padding: 18px 24px; margin-bottom: 28px; border: 1px solid; position: relative; overflow: hidden; }
+  .call-hero-up { background: linear-gradient(135deg, rgba(52,211,153,0.20), rgba(52,211,153,0.04)); border-color: rgba(52,211,153,0.55); box-shadow: 0 0 26px rgba(52,211,153,0.18); }
+  .ch-dir { display: flex; align-items: center; gap: 10px; }
+  .ch-arrow { font-size: 2.1rem; line-height: 1; }
+  .ch-word { font-family: var(--mono); font-size: 2.1rem; font-weight: 700; letter-spacing: 0.04em; }
+  .call-hero-up .ch-arrow, .call-hero-up .ch-word { color: var(--green); text-shadow: 0 0 14px rgba(52,211,153,0.5); }
+  .ch-divider { width: 1px; align-self: stretch; background: var(--border); }
+  .ch-point { display: flex; flex-direction: column; gap: 2px; }
+  .ch-plabel { font-size: 10px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .ch-pval { font-family: var(--mono); font-size: 1.85rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+  .ch-pchg { font-size: 0.95rem; font-weight: 700; }
+  .ch-prob { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--muted); text-align: right; }
+  .ch-prob strong { color: var(--text); }
+  @media (max-width: 560px) { .ch-prob { margin-left: 0; width: 100%; text-align: left; } }
+  .section { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 16px; }
+  .section-title { font-size: 0.72rem; font-family: var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
+  .pm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 560px) { .pm-grid { grid-template-columns: 1fr; } }
+  .pm-stat { background: var(--bg3); border-radius: 6px; padding: 12px 14px; }
+  .pm-stat .label { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .pm-stat .value { font-size: 1.1rem; font-family: var(--mono); font-weight: 700; }
+  .green { color: var(--green); } .yellow { color: var(--yellow); } .red { color: var(--red); } .blue { color: var(--blue); } .muted { color: var(--muted); } .purple { color: var(--purple); }
+  .pm-questions { display: grid; gap: 10px; }
+  .pm-q { background: var(--bg3); border-radius: 6px; padding: 12px 14px; }
+  .pm-q .qnum { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .pm-q .qtext { font-size: 13px; line-height: 1.6; }
+  .tag { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 10px; font-family: var(--mono); font-weight: 700; margin-right: 4px; text-transform: uppercase; }
+  .tag-red { background: rgba(248,113,113,0.15); color: var(--red); }
+  .tag-green { background: rgba(52,211,153,0.15); color: var(--green); }
+  .tag-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .tag-blue { background: rgba(96,165,250,0.12); color: var(--blue); }
+  .tape-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 560px) { .tape-grid { grid-template-columns: 1fr 1fr; } }
+  .tape-item { background: var(--bg3); border-radius: 6px; padding: 10px 12px; }
+  .tape-item .ti-label { font-size: 10px; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+  .tape-item .ti-val { font-size: 1.05rem; font-family: var(--mono); font-weight: 700; }
+  .tape-item .ti-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .prob-bar-container { display: flex; flex-direction: column; gap: 8px; }
+  .prob-row { display: flex; align-items: center; gap: 10px; }
+  .prob-label { font-family: var(--mono); font-size: 12px; width: 50px; text-align: right; }
+  .prob-bar-wrap { flex: 1; background: var(--bg3); border-radius: 4px; height: 22px; overflow: hidden; }
+  .prob-bar { height: 100%; display: flex; align-items: center; padding-left: 8px; font-family: var(--mono); font-size: 11px; font-weight: 700; border-radius: 4px; }
+  .prob-pct { font-family: var(--mono); font-size: 12px; width: 36px; color: var(--muted); }
+  .branch { border: 1px solid var(--border); border-left-width: 4px; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; background: var(--bg3); }
+  .branch-a { border-left-color: var(--green); }
+  .branch-b { border-left-color: var(--yellow); }
+  .branch-c { border-left-color: var(--red); }
+  .branch .b-head { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; font-weight: 700; margin-bottom: 4px; flex-wrap: wrap; gap: 4px; }
+  .branch .b-body { font-size: 13px; color: var(--text); }
+  .risk-card { border: 1px solid rgba(248,113,113,0.5); background: linear-gradient(135deg, rgba(248,113,113,0.10), rgba(248,113,113,0.02)); border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
+  .risk-chain { font-family: var(--mono); font-size: 12.5px; color: var(--yellow); background: var(--bg3); border-radius: 6px; padding: 10px 12px; margin-top: 8px; overflow-x: auto; white-space: nowrap; }
+  .alarm-card { border: 1px solid rgba(52,211,153,0.5); background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.02)); border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; }
+  .alarm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .alarm-light { width: 16px; height: 16px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green); }
+  .alarm-state { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; color: var(--green); }
+  .alarm-prob { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-left: auto; }
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 560px) { .sig-grid { grid-template-columns: 1fr; } }
+  .sig { display: flex; gap: 8px; align-items: baseline; background: var(--bg3); border-radius: 5px; padding: 8px 10px; font-size: 12px; }
+  .sig .dot { font-size: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  td { padding: 7px 8px; border-bottom: 1px solid rgba(42,47,63,0.6); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .range-viz { margin: 14px 0; }
+  .rv-track { position: relative; height: 74px; }
+  .rv-bar { position: absolute; height: 22px; border-radius: 5px; }
+  .rv-intra { top: 0; background: rgba(251,191,36,0.30); border: 1px solid var(--yellow); }
+  .rv-eow { top: 30px; background: rgba(96,165,250,0.30); border: 1px solid var(--blue); }
+  .rv-bar span { position: absolute; top: 100%; margin-top: 1px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+  .rv-cursor { position: absolute; top: -6px; bottom: 8px; width: 2px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .rv-cursor span { position: absolute; top: -14px; left: -30px; font-family: var(--mono); font-size: 10px; color: var(--accent); width: 70px; text-align: center; }
+  .rv-legend { display: flex; gap: 18px; font-size: 11px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
+  .rv-legend .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+  .stat3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .stat3 .s { background: var(--bg3); border-radius: 6px; padding: 10px 12px; text-align: center; }
+  .stat3 .s .l { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+  .stat3 .s .v { font-size: 1.05rem; font-family: var(--mono); font-weight: 700; }
+  .note { font-size: 11.5px; color: var(--muted); margin-top: 10px; line-height: 1.6; }
+  .tail-line { font-family: var(--mono); font-size: 13px; padding: 10px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 16px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+  .tail-box { background: var(--bg3); border-radius: 6px; padding: 12px 14px; }
+  .tail-box h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .tail-box ul { list-style: none; }
+  .tail-box li { font-size: 12.5px; padding: 4px 0; border-bottom: 1px solid rgba(42,47,63,0.5); }
+  .tail-box li:last-child { border-bottom: none; }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <div>
-      <h1>每周市场展望 — 2026年5月11日—15日当周</h1>
-      <div class="subtitle">编制于2026年5月10日周日 · 起点标普500为7,398.93 · CPI周,无FOMC会议,无Mag-7财报</div>
-    </div>
-    <div class="subtitle">基准情景:<span class="up">上涨</span> · <b>41 / 23 / 36</b></div>
-  </header>
+<h1>标普500每周市场预判</h1>
+<div class="meta">2026年7月6日–10日当周 · 生成时间：2026-07-02（周四）约02:30 ET（非农前·期中运行）· 最新收盘：7月1日（周三）7,483.23</div>
 
-  <!-- TASK 1 POSTMORTEM -->
-  <div class="grid" style="margin-bottom:16px;">
-    <div class="card pmcard col-12">
-      <h2>任务一 — 复盘(截至2026年5月8日当周)</h2>
-      <div style="font-size:13px;">
-        <b>无前期预测可供评分。</b>预测日志中目前仅有一条未结的记录(本周,截至2026-05-15);校准循环从本次预测开始,首次Brier评分将在下周日实际行情公布后填入。
-        背景:周五标普500收于<b>7,398.93</b>(周五+0.84%,<b>当周+2.3%</b>),创历史新高,实现<b>连续六周上涨</b> — 自2024年10月以来最长的连涨纪录。驱动因素为4月非农就业数据强于预期(新增11.5万,失业率4.3%),叠加伊朗停火预期使油价回落约7%,尽管周四周五出现阿联酋遭导弹袭击及美军向伊朗油轮开火等事件。
-        下周需警惕的偏差:不要被连涨势头锚定 — 历史先验仍应作为起点。
-      </div>
-    </div>
+<div class="interim-banner">⚠ 期中运行 — 7月4日当周还剩最后一个交易日（6月非农今日8:30 ET提前公布；周五7月3日休市）。下方任务1为周内进度跟踪；forecast_log中2026-07-04一行将在今日收盘后正式结算。本预判写于非农公布之前，分支情景已明确以非农为条件。</div>
+
+<!-- ============ 任务1：期中复盘 ============ -->
+<div class="section">
+  <div class="section-title">任务1 — 期中复盘 · 7月4日截止当周（4个交易日已完成3个）</div>
+  <div class="pm-grid">
+    <div class="pm-stat"><div class="label">预测</div><div class="value green">上涨 48%</div><div class="ti-sub muted">周末区间 7,330–7,480 · 周内 7,250–7,500 · 点位 ~7,400</div></div>
+    <div class="pm-stat"><div class="label">实际（周一至周三）</div><div class="value green">7,483.23 · 周内+1.76%</div><div class="ti-sub muted">周一 +1.18% → 7,440 · 周二 +0.79% → 7,499 · 周三 −0.22%</div></div>
+    <div class="pm-stat"><div class="label">方向</div><div class="value green">✓ 正确跟踪（上涨）</div><div class="ti-sub muted">众数分支A命中；今日非农决定收盘</div></div>
+    <div class="pm-stat"><div class="label">区间</div><div class="value yellow">向上突破</div><div class="ti-sub muted">周三收盘高出周末区间上沿3点；周二7,499恰好触及7,500周内上限</div></div>
   </div>
-
-  <!-- TAPE -->
-  <div class="grid" style="margin-bottom:16px;">
-    <div class="card col-12">
-      <h2>行情与跨资产快照 — 5月8日周五收盘</h2>
-      <div class="tape">
-        <div class="stat"><div class="label">标普500</div><div class="val">7,398.93</div><div class="delta up">周五+0.84% · 当周+2.3% · 历史新高</div></div>
-        <div class="stat"><div class="label">VIX</div><div class="val">17.19</div><div class="delta">低波动/平静 · 无市场压力</div></div>
-        <div class="stat"><div class="label">10年期美债</div><div class="val">4.38%</div><div class="delta">区间震荡 · 久期中性</div></div>
-        <div class="stat"><div class="label">高收益债利差</div><div class="val">279 bps</div><div class="delta up">较一季度285bp收窄 · 风险偏好</div></div>
-        <div class="stat"><div class="label">布伦特 / WTI</div><div class="val">$101 / $95</div><div class="delta down">当周-7% · 停火预期推动</div></div>
-        <div class="stat"><div class="label">NAAIM 仓位</div><div class="val warn">96.67</div><div class="delta warn">5月6日 · 激进多头</div></div>
-        <div class="stat"><div class="label">连涨周数</div><div class="val">6 周</div><div class="delta">自2024年10月以来最长</div></div>
-        <div class="stat"><div class="label">SPX Gamma 锚定</div><div class="val">7,400</div><div class="delta">看涨墙=峰值GEX · 钉住效应</div></div>
-      </div>
-    </div>
+  <div class="pm-questions">
+    <div class="pm-q"><div class="qnum">最大风险 — 是否触发？</div><div class="qtext"><span class="tag tag-green">否 — 反向兑现</span> 命名风险为"超大市值AI去估值延续"。实际恰恰相反，超大市值重新领涨：Meta宣布推出云业务/出售闲置算力大涨9%，Alphabet带动周一+1.18%，道指首次收于52,000上方，纳指周一+2%。6月26日的AI去估值只是一周的轮动，不是趋势。</div></div>
+    <div class="pm-q"><div class="qnum">IPO管线规则 — 第3次确认</div><div class="qtext"><span class="tag tag-blue">规则确认</span> Bending Spoons上市首日+42%（7月1日）——AI/科技IPO管线双向催化剂规则的第3次确认（SpaceX为正、OpenAI推迟为负、Bending Spoons为正）。与规则预测一致，构成risk-on行情驱动。</div></div>
+    <div class="pm-q"><div class="qnum">数据卫生失误</div><div class="qtext"><span class="tag tag-red">失误</span> 7月4日当周预测假设NAAIM"温和~70–80，无极端"。实际6月24日读数为<strong>98.59</strong>（由92.83上升）——属于极端值，本应针对非农这一二元事件评估NAAIM&gt;95下行概率下限规则。若今日收盘使本周涨幅&gt;1%，则记为该规则的<strong>第1次失效</strong>（回退条件：2次失效）。教训：每周设定概率前必须核实最新NAAIM读数，不能沿用上周数据。</div></div>
+    <div class="pm-q"><div class="qnum">先验 vs. 证据</div><div class="qtext">48/22/30的概率分布（接近先验）保持上涨为众数是正确的，但行情突破了建模区间——在命名尾部风险利多兑现的一周，上涨情形又一次力度不足。与双二元教训一致：当主导恐惧（AI去估值）提前消散时，漂移会复利放大。</div></div>
+    <div class="pm-q"><div class="qnum">今日待决</div><div class="qtext"><span class="tag tag-yellow">非农 8:30 ET</span> 共识+11.5万 / 失业率4.3% / 时薪环比+0.3%（FactSet中位数10万；摩根大通12.5万；ADP仅+9.8万偏弱）。因独立日假期提前一天公布。若在NAAIM 98.59的拥挤仓位下爆出热数据（&gt;20万且时薪≥0.4%），本周记录才会翻红。</div></div>
   </div>
-
-  <!-- TWO COLUMN: CALENDAR + DRIVERS -->
-  <div class="grid" style="margin-bottom:16px;">
-    <div class="card col-6">
-      <h2>下周宏观与财报日历</h2>
-      <table>
-        <thead><tr><th>日期</th><th>事件</th><th>市场预期 / 备注</th></tr></thead>
-        <tbody>
-          <tr><td>周二 5/12 8:30</td><td class="event">CPI(4月)</td><td class="meta">总体+0.6% 环比 / +3.7% 同比 · 核心+0.3% 环比 / +2.7% 同比 · 富国证券更偏热:核心+0.5%</td></tr>
-          <tr><td>周二 5/12</td><td>克利夫兰联储Nowcast</td><td class="meta">核心0.21% 环比,总体3.56% 同比(低于市场预期 = 偏凉)</td></tr>
-          <tr><td>周三 5/13 8:30</td><td class="event">PPI(4月)</td><td class="meta">能源传导验证 · 次要信号</td></tr>
-          <tr><td>周四 5/14 8:30</td><td>初请失业金 · 零售销售 · 进出口物价</td><td class="meta">消费脉搏 + 关税/通胀解读</td></tr>
-          <tr><td>周五 5/15 8:30</td><td>纽约联储制造业 · 工业产出 · 产能利用率</td><td class="meta">地区制造业 · 二季度工业初读</td></tr>
-          <tr><td>—</td><td>FOMC</td><td class="meta">本周无会议 · 下次为6月16-17日(降息25bp概率约28%)</td></tr>
-          <tr><td>—</td><td>Mag-7 财报</td><td class="meta">本周无 · 英伟达将于5月20日周三发布(下周)</td></tr>
-          <tr><td>背景</td><td>伊朗 / 霍尔木兹海峡</td><td class="meta">海峡自2月28日起关闭;停火脆弱;上周阿联酋遭导弹袭击 + 美军向油轮开火</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="card col-6">
-      <h2>偏离56/14/30先验的信号</h2>
-      <div class="siglist">
-        <div class="sigbox">
-          <h3 style="color:var(--green);">偏多信号</h3>
-          <ul>
-            <li>高收益债利差 <b>279 bps</b> — 收窄,无信用压力</li>
-            <li>布伦特原油 <b>当周-7%</b>,停火预期推动 — 能源顺风</li>
-            <li>克利夫兰Nowcast核心数据<b>低于</b>经济学家共识</li>
-            <li>本周无Mag-7财报风险</li>
-            <li>市场广度自4月8日起持续位于50/200日均线上方</li>
-          </ul>
-        </div>
-        <div class="sigbox">
-          <h3 style="color:var(--red);">偏空信号</h3>
-          <ul>
-            <li>NAAIM <b>96.67</b> — 激进多头,反向看空信号</li>
-            <li>连涨6周 — 均值回归压力累积</li>
-            <li>钉住<b>7,400看涨墙</b> = 峰值GEX = 上行受限</li>
-            <li>CPI为二元事件;富国证券核心+0.5%将明确触发"偏热"阈值</li>
-            <li>伊朗/霍尔木兹尾部风险仍在;油价仅一则头条之差就可能再度飙升</li>
-          </ul>
-        </div>
-      </div>
-      <div class="note">本周最重要驱动:<b>周二CPI</b>。信号权重排序:1) CPI数据,2) 7,400附近的交易商钉住,3) 信用/高收益债方向,4) 伊朗相关头条。</div>
-    </div>
-  </div>
-
-  <!-- BRANCHES + PROB SPLIT -->
-  <div class="grid" style="margin-bottom:16px;">
-    <div class="card col-8">
-      <h2>情景分支</h2>
-
-      <div class="branch a">
-        <div class="head"><span>A · CPI偏凉/清晰过关 <span class="up">→ 趋势延续</span></span><span class="prob-tag">概率 = 30%</span></div>
-        <div class="trigger">触发:核心CPI环比 ≤ 0.25%(克利夫兰模型读数) 且 霍尔木兹停火维持</div>
-        <div class="range">标普500 7,440 – 7,520 &nbsp;·&nbsp; +0.55% 至 +2.04%</div>
-      </div>
-
-      <div class="branch b">
-        <div class="head"><span>B · CPI符合预期 <span class="warn">→ 钉住7,400</span></span><span class="prob-tag">概率 = 38%</span></div>
-        <div class="trigger">触发:核心CPI环比 0.25%–0.32%;无意外;交易商Gamma锚定价格</div>
-        <div class="range">标普500 7,370 – 7,440 &nbsp;·&nbsp; -0.39% 至 +0.55%</div>
-      </div>
-
-      <div class="branch c">
-        <div class="head"><span>C · CPI偏热 <span class="down">或伊朗局势升级 → 重新定价下行</span></span><span class="prob-tag">概率 = 32%</span></div>
-        <div class="trigger">触发:核心CPI环比 ≥ 0.35%(富国证券式读数) 或 霍尔木兹再度关闭 / 油价 $115+</div>
-        <div class="range">标普500 7,200 – 7,340 &nbsp;·&nbsp; -0.80% 至 -2.69%</div>
-      </div>
-    </div>
-
-    <div class="card col-4">
-      <h2>概率分布 — 上涨 / 横盘 / 下跌</h2>
-      <div class="probbar">
-        <div class="pb-up" style="width:41%;">上涨 41%</div>
-        <div class="pb-flat" style="width:23%;">横盘 23%</div>
-        <div class="pb-down" style="width:36%;">下跌 36%</div>
-      </div>
-      <div class="point">概率加权点位:<b>标普500 ~7,390</b><br/><span style="font-size:11px;">先验为56 / 14 / 30 · 仓位拥挤+CPI二元风险将质量向横盘/下跌偏移</span></div>
-      <div style="margin-top:14px; font-size:12px; color:var(--muted);">
-        预测区间:<b style="color:var(--text); font-family:'SF Mono',monospace;">7,320 – 7,460</b><br/>
-        方向判断:<b style="color:var(--green);">上涨</b>(多数派;较横盘/下跌信心薄弱)
-      </div>
-    </div>
-  </div>
-
-  <!-- BIGGEST RISK -->
-  <div class="grid">
-    <div class="card risk col-12">
-      <h2>最大单一风险</h2>
-      <div class="level"><span class="down">周二核心CPI偏热,重新定价美联储路径</span></div>
-      <div style="font-size:13px;">
-        传导机制:核心CPI环比 ≥ 0.35%(≥ 2.9% 同比)→ 10年期收益率+10–15bp → 标普500下跌1.8% 至 2.5%。富国证券是经济学家中已明确预警的异常值;若4月能源向核心服务的传导显现,数据将清晰突破阈值。该判断可于周二8:30(美东时间)即时证伪。
-      </div>
-      <div class="threshold">阈值 · 核心CPI环比 ≥ 0.35%(≥ 2.9% 同比) · 预期标普500影响 -1.8% 至 -2.5%</div>
-
-      <div class="secondary">
-        <b style="color:var(--text);">次要风险:</b>伊朗/霍尔木兹再度升级 — 在上周阿联酋遭导弹袭击及美军向伊朗油轮开火后,停火脆弱。霍尔木兹再度关闭或油价相关头条 → 布伦特冲击$115+ → 标普500下跌1.5% 至 2%,通过通胀预期+避险买盘实现。关注:伊朗/伊朗革命卫队任何声明;新的油轮事件;美军部署消息。
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    方法 · 遵循CLAUDE.md工作流。先验锚定56/14/30。偏空方向偏离先验依据:NAAIM 96.67、连涨6周、7,400处Gamma钉住、CPI二元风险、霍尔木兹尾部;偏多方向依据:高收益债利差279bp、布伦特当周-7%、克利夫兰Nowcast偏凉、本周无Mag-7风险。预测桶评分(Brier)将于下周日填入。
-  </footer>
-
 </div>
+
+<!-- ============ 自我进化 ============ -->
+<div class="section">
+  <div class="section-title">自我进化循环 — 期中记录（自动应用+留痕）</div>
+  <div class="pm-questions">
+    <div class="pm-q"><div class="qtext"><span class="tag tag-blue">市场状态</span> <strong>分化/轮动 → 再度扩散的历史高位缓涨。</strong>超大市值重新领涨，罗素2000上半年+22%；广度扩散且市值加权指数处于高位。VIX 16.5，10年期4.47%，信用平静，NAAIM 98.59 = 自满型看多情绪。</div></div>
+    <div class="pm-q"><div class="qtext"><span class="tag tag-green">确认</span> IPO管线催化剂规则 → 3次确认（已记入evolution_log.md）。</div></div>
+    <div class="pm-q"><div class="qtext"><span class="tag tag-yellow">观察</span> 龙头衰竭信号出现反例（本周超大市值在利好上确实上涨了）——维持观察状态，暂不固化。NAAIM极端规则第1次失效待今日收盘确认。周中不做任何阈值或权重调整——保守护栏。</div></div>
+  </div>
+</div>
+
+<!-- ============ 核心预判 ============ -->
+<div class="call-hero call-hero-up">
+  <div class="ch-dir"><div class="ch-arrow">▲</div><div class="ch-word">上涨</div></div>
+  <div class="ch-divider"></div>
+  <div class="ch-point">
+    <div class="ch-plabel">点位预估（7月10日周五收盘）</div>
+    <div class="ch-pval">~7,490</div>
+    <div class="ch-pchg muted">周末基准区间 7,430–7,560 · 低信心漂移</div>
+  </div>
+  <div class="ch-prob">P(涨) <strong>46%</strong> · P(平) <strong>25%</strong> · P(跌) <strong>29%</strong><br>先验 56/14/30 · 起点 7,483.23（非农前）</div>
+</div>
+
+<div class="tail-line">尾部风险：<span class="green" style="font-weight:700">绿色</span> — 未来4周出现&gt;8%回撤的概率估计为5%</div>
+
+<!-- ============ 行情快照 ============ -->
+<div class="section">
+  <div class="section-title">行情与跨资产快照（7月1日周三收盘）</div>
+  <div class="tape-grid">
+    <div class="tape-item"><div class="ti-label">标普500</div><div class="ti-val">7,483.23</div><div class="ti-sub">周内+1.76% · 距纪录约0.2% · 上半年+9.6%</div></div>
+    <div class="tape-item"><div class="ti-label">VIX</div><div class="ti-val" style="color:var(--green)">16.5</div><div class="ti-sub">由18.89回落 · 正向期限结构，平静</div></div>
+    <div class="tape-item"><div class="ti-label">10年期美债</div><div class="ti-val">4.47%</div><div class="ti-sub">曾试探4.50%，因沃什称"通胀风险正在软化"回落</div></div>
+    <div class="tape-item"><div class="ti-label">WTI / 布伦特</div><div class="ti-val" style="color:var(--green)">$69 / $72</div><div class="ti-sub">WTI创2月以来新低 · 霍尔木兹恢复 · 反通胀顺风</div></div>
+    <div class="tape-item"><div class="ti-label">NAAIM</div><div class="ti-val" style="color:var(--red)">98.59</div><div class="ti-sub">6月24日 · 极端（&gt;95）· 反向指标警示</div></div>
+    <div class="tape-item"><div class="ti-label">联储定价</div><div class="ti-val" style="color:var(--yellow)">2026零降息≈80%</div><div class="ti-sub">7月按兵不动~70% → 已定价约30%加息风险</div></div>
+    <div class="tape-item"><div class="ti-label">ISM制造业（6月）</div><div class="ti-val">53.3</div><div class="ti-sub">前值54.0、共识54 — 降温但仍扩张</div></div>
+    <div class="tape-item"><div class="ti-label">ADP（6月）</div><div class="ti-val" style="color:var(--yellow)">+9.8万</div><div class="ti-sub">共识11.3万 — 就业降温</div></div>
+    <div class="tape-item"><div class="ti-label">市场广度</div><div class="ti-val" style="color:var(--green)">扩散</div><div class="ti-sub">道指创纪录 · 罗素2000上半年+22% · 健康轮动</div></div>
+  </div>
+  <div class="note">下周主导驱动：<strong>仓位 + 政策基调</strong> — 无CPI、无FOMC、无Mag-7财报 → 按信号权重规则属技术面主导的一周（做市商Gamma、NAAIM极端、季节性），外加两个半二元事件：FOMC会议纪要（周三）与7月9日关税期限。</div>
+</div>
+
+<!-- ============ 概率分布 ============ -->
+<div class="section">
+  <div class="section-title">概率分布（"平" = ±0.5%）</div>
+  <div class="prob-bar-container">
+    <div class="prob-row"><div class="prob-label green">涨</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:46%; background:linear-gradient(90deg, rgba(52,211,153,0.7), rgba(52,211,153,0.35)); color:#052e22;">46%</div></div><div class="prob-pct">46</div></div>
+    <div class="prob-row"><div class="prob-label yellow">平</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:25%; background:linear-gradient(90deg, rgba(251,191,36,0.7), rgba(251,191,36,0.35)); color:#3d2e05;">25%</div></div><div class="prob-pct">25</div></div>
+    <div class="prob-row"><div class="prob-label red">跌</div><div class="prob-bar-wrap"><div class="prob-bar" style="width:29%; background:linear-gradient(90deg, rgba(248,113,113,0.7), rgba(248,113,113,0.35)); color:#3d0a0a;">29%</div></div><div class="prob-pct">29</div></div>
+  </div>
+  <div class="note">相对56/14/30先验：上涨−10个百分点 / 持平+11个百分点，依据<strong>2个命名信号</strong>：(1) 历史高位上NAAIM 98.59极端读数——此前两次&gt;95读数后一周分别为持平和下跌；(2) 大涨1.8%后的低催化剂周 → 均值回归/钉住动态（持平低配教训）。上涨仍为众数：7月初季节性、油价暴跌反通胀、信用平静、超大市值重新领涨。下跌未按规则下限设为55%：NAAIM规则要求周内存在真正的二元事件，下周只有半二元事件。</div>
+</div>
+
+<!-- ============ 条件分支 ============ -->
+<div class="section">
+  <div class="section-title">条件分支（非农今日公布 — 各分支以其为条件）</div>
+  <div class="branch branch-a">
+    <div class="b-head"><span class="green">分支A — 46%</span><span class="muted">→ 7,500–7,600</span></div>
+    <div class="b-body">今日非农温和（6–18万，时薪≤0.3%）+ FOMC纪要无加息共识意外 + 关税期限以延期/函件而非升级收场 → 低成交量下的7月首周季节性漂移；纪录收盘延续。</div>
+  </div>
+  <div class="branch branch-b">
+    <div class="b-head"><span class="yellow">分支B — 25%</span><span class="muted">→ 7,430–7,520 钉住</span></div>
+    <div class="b-body">纪要措辞偏鹰 + 关税消息扰动 + 大涨1.76%后NAAIM极端仓位消化 → 7,480附近双向震荡；周五达美财报前观望等待财报季。</div>
+  </div>
+  <div class="branch branch-c">
+    <div class="b-head"><span class="red">分支C — 29%</span><span class="muted">→ 7,300–7,440</span></div>
+    <div class="b-body">今日非农爆热（&gt;20万且时薪≥0.4%）延续到周一，或纪要显示加息支持面比点阵图更广，或7月9日关税升级 → 7月加息概率&gt;40% → 10年期&gt;4.60% → NAAIM 98.59仓位解杠杆。</div>
+  </div>
+  <div class="note">概率加权点位 ≈ 7,490。若今日非农爆热且本周收于约7,420下方，则重新锚定：分支C成为众数，周末区间下移至7,280–7,430。</div>
+</div>
+
+<!-- ============ 周内波动区间 ============ -->
+<div class="section">
+  <div class="section-title">周内波动包络（非基准情形）</div>
+  <div class="range-viz">
+    <div class="rv-track">
+      <div class="rv-bar rv-intra" style="left:17.1%; width:68.6%;"><span style="left:0;">7,360</span><span style="right:0;">7,600</span></div>
+      <div class="rv-bar rv-eow" style="left:37.1%; width:37.1%;"><span style="left:0;">7,430</span><span style="right:0;">7,560</span></div>
+      <div class="rv-cursor" style="left:52.4%;"><span>7,483</span></div>
+    </div>
+    <div class="rv-legend">
+      <span><span class="sw" style="background:rgba(251,191,36,0.6)"></span>周内波动包络</span>
+      <span><span class="sw" style="background:rgba(96,165,250,0.6)"></span>周末基准区间</span>
+      <span><span class="sw" style="background:var(--accent)"></span>7月1日周三收盘</span>
+    </div>
+  </div>
+  <table>
+    <tr><th>日期</th><th>催化剂</th><th>± 波动估计</th></tr>
+    <tr><td>周一 7/6</td><td>非农余波跳空（周四公布、中间隔假日）+ ISM服务业</td><td class="yellow">±0.8%</td></tr>
+    <tr><td>周三 7/8</td><td>FOMC会议纪要（6月鹰派点阵图会议，沃什首秀）</td><td class="yellow">±0.6%</td></tr>
+    <tr><td>周四 7/9</td><td>关税期限 / 301条款最终裁定 + 百事财报</td><td class="yellow">±0.8%</td></tr>
+    <tr><td>周五 7/10</td><td>达美航空盘前 — 二季度财报季开局信号</td><td class="muted">±0.3%</td></tr>
+  </table>
+  <div class="stat3">
+    <div class="s"><div class="l">预期低点</div><div class="v red">7,360</div></div>
+    <div class="s"><div class="l">摆动幅度</div><div class="v yellow">240点（~3.2%）</div></div>
+    <div class="s"><div class="l">预期高点</div><div class="v green">7,600</div></div>
+  </div>
+  <div class="note">包络约为周末基准区间的1.8倍 — 偏高但低于2倍警戒线。周内包络是波动路径，不是终点。</div>
+</div>
+
+<!-- ============ 最大风险 ============ -->
+<div class="risk-card">
+  <div class="section-title" style="color:var(--red)">单一最大风险 — 机制传导明确</div>
+  <div style="font-size:13.5px;"><strong>6月FOMC会议纪要（7月8日周三）显示加息支持面比点阵图暗示的更广、更坚决。</strong>6月点阵图已有9/18位官员倾向2026年至少加息一次；市场定价约30%的7月加息概率。若纪要措辞显示6月会上曾积极讨论加息——与沃什7月1日偏软表态相悖——将立即重定价利率前端，冲击NAAIM 98.59拥挤仓位下的历史高位行情。</div>
+  <div class="risk-chain">纪要显示加息共识 → 7月加息概率 30% → 45%+ → 10年期 4.47% → 4.60%+ → 拥挤多头解杠杆 → 标普500 −1.5% 至 −2.5%（7,330–7,410）</div>
+  <div class="note">次要风险：今日非农&gt;20万且时薪≥0.4% — 同一传导（利率前端重定价），且在本预判周开盘前就已到来。第三风险：7月9日关税升级 → 商品通胀重定价；声音更大但机制确定性较低。</div>
+</div>
+
+<!-- ============ 尾部风险警报卡 ============ -->
+<div class="alarm-card">
+  <div class="alarm-head">
+    <div class="alarm-light"></div>
+    <div class="alarm-state">尾部风险：绿色</div>
+    <div class="alarm-prob">未来4周&gt;8%回撤概率估计5% · 需≥2个不相关压力信号；当前仅1个</div>
+  </div>
+  <div class="sig-grid">
+    <div class="sig"><span class="dot green">●</span><span><strong>波动率状态：</strong>VIX 16.5，正向期限结构，VVIX平静 — 无压力</span></div>
+    <div class="sig"><span class="dot green">●</span><span><strong>信用：</strong>高收益债平静，无走阔 — risk-on</span></div>
+    <div class="sig"><span class="dot red">●</span><span><strong>仓位：</strong>NAAIM 98.59 &gt;95 — 唯一激活的压力信号；尚未拐头</span></div>
+    <div class="sig"><span class="dot green">●</span><span><strong>广度：</strong>扩散 — 道指纪录、罗素2000上半年+22%、健康轮动</span></div>
+    <div class="sig"><span class="dot green">●</span><span><strong>利率/美元：</strong>10年期4.47%可控；美元无飙升</span></div>
+    <div class="sig"><span class="dot green">●</span><span><strong>宏观/地缘：</strong>油价因伊朗和平/霍尔木兹恢复而下跌 — 属反通胀而非压力</span></div>
+  </div>
+  <div class="note">升级触发条件：NAAIM从98.59急速拐头下行 + 非农爆热/纪要偏鹰催化剂将叠加成第2个信号 → 转为琥珀色。油价因供给和平下跌是顺风，不是流动性警讯。</div>
+</div>
+
+<!-- ============ 日历 ============ -->
+<div class="section">
+  <div class="section-title">宏观与财报日历 — 7月6日当周</div>
+  <table>
+    <tr><th>日期</th><th>事件</th><th>共识 / 备注</th></tr>
+    <tr><td>周四 7/2（周前）</td><td><strong>6月非农，8:30 ET — 提前一天公布</strong></td><td>共识+11.5万（FactSet中位数10万，摩根大通12.5万）· 失业率4.3% · 时薪环比+0.3% / 同比3.5% · ADP仅+9.8万偏弱</td></tr>
+    <tr><td>周一 7/6</td><td>ISM服务业PMI（6月）</td><td>制造业已印53.3（降温）；服务业价格分项关乎联储路径</td></tr>
+    <tr><td>周三 7/8</td><td><strong>FOMC会议纪要（6月16–17日会议）</strong> · Levi's</td><td>鹰派3.80%中位数点阵背后的细节；加息辩论措辞是触发点</td></tr>
+    <tr><td>周四 7/9</td><td><strong>关税期限 / 301条款最终裁定窗口</strong> · 百事 · 初请失业金</td><td>升级 vs. 延期；最高法院IEEPA裁决后法律路径收窄 — 属头条风险，以10年期收益率确认</td></tr>
+    <tr><td>周五 7/10</td><td>达美航空盘前 — 二季度财报季开局</td><td>消费/出行需求信号；本周无Mag-7或权重&gt;1%的标普成分股财报</td></tr>
+  </table>
+</div>
+
+<!-- ============ 已定价 vs. 可能意外 ============ -->
+<div class="section">
+  <div class="section-title">已定价 vs. 可能意外</div>
+  <div class="two-col">
+    <div class="tail-box">
+      <h4 class="red">左尾（向下冲击）</h4>
+      <ul>
+        <li>今日非农爆热（&gt;20万且时薪≥0.4%）→ 加息概率飙升冲击极端仓位</li>
+        <li>纪要显示6月会上曾积极讨论加息 → 10年期&gt;4.60%</li>
+        <li>7月9日关税升级（对欧盟/日本/韩国新税率）→ 商品CPI重定价</li>
+        <li>NAAIM 98.59仓位瓦解 — 此前两次&gt;95读数后分别为持平周和−2.6%周</li>
+      </ul>
+    </div>
+    <div class="tail-box">
+      <h4 class="green">右尾（向上冲击）</h4>
+      <ul>
+        <li>非农偏软（6–11万）+ 沃什"通胀风险软化"表态延续 → 降息预期回归，约80%的2026零降息定价松动</li>
+        <li>WTI跌破$70放大反通胀叙事，直通CPI周（7月14日）</li>
+        <li>AI资本开支重估值延续：Meta云业务经济性、更多IPO管线定价（Bending Spoons光环）</li>
+        <li>关税期限以全面延期收场 → 宽慰性上冲</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">两侧尾部均活跃但都不是完全二元事件 — 因此标注"低信心漂移"；本周由技术面主导，先验承担大部分权重。</div>
+</div>
+
+<div class="meta" style="margin-top:24px;">数据来源：CNBC · TheStreet · Yahoo Finance · TradingEconomics · CME FedWatch · FactSet · NAAIM/CEIC · Kiplinger/Morningstar（非农前瞻）· 由每周市场预判自进化系统生成 · 非农前期中运行</div>
+
 </body>
 </html>
